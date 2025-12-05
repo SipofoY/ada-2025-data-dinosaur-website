@@ -2,6 +2,6 @@
 2:I[89610,["/ada-2025-data-dinosaur-website/_next/static/chunks/12fc1ae90749016f.js"],"ViewportBoundary"]
 4:I[89610,["/ada-2025-data-dinosaur-website/_next/static/chunks/12fc1ae90749016f.js"],"MetadataBoundary"]
 5:"$Sreact.suspense"
-0:{"buildId":"V9wxFTQNehVusNAIjZ_KZ","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":"$@3"}],["$","div",null,{"hidden":true,"children":["$","$L4",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":"$@6"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"2mj_JeWChHJo8z5xuLOLB","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":"$@3"}],["$","div",null,{"hidden":true,"children":["$","$L4",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":"$@6"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
 3:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
 6:[["$","title","0",{"children":"Chronicle of Humor — Interactive Data Book"}],["$","meta","1",{"name":"description","content":"An interactive data-story exploring humor clusters, timelines and analysis from The New Yorker caption contest (2016-2023)."}]]
