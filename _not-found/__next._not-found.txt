@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
 2:I[87548,["/ada-2025-data-dinosaur-website/_next/static/chunks/12fc1ae90749016f.js"],"default"]
 3:I[2516,["/ada-2025-data-dinosaur-website/_next/static/chunks/12fc1ae90749016f.js"],"default"]
-0:{"buildId":"2mj_JeWChHJo8z5xuLOLB","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"z4VdeD34QRg4zts2bg-q8","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
