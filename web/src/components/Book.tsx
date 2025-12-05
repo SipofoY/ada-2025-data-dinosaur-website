@@ -9,22 +9,18 @@ interface BookProps {
 
 export function Book({ pages, titles }: BookProps) {
   const [current, setCurrent] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const pointerStartX = useRef<number | null>(null);
 
   const next = () => {
-    if (isAnimating) return;
     setCurrent((c) => Math.min(c + 1, pages.length - 1));
   };
 
   const prev = () => {
-    if (isAnimating) return;
     setCurrent((c) => Math.max(c - 1, 0));
   };
 
   const goTo = (i: number) => {
-    if (isAnimating) return;
     if (i >= 0 && i < pages.length) setCurrent(i);
   };
 
@@ -83,8 +79,6 @@ export function Book({ pages, titles }: BookProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.33 }}
-                onAnimationStart={() => setIsAnimating(true)}
-                onAnimationComplete={() => setIsAnimating(false)}
                 className="w-full h-full"
               >
                 {React.isValidElement(pages[current])
