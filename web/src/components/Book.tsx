@@ -80,6 +80,14 @@ export function Book({ pages, titles }: BookProps) {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.33 }}
                 className="w-full h-full"
+                style={{ 
+                  // For BookCover (page 0), remove spine/padding offsets to center properly
+                  marginLeft: current === 0 ? -56 : 0,
+                  paddingLeft: current === 0 ? 56 : 0,
+                  paddingRight: current === 0 ? 0 : 0,
+                  paddingTop: current === 0 ? 0 : 28,
+                  paddingBottom: current === 0 ? 0 : 28,
+                }}
               >
                 {React.isValidElement(pages[current])
                   ? React.cloneElement(pages[current] as React.ReactElement, { onTurn: next } as any)

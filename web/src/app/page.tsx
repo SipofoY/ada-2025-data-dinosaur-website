@@ -4,7 +4,7 @@ import { Book } from '@/components/Book';
 import { BookCover } from '@/components/BookCover';
 import { AboutBook } from '@/components/AboutBook';
 import { StoryPage } from '@/components/StoryPage';
-import { TimelineBook } from '@/components/TimelineBook';
+import TimelineBook from '@/components/TimelineBook';
 import { ClustersBook } from '@/components/ClustersBook';
 import { GenderPage } from '@/components/GenderPage';
 import { ClustersAnalysis } from '@/components/ClustersAnalysis';
@@ -17,6 +17,7 @@ export default function HomePage() {
     <BookCover key="cover" />,
     <AboutBook key="about-book" />,
     <StoryPage key="story" />,
+    // 👇 THIS is the test timeline page
     <TimelineBook key="timeline-book" />,
     <ClustersBook key="clusters-book" />,
     <GenderPage key="gender" />,
