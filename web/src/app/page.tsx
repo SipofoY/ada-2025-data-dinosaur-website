@@ -1,4 +1,6 @@
 'use client';
+// Trigger rebuild
+
 
 import { Book } from '@/components/Book';
 import { BookCover } from '@/components/BookCover';
