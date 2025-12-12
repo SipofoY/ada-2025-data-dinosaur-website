@@ -76,23 +76,23 @@ export function GenderPage() {
   ];
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Page Title */}
-      <div className="text-center mb-6">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring' }}
-        >
-          <Starburst color="#F4A261" size={120}>
-            Gender
-          </Starburst>
-        </motion.div>
-      </div>
+    <div className="flex flex-col gap-8 pb-20">
 
-      <p className="text-center comic-text mb-6 text-sm">
-        Analyzing gender representation in winning captions across time{selectedCluster && ` - Focused on ${selectedCluster}`}
-      </p>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-4">
+        <h1
+          className="comic-title"
+          style={{
+            fontSize: "40px",
+            fontWeight: "bold",
+            marginBottom: "8px",
+            color: "#1A1A1A",
+            lineHeight: 1.2
+          }}
+        >
+          Gender Representation in the Newyorker Cartoon Caption Contest
+        </h1>
+      </div>
 
       {/* Toggle View */}
       <div className="flex justify-center gap-4 mb-6">
@@ -157,250 +157,6 @@ export function GenderPage() {
             </h3>
           </div>
 
-          <ResponsiveContainer width="100%" height="85%">
-            {selectedView === 'timeline' ? (
-              <LineChart data={timelineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
-                <XAxis 
-                  dataKey="year" 
-                  tick={{ fontSize: 12, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                />
-                <YAxis 
-                  tick={{ fontSize: 12, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                  label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 12 } }}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    border: '2px solid #1A1A1A', 
-                    borderRadius: '4px',
-                    fontSize: '12px'
-                  }}
-                />
-                <Legend 
-                  wrapperStyle={{ fontSize: '14px' }}
-                  iconType="square"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="men" 
-                  stroke="#457B9D" 
-                  strokeWidth={4}
-                  name="Men"
-                  dot={{ r: 6, strokeWidth: 3, fill: 'white', stroke: '#457B9D' }}
-                  label={({ value, index }) => (
-                    <text 
-                      x={0} 
-                      y={0} 
-                      dy={-10} 
-                      fill="#457B9D" 
-                      fontSize={11}
-                      textAnchor="middle"
-                    >
-                      {value}%
-                    </text>
-                  )}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="women" 
-                  stroke="#E63946" 
-                  strokeWidth={4}
-                  name="Women"
-                  dot={{ r: 6, strokeWidth: 3, fill: 'white', stroke: '#E63946' }}
-                  label={({ value, index }) => (
-                    <text 
-                      x={0} 
-                      y={0} 
-                      dy={20} 
-                      fill="#E63946" 
-                      fontSize={11}
-                      textAnchor="middle"
-                    >
-                      {value}%
-                    </text>
-                  )}
-                />
-              </LineChart>
-            ) : selectedView === 'comparison' ? (
-            <BarChart data={displayComparisonData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
-                <XAxis 
-                  dataKey="category" 
-                  tick={{ fontSize: 11, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                />
-                <YAxis 
-                  tick={{ fontSize: 12, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                  label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 12 } }}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    border: '2px solid #1A1A1A', 
-                    borderRadius: '4px',
-                    fontSize: '12px'
-                  }}
-                />
-                <Legend 
-                  wrapperStyle={{ fontSize: '14px' }}
-                  iconType="square"
-                />
-                <Bar 
-                  dataKey="men" 
-                  fill="#457B9D" 
-                  name="Men"
-                  stroke="#1A1A1A"
-                  strokeWidth={2}
-                />
-                <Bar 
-                  dataKey="women" 
-                  fill="#E63946" 
-                  name="Women"
-                  stroke="#1A1A1A"
-                  strokeWidth={2}
-                />
-              </BarChart>
-            ) : (
-              <AreaChart data={gapRateData}>
-                <defs>
-                  <linearGradient id="gapGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#E63946" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#457B9D" stopOpacity={0.3}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
-                <XAxis 
-                  dataKey="year" 
-                  tick={{ fontSize: 12, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                />
-                <YAxis 
-                  tick={{ fontSize: 12, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                  label={{ value: 'Gender Gap (Men % - Women %)', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
-                  domain={[-15, 40]}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    border: '2px solid #1A1A1A', 
-                    borderRadius: '4px',
-                    fontSize: '12px'
-                  }}
-                  formatter={(value: number) => [`${value > 0 ? '+' : ''}${value}%`, 'Gap']}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="gap" 
-                  stroke="#E63946" 
-                  strokeWidth={3}
-                  fill="url(#gapGradient)"
-                  dot={{ r: 5, fill: '#E63946', strokeWidth: 2, stroke: '#1A1A1A' }}
-                  label={({ value, index }) => (
-                    <text 
-                      x={0} 
-                        y={0} 
-                        dy={typeof value === 'number' && value > 0 ? -10 : 15} 
-                      fill="#1A1A1A" 
-                      fontSize={10}
-                      textAnchor="middle"
-                    >
-                        {typeof value === 'number' ? (value > 0 ? '+' : '') : ''}{value}%
-                    </text>
-                  )}
-                />
-                {/* Reference line at 0 */}
-                <line 
-                  x1="0%" 
-                  y1="50%" 
-                  x2="100%" 
-                  y2="50%" 
-                  stroke="#1A1A1A" 
-                  strokeWidth={2} 
-                  strokeDasharray="5 5"
-                />
-              </AreaChart>
-            )}
-          </ResponsiveContainer>
-
-          {/* Additional context for gap rate view */}
-          {selectedView === 'gapRate' && (
-            <div className="mt-2 p-3 bg-[#FFF9E6] border-l-4 border-[#F4A261]">
-              <p className="comic-text text-xs">
-                <span className="comic-title text-[#E63946]">Positive values</span> = men dominate • 
-                <span className="comic-title text-[#457B9D]"> Negative values</span> = women dominate • 
-                <span className="comic-title text-[#2A9D8F]"> Zero</span> = perfect parity
-              </p>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Insights Panel - Takes 1 column */}
-        <div className="space-y-4">
-          <div className="border-4 border-[#1A1A1A] bg-white p-4" style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
-            <div className="inline-block mb-3 px-3 py-1 bg-[#2A9D8F] border-2 border-[#1A1A1A]">
-              <h3 className="comic-title text-xs text-[#FDFDF8]">Key Insights</h3>
-            </div>
-
-            <div className="space-y-4">
-              {insights.map((insight, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.2 }}
-                  className="border-2 border-[#1A1A1A] bg-[#FDFDF8] p-3 relative overflow-hidden"
-                >
-                  <div 
-                    className="absolute inset-0 opacity-5"
-                    style={{ backgroundColor: insight.color }}
-                  />
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-2 mb-2">
-                      <insight.icon size={16} style={{ color: insight.color }} />
-                      <h4 className="comic-title text-xs" style={{ color: insight.color }}>
-                        {insight.title}
-                      </h4>
-                    </div>
-                    <p className="comic-text text-[10px] leading-relaxed">
-                      {insight.text}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Stats Box */}
-          <div className="border-4 border-[#1A1A1A] bg-[#FFF9E6] p-4" style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
-            <div className="space-y-3">
-              <div>
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="comic-title text-3xl text-[#457B9D]">68%</span>
-                  <span className="comic-text text-xs">→</span>
-                  <span className="comic-title text-3xl text-[#457B9D]">46%</span>
-                </div>
-                <p className="comic-text text-xs">Men (2016 → 2023)</p>
-              </div>
-              
-              <div className="border-t-2 border-[#1A1A1A] border-dashed pt-3">
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="comic-title text-3xl text-[#E63946]">32%</span>
-                  <span className="comic-text text-xs">→</span>
-                  <span className="comic-title text-3xl text-[#E63946]">54%</span>
-                </div>
-                <p className="comic-text text-xs">Women (2016 → 2023)</p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t-2 border-[#1A1A1A] border-dashed">
-                <p className="handwritten text-xs text-[#8B4513] italic">
-                  2022 marked the first year women surpassed men in winning caption representation!
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Gender by Topic mini chart */}
           <div className="border-4 border-[#1A1A1A] bg-white p-4" style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
             <div className="inline-block mb-3 px-3 py-1 bg-[#F4A261] border-2 border-[#1A1A1A]">
@@ -421,7 +177,7 @@ export function GenderPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
