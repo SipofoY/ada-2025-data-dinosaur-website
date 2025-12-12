@@ -13,6 +13,7 @@ import { MethodologyBook } from '@/components/MethodologyBook';
 import { CreditsPage } from '@/components/CreditsPage';
 import { DataProvider } from '@/context/DataContext';
 
+
 export default function HomePage() {
   const pages = [
     <BookCover key="cover" />,
