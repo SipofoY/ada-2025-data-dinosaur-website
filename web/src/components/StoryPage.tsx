@@ -37,7 +37,7 @@ export function StoryPage() {
   ];
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col overflow-y-auto">
       {/* Page Title */}
       <div className="text-center mb-8">
         <motion.div
@@ -63,28 +63,28 @@ export function StoryPage() {
             <div className="inline-block mb-4 px-4 py-2 bg-[#E63946] border-3 border-[#1A1A1A] transform -rotate-1">
               <h2 className="comic-title text-lg text-[#FDFDF8]">Our Journey</h2>
             </div>
-            
+
             <div className="space-y-4 comic-text leading-relaxed">
               <p>
-                <span className="handwritten text-xl text-[#E63946]">The New Yorker</span> Cartoon 
-                Caption Contest has been delighting readers since 2005, becoming a cultural 
+                <span className="handwritten text-xl text-[#E63946]">The New Yorker</span> Cartoon
+                Caption Contest has been delighting readers since 2005, becoming a cultural
                 touchstone that reflects our collective sense of humor.
               </p>
-              
+
               <p>
                 But humor doesn't exist in a vacuum—it <span className="comic-title text-[#457B9D]">
-                evolves with the times</span>, responding to <span className="comic-title text-[#E63946]">political upheaval</span>, <span className="comic-title text-[#F4A261]">technological change</span>, 
+                  evolves with the times</span>, responding to <span className="comic-title text-[#E63946]">political upheaval</span>, <span className="comic-title text-[#F4A261]">technological change</span>,
                 a <span className="comic-title text-[#E63946]">pandemic</span>, and the <span className="comic-title text-[#2A9D8F]">climate crisis</span>.
               </p>
-              
+
               <p>
-                This project explores <span className="comic-title text-[#2A9D8F]">how our humor 
-                changed</span> from 2016 to 2023—through data, machine learning, and the lens of major world events. We discovered patterns that reveal how <span className="comic-title text-[#457B9D]">society processes trauma through laughter</span>.
+                This project explores <span className="comic-title text-[#2A9D8F]">how our humor
+                  changed</span> from 2016 to 2023—through data, machine learning, and the lens of major world events. We discovered patterns that reveal how <span className="comic-title text-[#457B9D]">society processes trauma through laughter</span>.
               </p>
 
               <div className="mt-6 p-4 bg-[#FFF9E6] border-l-4 border-[#F4A261]">
                 <p className="handwritten text-lg text-[#8B4513] italic">
-                  "By analyzing 587 winning captions through machine learning, we uncovered 
+                  "By analyzing 587 winning captions through machine learning, we uncovered
                   five distinct humor clusters and tracked how they shifted alongside world events."
                 </p>
               </div>
@@ -117,6 +117,9 @@ export function StoryPage() {
                 <p className="comic-text text-xs mt-2 opacity-70">Click a CTA to jump into visual analysis. These set filters for Timeline & Cluster views.</p>
               </div>
             </div>
+
+
+            {/* Cartoons Section - Removed */}
           </div>
         </motion.div>
 
@@ -143,7 +146,7 @@ export function StoryPage() {
                   className="border-3 border-[#1A1A1A] p-4 bg-[#FDFDF8] relative overflow-hidden"
                   style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
                 >
-                  <div 
+                  <div
                     className="absolute inset-0 opacity-10"
                     style={{ backgroundColor: stat.color }}
                   />
@@ -161,34 +164,36 @@ export function StoryPage() {
             {/* Caption Volume Over Time Chart */}
             <div className="mt-4 p-3 bg-[#FDFDF8] border-2 border-[#1A1A1A]">
               <p className="comic-title text-xs mb-2 text-[#457B9D]">Caption Volume Over Time</p>
-              <ResponsiveContainer width="100%" height={120}>
-                <LineChart data={captionVolumeData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
-                  <XAxis 
-                    dataKey="year" 
-                    tick={{ fontSize: 9, fill: '#1A1A1A' }}
-                    stroke="#1A1A1A"
-                  />
-                  <YAxis 
-                    tick={{ fontSize: 9, fill: '#1A1A1A' }}
-                    stroke="#1A1A1A"
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      border: '2px solid #1A1A1A', 
-                      borderRadius: '4px',
-                      fontSize: '10px'
-                    }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="count" 
-                    stroke="#457B9D" 
-                    strokeWidth={2}
-                    dot={{ fill: '#457B9D', r: 3 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <div style={{ width: '100%', height: 120 }}>
+                <ResponsiveContainer>
+                  <LineChart data={captionVolumeData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
+                    <XAxis
+                      dataKey="year"
+                      tick={{ fontSize: 9, fill: '#1A1A1A' }}
+                      stroke="#1A1A1A"
+                    />
+                    <YAxis
+                      tick={{ fontSize: 9, fill: '#1A1A1A' }}
+                      stroke="#1A1A1A"
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        border: '2px solid #1A1A1A',
+                        borderRadius: '4px',
+                        fontSize: '10px'
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="count"
+                      stroke="#457B9D"
+                      strokeWidth={2}
+                      dot={{ fill: '#457B9D', r: 3 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
               <p className="comic-text text-[9px] mt-1 opacity-70">
                 Dataset size varies per year — reflects submission volume & editorial choices
               </p>
@@ -201,27 +206,29 @@ export function StoryPage() {
               <h2 className="comic-title text-sm text-[#FDFDF8]">Top Words</h2>
             </div>
 
-            <ResponsiveContainer width="100%" height={140}>
-              <BarChart data={tokenFrequencyData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
-                <XAxis type="number" tick={{ fontSize: 9, fill: '#1A1A1A' }} stroke="#1A1A1A" />
-                <YAxis 
-                  type="category" 
-                  dataKey="word" 
-                  tick={{ fontSize: 10, fill: '#1A1A1A' }}
-                  stroke="#1A1A1A"
-                  width={60}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    border: '2px solid #1A1A1A', 
-                    borderRadius: '4px',
-                    fontSize: '10px'
-                  }}
-                />
-                <Bar dataKey="count" fill="#F4A261" stroke="#1A1A1A" strokeWidth={2} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div style={{ width: '100%', height: 140 }}>
+              <ResponsiveContainer>
+                <BarChart data={tokenFrequencyData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" opacity={0.1} />
+                  <XAxis type="number" tick={{ fontSize: 9, fill: '#1A1A1A' }} stroke="#1A1A1A" />
+                  <YAxis
+                    type="category"
+                    dataKey="word"
+                    tick={{ fontSize: 10, fill: '#1A1A1A' }}
+                    stroke="#1A1A1A"
+                    width={60}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      border: '2px solid #1A1A1A',
+                      borderRadius: '4px',
+                      fontSize: '10px'
+                    }}
+                  />
+                  <Bar dataKey="count" fill="#F4A261" stroke="#1A1A1A" strokeWidth={2} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
             <p className="comic-text text-[9px] mt-2 opacity-70">
               Most frequent words after text cleaning & preprocessing
             </p>
@@ -260,7 +267,7 @@ export function StoryPage() {
             <div className="handwritten text-[#8B4513]">
               <p className="text-lg mb-2">💡 Fun Fact!</p>
               <p className="text-sm">
-                The word "mask" appeared <span className="comic-title text-[#E63946]">456 times</span> in 
+                The word "mask" appeared <span className="comic-title text-[#E63946]">456 times</span> in
                 2020 captions—a 1,200% increase from 2019!
               </p>
             </div>
