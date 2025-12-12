@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Github, Linkedin } from 'lucide-react';
 import { Starburst } from './ComicElements';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+
 
 export function AboutBook() {
   const findings = [
@@ -32,9 +34,17 @@ export function AboutBook() {
       {/* Page Title */}
       <div className="text-center mb-6">
         <Starburst color="#2A9D8F" size={120}>
-          About
+          Introduction
         </Starburst>
       </div>
+
+      <ImageWithFallback
+      src='https://nextml.github.io/caption-contest-data/cartoons/895.jpg'
+      alt="Italian asdfasdf"
+      className="h-32 w-48 object-contain"
+      />
+
+
 
       {/* Two Column Layout */}
       <div className="grid grid-cols-2 gap-6 flex-1">
@@ -43,26 +53,40 @@ export function AboutBook() {
           <div className="inline-block mb-4 px-4 py-2 bg-[#457B9D] border-3 border-[#1A1A1A]">
             <h2 className="comic-title text-sm text-[#FDFDF8]">The Story</h2>
           </div>
+
           
-          <div className="border-4 border-[#1A1A1A] p-4 bg-white mb-4" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
-            <div className="space-y-3 comic-text text-xs leading-relaxed">
-              <p>
-                The New Yorker Cartoon Caption Contest has been delighting readers 
-                since 2005, becoming a cultural touchstone that reflects our collective 
-                sense of humor.
-              </p>
-              <p>
-                This project analyzes how humor evolved from 2016 to 2023—a period 
-                marked by political upheaval, technological transformation, a global 
-                pandemic, and climate crisis.
-              </p>
-              <p>
-                By analyzing 587 winning captions through machine learning, we uncovered 
-                five distinct humor clusters and tracked how they shifted alongside 
-                world events.
-              </p>
+            <div className="border-4 border-[#1A1A1A] p-4 bg-white mb-4" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
+              <div className="space-y-3 comic-text text-xs leading-relaxed">
+                <p>
+                  The New Yorker Cartoon Caption Contest has been delighting readers 
+                  since 2005, becoming a cultural touchstone that reflects our collective 
+                  sense of humor.
+                </p>
+                <p>
+                  This project analyzes how humor evolved from 2016 to 2023—a period 
+                  marked by political upheaval, technological transformation, a global 
+                  pandemic, and climate crisis.
+                </p>
+                <p>
+                  By analyzing 587 winning captions through machine learning, we uncovered 
+                  five distinct humor clusters and tracked how they shifted alongside 
+                  world events.
+                </p>
+                <ImageWithFallback
+                  src='https://nextml.github.io/caption-contest-data/cartoons/895.jpg'
+                  alt="Italian asdfasdf"
+                  className="h-32 w-48 object-contain"
+                />
+                <ImageWithFallback
+                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.fotocommunity.com%2Fblub-blub-schoenes-wochenende-blub-blub-1fd6b3eb-a8c1-43c8-b68f-f847d2b3c288.jpg%3Fwidth%3D1000&f=1&nofb=1&ipt=03e746558ac01ea6f4e9726015b8ce61e8f780dd5450c754e3725ef656751d43"
+                  alt="Editorial visualization"
+                  className="h-32 w-48 object-contain"
+                />
+              </div>
             </div>
-          </div>
+         
+            
+          
 
           {/* Credits */}
           <div className="border-4 border-[#1A1A1A] p-4 bg-white" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
