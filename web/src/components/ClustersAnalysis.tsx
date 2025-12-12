@@ -294,26 +294,7 @@ export function ClustersAnalysis() {
 
             <div className="flex flex-col gap-8">
 
-              {/* Buttons to select Sentiment Source */}
-              <div className="flex gap-2 mb-2 justify-center">
-                {[
-                  { id: 'image_descriptions', label: 'Image Description' },
-                  { id: 'image_uncanny_descriptions', label: 'Uncanny Description' },
-                  { id: 'questions', label: 'Questions' }
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    onClick={() => setSentimentSource(opt.id as any)}
-                    className="interactive-cta transition-colors"
-                    style={{
-                      backgroundColor: sentimentSource === opt.id ? '#E63946' : 'white',
-                      color: sentimentSource === opt.id ? 'white' : '#1A1A1A'
-                    }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Chart 1: Radar Chart (Kiviat) - Sentiment Profile by Cluster */}
@@ -321,6 +302,31 @@ export function ClustersAnalysis() {
                   <div className="bg-[#E63946] text-white px-2 py-1 inline-block mb-4 border-2 border-[#1A1A1A] transform -rotate-1">
                     <h4 className="comic-title text-sm">Emotional Profile by Humor Type</h4>
                   </div>
+
+                  {/* Buttons to select Sentiment Source */}
+                  <div className="flex flex-col items-center mb-6">
+                    <div className="flex gap-2 mb-2 justify-center">
+                      {[
+                        { id: 'image_descriptions', label: 'Image Description' },
+                        { id: 'image_uncanny_descriptions', label: 'Uncanny Description' },
+                        { id: 'questions', label: 'Questions' }
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => setSentimentSource(opt.id as any)}
+                          className="interactive-cta transition-colors"
+                          style={{
+                            backgroundColor: sentimentSource === opt.id ? '#E63946' : 'white',
+                            color: sentimentSource === opt.id ? 'white' : '#1A1A1A'
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                    <span style={{ color: '#9CA3AF', fontSize: '10px' }}>(Click buttons to switch analysis source)</span>
+                  </div>
+
                   <ResponsiveContainer width="100%" height={350}>
                     <RadarChart cx="50%" cy="50%" outerRadius="70%" data={
                       Object.keys((data as any).sentimentAnalysis?.byClusterAndField || {}).map(key => {
@@ -392,7 +398,7 @@ export function ClustersAnalysis() {
                         neutral: (val.neutral / val.total) * 100,
                         positive: (val.positive / val.total) * 100
                       }))}
-                      margin={{ left: -20, top: 10 }}
+                      margin={{ left: 0, top: 10, right: 30 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                       <XAxis dataKey="year" tick={{ fontSize: 10 }} />
