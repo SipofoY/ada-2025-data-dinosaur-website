@@ -94,6 +94,15 @@ export function GenderPage() {
         </h1>
       </div>
 
+        {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
+
+
+
+
+
+
+
+          
       {/* Toggle View */}
       <div className="flex justify-center gap-4 mb-6">
         <motion.button
@@ -106,7 +115,8 @@ export function GenderPage() {
               : 'bg-white text-[#1A1A1A]'
           }`}
           style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
-        >
+        > 
+        
           Timeline View
         </motion.button>
         <motion.button
