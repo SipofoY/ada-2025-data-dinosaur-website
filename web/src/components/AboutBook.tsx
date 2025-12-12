@@ -15,6 +15,9 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   const minId = 510;
   const maxId = 895;
 
+  // Base path for GitHub Pages deployment
+  const basePath = process.env.NODE_ENV === 'production' ? '/ada-2025-data-dinosaur-website' : '';
+
   const handlePrevImage = () => {
     setCurrentId((prev) => {
       let nextId = prev - 1;
@@ -36,7 +39,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   React.useEffect(() => {
     const fetchCaption = async () => {
       try {
-        const response = await fetch(`/data/data_with_llm_top30/${currentId}.csv`);
+        const response = await fetch(`${basePath}/data/data_with_llm_top30/${currentId}.csv`);
         const text = await response.text();
         const lines = text.split('\n');
         if (lines.length > 1) {
@@ -56,7 +59,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
     };
 
     fetchCaption();
-  }, [currentId]);
+  }, [currentId, basePath]);
 
   const findings = [
     {
@@ -162,7 +165,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 }}
               >
                 <img
-                  src={`/data/images/${currentId}.jpg`}
+                  src={`${basePath}/data/images/${currentId}.jpg`}
                   alt={`New Yorker Cartoon ${currentId}`}
                   style={{
                     width: '100%',
