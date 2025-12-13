@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
-import gender_timeline from '@/data/gender_timeline.json';
+import gender_timeline from '@/data/df_vc.json';
 
 type SectionData = typeof gender_timeline;
 
@@ -42,7 +42,7 @@ export function GenderPage() {
   const [selectedView, setSelectedView] = useState<'timeline' | 'comparison' | 'gapRate'>('timeline');
   const { selectedCluster } = useData();
   const gtimeline = gender_timeline as unknown as SectionData;
-  const { section1} = gtimeline;
+  const {section1} = gtimeline;
   
   
   // Data for Box Plot
@@ -187,15 +187,13 @@ export function GenderPage() {
               This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
             </p>
             <ResponsiveContainer width="100%" height={350}>
-              <LineChart
-                data={gender_timeline}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-              >
+              <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="index" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 10 }} label={{ value: 'Count', angle: -90, position: 'insideLeft' }} />
+                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} label={{ value: 'men', angle: -90, position: 'insideLeft' }} />
                 <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                
+                <Line type="monotone" dataKey="men" stroke="#E63946" />
+                <Line type="monotone" dataKey="women" stroke="#2A9D8F" />
               </LineChart>
             </ResponsiveContainer>
             <AnalysisText>
