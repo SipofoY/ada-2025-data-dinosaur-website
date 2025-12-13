@@ -146,14 +146,9 @@ export function GenderPage() {
                 <Tooltip
                   contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
                   cursor={{ fill: '#f0f0f0' }}
-                  formatter={(value: any, name: any, props: any) => {
-                    if (name === 'name') return [props.payload.uv.toLocaleString(), 'uv'];
-                  /*  if (name === 'Engagement') return [props.payload.captionsRaw.toLocaleString(), 'Avg Captions'];*/
-                    return [uv, name];
-                  }}
                 />
                 <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="mentions" dataKey="ov" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+                <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
