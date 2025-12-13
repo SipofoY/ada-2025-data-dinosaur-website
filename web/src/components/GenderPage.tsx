@@ -171,48 +171,14 @@ export function GenderPage() {
             </AnalysisText>
           </ComicBox>
         </section>
-
-
-      {/* --- SECTION 2: TEMPORAL EVOLUTION --- */}
-
-        <section>
-          <SectionHeader
-            title="Evolution & Contests"
-            subtitle="How humor preferences have shifted over time (2016-2023), correlated with real-world dates and contest events."
-          />
-
-          {/* Chart 2.1: Stacked Area Evolution */}
-          <ComicBox title="Temporal Shifts in Humor Types" className="mb-8">
-            <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
-            </p>
-            <ResponsiveContainer width="100%" height={350}>
-              <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 10 }} label={{ value: 'men', angle: -90, position: 'insideLeft' }} />
-                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                <Line type="monotone" dataKey="men" stroke="#E63946" dot={false}/>
-                <Line type="monotone" dataKey="women" stroke="#2A9D8F" dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
-            </AnalysisText>
-          </ComicBox>
-        </section>
-
-
-
-
-          
+         
       {/* Toggle View */}
       <div className="flex justify-center gap-4 mb-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('timeline')}
-          className={`px-6 py-2 border-3 border-[#1A1A1A] comic-title ${
+          className={`interactive-cta transition-colors ${
             selectedView === 'timeline' 
               ? 'bg-[#E63946] text-[#FDFDF8]' 
               : 'bg-white text-[#1A1A1A]'
@@ -226,7 +192,7 @@ export function GenderPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('comparison')}
-          className={`px-6 py-2 border-3 border-[#1A1A1A] comic-title ${
+          className={`interactive-cta transition-colors ${
             selectedView === 'comparison' 
               ? 'bg-[#E63946] text-[#FDFDF8]' 
               : 'bg-white text-[#1A1A1A]'
@@ -239,7 +205,7 @@ export function GenderPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('gapRate')}
-          className={`px-6 py-2 border-3 border-[#1A1A1A] comic-title ${
+          className={`interactive-cta transition-colors ${
             selectedView === 'gapRate' 
               ? 'bg-[#E63946] text-[#FDFDF8]' 
               : 'bg-white text-[#1A1A1A]'
@@ -269,6 +235,32 @@ export function GenderPage() {
                 : 'Gender Gap Change Rate'}
             </h3>
           </div>
+          {/*Timeline View of only Gender Distribution Over Time*/}
+          {selectedView === 'timeline' && (
+            <ComicBox title="Temporal Shifts in Humor Types" className="mb-8">
+              <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
+              </p>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                  <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                  <YAxis tick={{ fontSize: 10 }} label={{ value: 'men', angle: -90, position: 'insideLeft' }} />
+                  <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                  <Line type="monotone" dataKey="men" stroke="#E63946" dot={false}/>
+                  <Line type="monotone" dataKey="women" stroke="#2A9D8F" dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+              <AnalysisText>
+                The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
+              </AnalysisText>
+            </ComicBox>
+          )}
+
+
+
+
+          
 
           {/* Gender by Topic mini chart */}
           <div className="border-4 border-[#1A1A1A] bg-white p-4" style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
