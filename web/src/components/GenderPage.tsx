@@ -4,7 +4,26 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
-import boxPlotData from '@/data/gender_data/df_averages_wm.json';
+/*import general_genderdata from '@/data/df_averages_wm.json';*/
+
+
+const ComicBox = ({ children, className = '', title }: { children: React.ReactNode, className?: string, title?: string }) => (
+  <div className={`border-4 border-[#1A1A1A] bg-white p-4 relative ${className}`} style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
+    {title && (
+      <div className="absolute -top-4 left-4 bg-[#F4A261] border-2 border-[#1A1A1A] px-3 py-1 z-10">
+        <h3 className="comic-title text-xs font-bold text-[#1A1A1A]">{title}</h3>
+      </div>
+    )}
+    {children}
+  </div>
+);
+
+const AnalysisText = ({ children }: { children: React.ReactNode }) => (
+  <div className="bg-[#FDFDF8] border-l-4 border-[#2A9D8F] p-4 my-4 font-mono text-xs leading-relaxed text-[#1A1A1A] opacity-90">
+    {children}
+  </div>
+);
+
 
 export function GenderPage() {
   const [selectedView, setSelectedView] = useState<'timeline' | 'comparison' | 'gapRate'>('timeline');
@@ -12,22 +31,30 @@ export function GenderPage() {
 
   
   // Data for Box Plot
-  const boxData = boxPlotData.values.map((value, index) => ({
+  /*const general_genderdata = general_genderdata.values.map((value, index) => ({
     name: `Data ${index + 1}`,
     value: value
   }));  
-
-  // Mock data for gender representation over time
-  const timelineData = [
-    { year: '2016', men: 68, women: 32 },
-    { year: '2017', men: 65, women: 35 },
-    { year: '2018', men: 62, women: 38 },
-    { year: '2019', men: 58, women: 42 },
-    { year: '2020', men: 55, women: 45 },
-    { year: '2021', men: 52, women: 48 },
-    { year: '2022', men: 48, women: 52 },
-    { year: '2023', men: 46, women: 54 }
-  ];
+*/
+  // Data for gender representation overall
+  const general_genderdata = [
+  {
+    name: `women`,
+    uv: 33893,
+  },
+  {
+    name: `men`,
+    uv: 167583,
+  },
+  {
+    name: `dino`,
+    uv: 1952,
+  },
+    {
+    name: `witch`,
+    uv: 3232,
+  }
+];
 
   // Comparison data - filtered by selected cluster if available
   const comparisonData = [
@@ -102,9 +129,38 @@ export function GenderPage() {
         </h1>
       </div>
 
+        
+
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
-
-
+        <section>
+          
+          <ComicBox title="Humor Engagement Profiles">
+            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+              This chart shows each humor type based on <strong>Popularity</strong> (average votes) and <strong>Engagement</strong> (average submitted captions). We compare normalized scores to see which types drive passive appreciation versus active participation.
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                <YAxis hide />
+                <Tooltip
+                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                  cursor={{ fill: '#f0f0f0' }}
+                  formatter={(value: any, name: any, props: any) => {
+                    if (name === 'name') return [props.payload.uv.toLocaleString(), 'uv'];
+                  /*  if (name === 'Engagement') return [props.payload.captionsRaw.toLocaleString(), 'Avg Captions'];*/
+                    return [uv, name];
+                  }}
+                />
+                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                <Bar name="mentions" dataKey="ov" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <AnalysisText>
+              Comparing engagement metrics reveals interesting trade-offs. <strong>Wit & Surprise</strong> often garners high vote counts (Popularity), suggesting it resonates broadly with voters. Meanwhile, <strong>Incongruity & Absurdity</strong> often spikes in caption volume (Engagement), indicating that these complex visual puzzles invite more community attempts to solve them.
+            </AnalysisText>
+          </ComicBox>
+        </section>
 
 
 
