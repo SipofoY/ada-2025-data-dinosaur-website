@@ -4,7 +4,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
-/*import general_genderdata from '@/data/df_averages_wm.json';*/
+import gender_timeline from '@/data/gender_timeline.json';
+
+type SectionData = typeof gender_timeline;
 
 
 const ComicBox = ({ children, className = '', title }: { children: React.ReactNode, className?: string, title?: string }) => (
@@ -24,11 +26,24 @@ const AnalysisText = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+const SectionHeader = ({ title, subtitle }: { title: string, subtitle: string }) => (
+  <div className="mb-8 mt-12 border-b-4 border-[#1A1A1A] pb-4">
+    <div className="flex items-start gap-4">
+      <div>
+        <h2 className="comic-title text-3xl mb-1">{title}</h2>
+        <p className="comic-text text-sm opacity-80 max-w-2xl">{subtitle}</p>
+      </div>
+    </div>
+  </div>
+);
+
 
 export function GenderPage() {
   const [selectedView, setSelectedView] = useState<'timeline' | 'comparison' | 'gapRate'>('timeline');
   const { selectedCluster } = useData();
-
+  const gtimeline = gender_timeline as unknown as SectionData;
+  const { section1} = gtimeline;
+  
   
   // Data for Box Plot
   /*const general_genderdata = general_genderdata.values.map((value, index) => ({
@@ -136,8 +151,8 @@ export function GenderPage() {
           
           <ComicBox title="Humor Engagement Profiles">
             <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              This chart shows each humor type based on <strong>Popularity</strong> (average votes) and <strong>Engagement</strong> (average submitted captions). We compare normalized scores to see which types drive passive appreciation versus active participation.
-            </p>
+              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a women alone on a image. With this analysis social inequalities should be statistically uncovered.
+              </p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
@@ -152,11 +167,42 @@ export function GenderPage() {
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
-              Comparing engagement metrics reveals interesting trade-offs. <strong>Wit & Surprise</strong> often garners high vote counts (Popularity), suggesting it resonates broadly with voters. Meanwhile, <strong>Incongruity & Absurdity</strong> often spikes in caption volume (Engagement), indicating that these complex visual puzzles invite more community attempts to solve them.
+              The results are shocking. Even in an unpolitical caption contest that probably tries to have an equal amount of genders representation shows a big gap between mentions of women and men. Moreover, when we check the captions and images individually, we can notice that there is almost never a women alone in a picture (unless it is a witch).
             </AnalysisText>
           </ComicBox>
         </section>
 
+
+      {/* --- SECTION 2: TEMPORAL EVOLUTION --- */}
+
+        <section>
+          <SectionHeader
+            title="Evolution & Contests"
+            subtitle="How humor preferences have shifted over time (2016-2023), correlated with real-world dates and contest events."
+          />
+
+          {/* Chart 2.1: Stacked Area Evolution */}
+          <ComicBox title="Temporal Shifts in Humor Types" className="mb-8">
+            <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+              This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
+            </p>
+            <ResponsiveContainer width="100%" height={350}>
+              <LineChart
+                data={gender_timeline}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                <XAxis dataKey="index" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} label={{ value: 'Count', angle: -90, position: 'insideLeft' }} />
+                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                
+              </LineChart>
+            </ResponsiveContainer>
+            <AnalysisText>
+              The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
+            </AnalysisText>
+          </ComicBox>
+        </section>
 
 
 
