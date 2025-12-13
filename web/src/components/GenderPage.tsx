@@ -4,10 +4,18 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
+import boxPlotData from '@/data/gender_data/df_averages_wm.json';
 
 export function GenderPage() {
   const [selectedView, setSelectedView] = useState<'timeline' | 'comparison' | 'gapRate'>('timeline');
   const { selectedCluster } = useData();
+
+  
+  // Data for Box Plot
+  const boxData = boxPlotData.values.map((value, index) => ({
+    name: `Data ${index + 1}`,
+    value: value
+  }));  
 
   // Mock data for gender representation over time
   const timelineData = [
