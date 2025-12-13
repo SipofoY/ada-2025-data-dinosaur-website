@@ -192,8 +192,8 @@ export function GenderPage() {
                 <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                 <YAxis tick={{ fontSize: 10 }} label={{ value: 'men', angle: -90, position: 'insideLeft' }} />
                 <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                <Line type="monotone" dataKey="men" stroke="#E63946" />
-                <Line type="monotone" dataKey="women" stroke="#2A9D8F" />
+                <Line type="monotone" dataKey="men" stroke="#E63946" dot={false}/>
+                <Line type="monotone" dataKey="women" stroke="#2A9D8F" dot={false} />
               </LineChart>
             </ResponsiveContainer>
             <AnalysisText>
