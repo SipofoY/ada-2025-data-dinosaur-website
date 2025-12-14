@@ -5,6 +5,10 @@ import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import gender_timeline from '@/data/df_vc.json';
+import climat_timeline from '@/data/climate.json';
+import covid_timeline from '@/data/covid.json';
+import war_timeline from '@/data/war.json';
+import trump_timeline from '@/data/trump.json';
 
 type SectionData = typeof gender_timeline;
 
@@ -186,7 +190,7 @@ export function GenderPage() {
           style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
         > 
         
-          Timeline View
+          General Timeline View
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -199,7 +203,7 @@ export function GenderPage() {
           }`}
           style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
         >
-          By Category
+          By Topic
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -231,30 +235,114 @@ export function GenderPage() {
               {selectedView === 'timeline' 
                 ? 'Gender Distribution Over Time' 
                 : selectedView === 'comparison'
-                ? 'Gender by Humor Category'
+                ? 'Gender by Topic'
                 : 'Gender Gap Change Rate'}
             </h3>
           </div>
           {/*Timeline View of only Gender Distribution Over Time*/}
           {selectedView === 'timeline' && (
-            <ComicBox title="Temporal Shifts in Humor Types" className="mb-8">
+            <ComicBox title="The genereal gender distribution over time" className="mb-8">
               <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
+              blabalal
               </p>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                   <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} label={{ value: 'men', angle: -90, position: 'insideLeft' }} />
+                  <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
                   <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
                   <Line type="monotone" dataKey="men" stroke="#E63946" dot={false}/>
                   <Line type="monotone" dataKey="women" stroke="#2A9D8F" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
               <AnalysisText>
-                The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
+                blabalabl
               </AnalysisText>
             </ComicBox>
+          )}
+
+          {/*Timeline View with combined data*/}  
+            {selectedView === 'comparison' && (
+            <section>
+              <ComicBox title="Climat change" className="mb-8">
+                <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                  blabalbal
+                </p>
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={climat_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
+                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
+                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  blblbbla
+                </AnalysisText>
+              </ComicBox>
+ 
+              <ComicBox title="Covid" className="mb-8">
+                <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                  blabalbal
+                </p>
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={covid_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
+                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
+                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  blablabla
+                </AnalysisText>
+              </ComicBox>
+
+              <ComicBox title="War" className="mb-8">
+                <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                blablabla
+                </p>
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={war_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
+                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
+                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  blablabla
+                </AnalysisText>
+              </ComicBox>
+              <ComicBox title="Trump" className="mb-8">
+                <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                 blablabla
+                </p>
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={trump_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'trump mentions', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false} name="man"/>
+                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} name="woman"/>
+                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} name="combined trump mentions"/>
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  blablabla
+                </AnalysisText>
+              </ComicBox>
+            </section>
           )}
 
 
