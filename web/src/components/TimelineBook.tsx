@@ -1,4 +1,4 @@
-'use client';
+'use client'; 
 
 import React, { useMemo, useState } from "react";
 import { AnimatePresence } from "motion/react";
@@ -58,7 +58,7 @@ export default function TimelineBook() {
         cluster: "Political Events (President Trump Elections)",
         color: "#457B9D",
         iconType: "vote",
-        keywords: ["election", "campaign", "vote", "results"],
+        keywords: [" election ", " campaign ", " vote ", " results "],
         cartoonTheme: "TRUMP & Politics",
         worldEvents: [
           "2016: Trump vs. Clinton campaign + surprise result",
@@ -77,7 +77,7 @@ export default function TimelineBook() {
         cluster: "Climate & Environment",
         color: "#2A9D8F",
         iconType: "leaf",
-        keywords: ["climate", "heat", "flood", "planet"],
+        keywords: [" climate ", " heat ", " flood ", " planet "],
         cartoonTheme: "Warming World",
         worldEvents: [
           "Massive climate marches and youth movements",
@@ -96,12 +96,12 @@ export default function TimelineBook() {
         cluster: "COVID-19 Pandemic",
         color: "#E63946",
         iconType: "activity",
-        keywords: ["mask", "zoom", "home", "distance"],
+        keywords: [" mask ", "zoom", " home ", " distance "],
         cartoonTheme: "Lockdown Life",
         worldEvents: [
           "Global lockdowns and social distancing",
           "Zoom meetings, remote work, and cabin fever",
-          "Toilet paper, masks, and surreal daily life",
+          "Surreal daily life",
         ],
       },
       {
@@ -115,7 +115,7 @@ export default function TimelineBook() {
         cluster: "Wars & Conflicts",
         color: "#8D5B4C",
         iconType: "sword",
-        keywords: ["war", "border", "sanctions", "energy"],
+        keywords: [" war ", " border ", " sanctions ", " energy "],
         cartoonTheme: "Fragile World Order",
         worldEvents: [
           "Russian invasion of Ukraine and ongoing war coverage",
@@ -154,108 +154,110 @@ export default function TimelineBook() {
 
         <p className="comic-text" style={{ marginBottom: "40px" }}>
           Four major moments that reshaped the news — and the way New Yorker
-          captions joked about the world. Click a dot to explore the event.
+          captions joked about the world. Is there a relationship between the dominant event keywords and the terms used in the image captions? Click a dot to explore the event.
         </p>
 
         {!timelineHidden && (
-          <>
-            {/* Vertical line */}
-            <div
-              style={{
-                position: "absolute",
-                top: "220px",
-                left: "120px",
-                width: "6px",
-                height: "320px",
-                background: "black",
-                borderRadius: "4px",
-                zIndex: 10,
-              }}
-            />
+        <div
+          style={{
+            position: "absolute",
+            left: "120px",
+            top: "220px",
+            transform: "scale(2)",
+            transformOrigin: "top left",
+          }}
+        >
+          {/* Vertical line */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "6px",
+              height: "280px",
+              background: "black",
+              borderRadius: "4px",
+              zIndex: 10,
+            }}
+          />
 
-            {/* Dots + labels + icons */}
-            <div
-              style={{
-                position: "absolute",
-                top: "220px",
-                left: "120px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "320px",
-                paddingLeft: "40px",
-                zIndex: 20,
-              }}
-            >
-              {events.map((event) => (
-                <button
-                  key={event.id}
-                  onClick={() => setSelectedEvent(event)}
+          {/* Dots + labels + icons */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "280px",
+              paddingLeft: "40px",
+              zIndex: 20,
+            }}
+          >
+            {events.map((event) => (
+              <button
+                key={event.id}
+                onClick={() => setSelectedEvent(event)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "14px",
+                  cursor: "pointer",
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  textAlign: "left",
+                }}
+              >
+                {/* Dot */}
+                <div
                   style={{
+                    width: "22px",
+                    height: "22px",
+                    background: event.color,
+                    borderRadius: "50%",
+                    border: "4px solid black",
+                  }}
+                />
+
+                {/* Icon */}
+                <div
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    borderRadius: "50%",
+                    border: "2px solid #1A1A1A",
                     display: "flex",
                     alignItems: "center",
-                    gap: "14px",
-                    cursor: "pointer",
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    textAlign: "left",
+                    justifyContent: "center",
+                    background: "#FDFDF8",
                   }}
                 >
-                  {/* Dot */}
-                  <div
-                    style={{
-                      width: "22px",
-                      height: "22px",
-                      background: event.color,
-                      borderRadius: "50%",
-                      border: "4px solid black",
-                    }}
-                  />
+                  {renderIcon(event.iconType, event.color)}
+                </div>
 
-                  {/* Icon */}
-                  <div
+                {/* Text */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                  <span
+                    className="comic-title"
                     style={{
-                      width: "26px",
-                      height: "26px",
-                      borderRadius: "50%",
-                      border: "2px solid #1A1A1A",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "#FDFDF8",
+                      fontSize: "15px",
+                      color: "#1A1A1A",
+                      textTransform: "uppercase",
                     }}
                   >
-                    {renderIcon(event.iconType, event.color)}
-                  </div>
-
-                  {/* Text */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    <span
-                      className="comic-title"
-                      style={{
-                        fontSize: "15px",
-                        color: "#1A1A1A",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {event.label}
-                    </span>
-                    <span className="comic-text" style={{ fontSize: "14px", opacity: 0.8 }}>
-                      {event.date}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
+                    {event.label}
+                  </span>
+                  <span className="comic-text" style={{ fontSize: "14px", opacity: 0.8 }}>
+                    {event.date}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
 
       {/* Journal Spread Modal */}
