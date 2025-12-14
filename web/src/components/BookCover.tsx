@@ -86,24 +86,38 @@ export function BookCover({ onTurn }: BookCoverProps) {
         className="bg-[#FFF9E6] border-4 border-[#1A1A1A] px-8 py-4 transform rotate-1 max-w-2xl text-center"
         style={{ boxShadow: '5px 5px 0 #1A1A1A' }}
       >
-        <p className="comic-title text-sm text-[#8B4513] font-bold mb-2 uppercase">Quick Summary</p>
+        <p className="comic-title text-sm text-[#8B4513] font-bold mb-2 uppercase">Tracking what the world laughs about — and when it stops</p>
         <p className="comic-title text-base text-[#1A1A1A] font-bold uppercase tracking-tight">
           7 YEARS • 12,000 CAPTIONS • 581 WINNERS — UNCOVERING HOW HUMOR EVOLVES WITH SOCIETY
         </p>
       </motion.div>
 
-      {/* Big Teal CTA Button */}
+      {/* Big CTA Button */}
       <motion.button
         type="button"
         aria-label="Turn the page"
         onClick={() => onTurn?.()}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-        whileHover={{ scale: 1.08 }}
+        animate={{
+          opacity: 1,
+          scale: [1, 1.08, 1]
+        }}
+        transition={{
+          opacity: { duration: 0.8, delay: 0.8 },
+          scale: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
+        }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="mt-8 px-16 py-6 bg-[#2A9D8F] text-white border-4 border-[#1A1A1A] rounded-xl comic-title text-3xl font-bold tracking-wide flex items-center justify-center gap-4"
-        style={{ boxShadow: '8px 8px 0 #1A1A1A', cursor: 'pointer' }}
+        className="interactive-cta mt-8 px-16 py-6 text-3xl gap-4"
+        style={{
+          backgroundColor: '#2A9D8F',
+          color: 'white',
+          cursor: 'pointer'
+        }}
       >
         TURN THE PAGE
         <ChevronRight size={36} />

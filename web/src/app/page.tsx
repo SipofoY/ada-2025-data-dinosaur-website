@@ -6,12 +6,13 @@ import { BookCover } from '@/components/BookCover';
 import { AboutBook } from '@/components/AboutBook';
 import { StoryPage } from '@/components/StoryPage';
 import TimelineBook from '@/components/TimelineBook';
-import { ClustersBook } from '@/components/ClustersBook';
+
 import { GenderPage } from '@/components/GenderPage';
 import { ClustersAnalysis } from '@/components/ClustersAnalysis';
 import { MethodologyBook } from '@/components/MethodologyBook';
 import { CreditsPage } from '@/components/CreditsPage';
 import { DataProvider } from '@/context/DataContext';
+
 
 export default function HomePage() {
   const pages = [
@@ -20,7 +21,7 @@ export default function HomePage() {
     <StoryPage key="story" />,
     // 👇 THIS is the test timeline page
     <TimelineBook key="timeline-book" />,
-    <ClustersBook key="clusters-book" />,
+
     <GenderPage key="gender" />,
     <ClustersAnalysis key="clusters-analysis" />,
     <MethodologyBook key="methodology" />,
@@ -32,7 +33,7 @@ export default function HomePage() {
     'The Story & Dataset',
     'Story & Context',
     'Timeline',
-    'Humor Clusters',
+
     'Gender Analysis',
     'Clusters Deep-Dive',
     'Methodology',
