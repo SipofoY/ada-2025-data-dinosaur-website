@@ -9,10 +9,10 @@ interface SimpleEvent {
 }
 
 const events: SimpleEvent[] = [
-  { id: "election", date: "2016 & 2020", color: "#457B9D" },
+  { id: "trump", date: "2016 & 2020", color: "#457B9D" },
   { id: "climate", date: "2018–2023", color: "#2A9D8F" },
   { id: "covid",   date: "2020–2021", color: "#E63946" },
-  { id: "wars",    date: "2022–2023", color: "#8D5B4C" },
+  { id: "war",    date: "2022–2023", color: "#8D5B4C" },
 ];
 
 export default function Timeline() {

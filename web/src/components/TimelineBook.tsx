@@ -1,180 +1,42 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { AnimatePresence } from "motion/react";
-import { JournalSpread } from "./JournalSpread";
 import { Vote, Leaf, Activity, Sword } from "lucide-react";
+import { JournalSpread } from "./JournalSpread";
+
+import { PLOTS_BY_EVENT, type EventId } from "web/plots_website_timeline/plotRegistry";
+
 
 type IconType = "vote" | "leaf" | "activity" | "sword";
 
 interface TimelineEvent {
-  id: string;
+  id: EventId;
   label: string;       // Short name shown next to dot
-  title: string;
+  title: string;       // Used by JournalSpread if you want later
   date: string;
   timeRange: string;
   year: number;
-  position: number;
+  position: number;    // kept for compatibility (not used here)
   cluster: string;
   color: string;
   iconType: IconType;
   keywords: string[];
   cartoonTheme: string;
   worldEvents: string[];
-  wordData: { word: string; count: number }[];
-  trendsData: { month: string; interest: number }[];
 }
 
-const events: TimelineEvent[] = [
-  {
-    id: "election",
-    label: "US Elections",
-    title: "US Presidential Elections",
-    date: "2016 & 2020",
-    timeRange: "2016 & 2020",
-    year: 2016,
-    position: 5,
-    cluster: "Political Satire",
-    color: "#457B9D",
-    iconType: "vote",
-    keywords: ["election", "campaign", "vote", "results"],
-    cartoonTheme: "Shock & Politics",
-    worldEvents: [
-      "2016: Trump vs. Clinton campaign + surprise result",
-      "2020: COVID-era election, mail-in voting, delayed results",
-      "Intense polarization reflected in caption tone",
-    ],
-    wordData: [
-      { word: "election", count: 260 },
-      { word: "vote", count: 210 },
-      { word: "campaign", count: 180 },
-      { word: "debate", count: 155 },
-      { word: "results", count: 140 },
-    ],
-    trendsData: [
-      { month: "Jan", interest: 30 },
-      { month: "Mar", interest: 40 },
-      { month: "Jun", interest: 55 },
-      { month: "Sep", interest: 80 },
-      { month: "Nov", interest: 100 },
-      { month: "Dec", interest: 65 },
-    ],
-  },
-  {
-    id: "climate",
-    label: "Climate Crisis",
-    title: "Climate & Environment",
-    date: "2018–2023",
-    timeRange: "2018–2023",
-    year: 2019,
-    position: 35,
-    cluster: "Existential Humor",
-    color: "#2A9D8F",
-    iconType: "leaf",
-    keywords: ["climate", "heat", "flood", "planet"],
-    cartoonTheme: "Warming World",
-    worldEvents: [
-      "Massive climate marches and youth movements",
-      "Record-breaking heatwaves and wildfires",
-      "Climate anxiety increasingly visible in humor",
-    ],
-    wordData: [
-      { word: "planet", count: 190 },
-      { word: "heat", count: 172 },
-      { word: "storm", count: 150 },
-      { word: "flood", count: 132 },
-      { word: "future", count: 120 },
-    ],
-    trendsData: [
-      { month: "Jan", interest: 40 },
-      { month: "Mar", interest: 48 },
-      { month: "Jun", interest: 60 },
-      { month: "Aug", interest: 75 },
-      { month: "Oct", interest: 82 },
-      { month: "Dec", interest: 78 },
-    ],
-  },
-  {
-    id: "covid",
-    label: "COVID-19",
-    title: "COVID-19 Pandemic",
-    date: "2020–2021",
-    timeRange: "2020–2021",
-    year: 2020,
-    position: 65,
-    cluster: "Pandemic",
-    color: "#E63946",
-    iconType: "activity",
-    keywords: ["mask", "zoom", "home", "distance"],
-    cartoonTheme: "Lockdown Life",
-    worldEvents: [
-      "Global lockdowns and social distancing",
-      "Zoom meetings, remote work, and cabin fever",
-      "Toilet paper, masks, and surreal daily life",
-    ],
-    wordData: [
-      { word: "mask", count: 430 },
-      { word: "zoom", count: 395 },
-      { word: "home", count: 360 },
-      { word: "distance", count: 320 },
-      { word: "quarantine", count: 290 },
-    ],
-    trendsData: [
-      { month: "Jan", interest: 10 },
-      { month: "Feb", interest: 25 },
-      { month: "Mar", interest: 100 },
-      { month: "Apr", interest: 95 },
-      { month: "May", interest: 88 },
-      { month: "Jun", interest: 80 },
-    ],
-  },
-  {
-    id: "wars",
-    label: "Wars & Conflicts",
-    title: "Wars & Geopolitics",
-    date: "2022–2023",
-    timeRange: "2022–2023",
-    year: 2022,
-    position: 90,
-    cluster: "Dark Humor",
-    color: "#8D5B4C",
-    iconType: "sword",
-    keywords: ["war", "border", "sanctions", "energy"],
-    cartoonTheme: "Fragile World Order",
-    worldEvents: [
-      "Russian invasion of Ukraine and ongoing war coverage",
-      "Energy crisis and inflation spikes",
-      "News fatigue and doomscrolling in captions",
-    ],
-    wordData: [
-      { word: "war", count: 260 },
-      { word: "border", count: 210 },
-      { word: "sanctions", count: 175 },
-      { word: "energy", count: 160 },
-      { word: "news", count: 140 },
-    ],
-    trendsData: [
-      { month: "Jan", interest: 20 },
-      { month: "Feb", interest: 45 },
-      { month: "Mar", interest: 85 },
-      { month: "Apr", interest: 92 },
-      { month: "May", interest: 88 },
-      { month: "Jun", interest: 81 },
-    ],
-  },
-];
-
 function renderIcon(iconType: IconType, color: string) {
-  const common = { size: 18, strokeWidth: 2 } as const;
+  const common = { size: 18, strokeWidth: 2, color } as const;
   switch (iconType) {
     case "vote":
-      return <Vote {...common} color={color} />;
+      return <Vote {...common} />;
     case "leaf":
-      return <Leaf {...common} color={color} />;
+      return <Leaf {...common} />;
     case "activity":
-      return <Activity {...common} color={color} />;
+      return <Activity {...common} />;
     case "sword":
-      return <Sword {...common} color={color} />;
+      return <Sword {...common} />;
     default:
       return null;
   }
@@ -182,6 +44,89 @@ function renderIcon(iconType: IconType, color: string) {
 
 export default function TimelineBook() {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
+
+  const events: TimelineEvent[] = useMemo(
+    () => [
+      {
+        id: "trump",
+        label: "US Elections",
+        title: "US Presidential Elections",
+        date: "2016 & 2020",
+        timeRange: "2016 & 2020",
+        year: 2016,
+        position: 5,
+        cluster: "Political Events (President Trump Elections)",
+        color: "#457B9D",
+        iconType: "vote",
+        keywords: ["election", "campaign", "vote", "results"],
+        cartoonTheme: "TRUMP & Politics",
+        worldEvents: [
+          "2016: Trump vs. Clinton campaign + surprise result",
+          "2020: COVID-era election, mail-in voting, delayed results",
+          "Intense polarization reflected in caption tone",
+        ],
+      },
+      {
+        id: "climate",
+        label: "Climate Crisis",
+        title: "Climate & Environment",
+        date: "2018–2023",
+        timeRange: "2018–2023",
+        year: 2019,
+        position: 35,
+        cluster: "Climate & Environment",
+        color: "#2A9D8F",
+        iconType: "leaf",
+        keywords: ["climate", "heat", "flood", "planet"],
+        cartoonTheme: "Warming World",
+        worldEvents: [
+          "Massive climate marches and youth movements",
+          "Record-breaking heatwaves and wildfires",
+          "Climate anxiety increasingly visible in humor",
+        ],
+      },
+      {
+        id: "covid",
+        label: "COVID-19",
+        title: "COVID-19 Pandemic",
+        date: "2020–2021",
+        timeRange: "2020–2021",
+        year: 2020,
+        position: 65,
+        cluster: "COVID-19 Pandemic",
+        color: "#E63946",
+        iconType: "activity",
+        keywords: ["mask", "zoom", "home", "distance"],
+        cartoonTheme: "Lockdown Life",
+        worldEvents: [
+          "Global lockdowns and social distancing",
+          "Zoom meetings, remote work, and cabin fever",
+          "Toilet paper, masks, and surreal daily life",
+        ],
+      },
+      {
+        id: "war",
+        label: "Wars & Conflicts",
+        title: "Wars & Geopolitics",
+        date: "2022–2023",
+        timeRange: "2022–2023",
+        year: 2022,
+        position: 90,
+        cluster: "Wars & Conflicts",
+        color: "#8D5B4C",
+        iconType: "sword",
+        keywords: ["war", "border", "sanctions", "energy"],
+        cartoonTheme: "Fragile World Order",
+        worldEvents: [
+          "Russian invasion of Ukraine and ongoing war coverage",
+          "Energy crisis and inflation spikes",
+          "News fatigue and doomscrolling in captions",
+        ],
+      },
+    ],
+    []
+  );
+
   const timelineHidden = selectedEvent !== null;
 
   return (
@@ -212,7 +157,6 @@ export default function TimelineBook() {
           captions joked about the world. Click a dot to explore the event.
         </p>
 
-        {/* Timeline only when modal is closed */}
         {!timelineHidden && (
           <>
             {/* Vertical line */}
@@ -285,7 +229,7 @@ export default function TimelineBook() {
                     {renderIcon(event.iconType, event.color)}
                   </div>
 
-                  {/* Text: name + date */}
+                  {/* Text */}
                   <div
                     style={{
                       display: "flex",
@@ -303,10 +247,7 @@ export default function TimelineBook() {
                     >
                       {event.label}
                     </span>
-                    <span
-                      className="comic-text"
-                      style={{ fontSize: "14px", opacity: 0.8 }}
-                    >
+                    <span className="comic-text" style={{ fontSize: "14px", opacity: 0.8 }}>
                       {event.date}
                     </span>
                   </div>
@@ -320,10 +261,7 @@ export default function TimelineBook() {
       {/* Journal Spread Modal */}
       <AnimatePresence>
         {selectedEvent && (
-          <JournalSpread
-            event={selectedEvent}
-            onClose={() => setSelectedEvent(null)}
-          />
+          <JournalSpread event={selectedEvent} onClose={() => setSelectedEvent(null)} />
         )}
       </AnimatePresence>
     </>
