@@ -9,6 +9,7 @@ import climat_timeline from '@/data/climate.json';
 import covid_timeline from '@/data/covid.json';
 import war_timeline from '@/data/war.json';
 import trump_timeline from '@/data/trump.json';
+import humor_labels from '@/data/gender_humor_labels.json';
 
 type SectionData = typeof gender_timeline;
 
@@ -153,7 +154,7 @@ export function GenderPage() {
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
         <section>
           
-          <ComicBox title="Humor Engagement Profiles">
+          <ComicBox title="Gender mentions distribution overall">
             <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
               This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a women alone on a image. With this analysis social inequalities should be statistically uncovered.
               </p>
@@ -216,7 +217,7 @@ export function GenderPage() {
           }`}
           style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
         >
-          Gap Rate
+          Differences
         </motion.button>
       </div>
 
@@ -236,7 +237,7 @@ export function GenderPage() {
                 ? 'Gender Distribution Over Time' 
                 : selectedView === 'comparison'
                 ? 'Gender by Topic'
-                : 'Gender Gap Change Rate'}
+                : 'Gender Differences'}
             </h3>
           </div>
           {/*Timeline View of only Gender Distribution Over Time*/}
@@ -344,34 +345,35 @@ export function GenderPage() {
               </ComicBox>
             </section>
           )}
-
-
-
-
-          
-
-          {/* Gender by Topic mini chart */}
-          <div className="border-4 border-[#1A1A1A] bg-white p-4" style={{ boxShadow: '6px 6px 0 #1A1A1A' }}>
-            <div className="inline-block mb-3 px-3 py-1 bg-[#F4A261] border-2 border-[#1A1A1A]">
-              <h3 className="comic-title text-xs text-[#FDFDF8]">Quick Facts</h3>
-            </div>
-            <div className="space-y-2 comic-text text-xs">
-              <div className="flex justify-between items-center">
-                <span>📊 Total Analyzed:</span>
-                <span className="comic-title text-[#457B9D]">587</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>📈 Biggest Shift:</span>
-                <span className="comic-title text-[#E63946]">+22%</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>🎯 Years to Parity:</span>
-                <span className="comic-title text-[#2A9D8F]">6</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+          {/*Humor Chart*/}
+          {selectedView === 'gapRate' && (
+          <section>
+            <ComicBox title="Humor Lables by Gender">
+            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+              blabalbal
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={humor_labels} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                <XAxis dataKey="category" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                <YAxis hide />
+                <Tooltip
+                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                  cursor={{ fill: '#f0f0f0' }}
+                />
+                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+                <Bar name="men" dataKey="pct_man" fill="#264653" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <AnalysisText>
+              blabalbla
+            </AnalysisText>
+          </ComicBox>
+        </section>
+          )}
+        </motion.div> 
     </div>
+  </div>
   );
-}
+} 
