@@ -11,8 +11,9 @@ import war_timeline from '@/data/war.json';
 import trump_timeline from '@/data/trump.json';
 import humor_labels from '@/data/gender_humor_labels.json';
 import gender_sentiment from '@/data/gender_sentiment.json';
-
+import gender_eventgroupe from '@/data/event_groups.json';
 type SectionData = typeof gender_timeline;
+
 
 
 const ComicBox = ({ children, className = '', title }: { children: React.ReactNode, className?: string, title?: string }) => (
@@ -62,74 +63,25 @@ export function GenderPage() {
   {
     name: `women`,
     uv: 33893,
+    color: '#457B9D',
   },
   {
     name: `men`,
     uv: 167583,
+    color: '#F4A261',
   },
   {
     name: `dino`,
     uv: 1952,
+    color: '#2A9D8F',
   },
     {
     name: `witch`,
     uv: 3232,
-  }
+    color: '#E76F51',
+    }
 ];
 
-  // Comparison data - filtered by selected cluster if available
-  const comparisonData = [
-    { category: 'Political', men: 62, women: 38 },
-    { category: 'Tech', men: 58, women: 42 },
-    { category: 'Work-Life', men: 45, women: 55 },
-    { category: 'Pandemic', men: 48, women: 52 },
-    { category: 'Climate', men: 43, women: 57 }
-  ];
-
-  // Filter comparison data if a cluster is selected
-  const displayComparisonData = selectedCluster
-    ? comparisonData.filter(item => {
-        if (selectedCluster === 'Political Satire') return item.category === 'Political';
-        if (selectedCluster === 'Tech Anxiety') return item.category === 'Tech';
-        if (selectedCluster === 'Work-Life Absurdity') return item.category === 'Work-Life';
-        if (selectedCluster === 'Pandemic') return item.category === 'Pandemic';
-        if (selectedCluster === 'Climate Crisis') return item.category === 'Climate';
-        return true;
-      })
-    : comparisonData;
-
-  // Gender gap change rate (slope chart data)
-  const gapRateData = [
-    { year: '2016', gap: 36, label: '36%' },
-    { year: '2017', gap: 30, label: '30%' },
-    { year: '2018', gap: 24, label: '24%' },
-    { year: '2019', gap: 16, label: '16%' },
-    { year: '2020', gap: 10, label: '10%' },
-    { year: '2021', gap: 4, label: '4%' },
-    { year: '2022', gap: -4, label: '-4%' },
-    { year: '2023', gap: -8, label: '-8%' }
-  ];
-
-  const insights = [
-    {
-      icon: TrendingUp,
-      color: '#E63946',
-      title: 'Growing Parity',
-      text: 'Women went from 32% to 54% of winning captions (2016-2023)'
-    },
-    {
-      icon: Users,
-      color: '#2A9D8F',
-      title: 'Topic Variations',
-      text: 'Women dominated climate and work-life humor categories'
-    },
-    {
-      icon: AlertCircle,
-      color: '#457B9D',
-      title: 'Genre Shift',
-      text: 'Political humor remains male-dominated but gap is narrowing'
-    }
-  ];
 
   return (
     <div className="flex flex-col gap-8 pb-20">
@@ -266,6 +218,28 @@ export function GenderPage() {
           {/*Timeline View with combined data*/}  
             {selectedView === 'comparison' && (
             <section>
+              <ComicBox title="Eventgroup by Gender">
+                <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+                  blabalbal
+                </p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={gender_eventgroupe} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    <XAxis dataKey="event" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                    <YAxis hide />
+                    <Tooltip
+                      contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                      cursor={{ fill: '#f0f0f0' }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                    <Bar name="men" dataKey="df_man" fill="#F4A261" radius={[4, 4, 0, 0]} />
+                    <Bar name="woman" dataKey="df_woman" fill="#E76F51" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  blabalbla
+                </AnalysisText>
+              </ComicBox>
               <ComicBox title="Climat change" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
                   blabalbal
@@ -274,11 +248,11 @@ export function GenderPage() {
                   <LineChart data={climat_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
-                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
-                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -294,11 +268,11 @@ export function GenderPage() {
                   <LineChart data={covid_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
-                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
-                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -314,11 +288,11 @@ export function GenderPage() {
                   <LineChart data={war_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false}/>
-                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} />
-                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -333,11 +307,11 @@ export function GenderPage() {
                   <LineChart data={trump_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'trump mentions', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                    <Line type="monotone" dataKey="ma_pct_man" stroke="#E63946" dot={false} name="man"/>
-                    <Line type="monotone" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} name="woman"/>
-                    <Line type="monotone" dataKey="combined_pct" stroke="#264653" dot={false} name="combined trump mentions"/>
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -361,10 +335,11 @@ export function GenderPage() {
                 <Tooltip
                   contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
                   cursor={{ fill: '#f0f0f0' }}
+                  formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
                 />
                 <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-                <Bar name="men" dataKey="pct_man" fill="#264653" radius={[4, 4, 0, 0]} />
+                <Bar name="men" dataKey="pct_man" fill="#E76F51" radius={[4, 4, 0, 0]} />
+                <Bar name="woman" dataKey="pct_woman" fill="#F4A261" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
@@ -383,10 +358,11 @@ export function GenderPage() {
                 <Tooltip
                   contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
                   cursor={{ fill: '#f0f0f0' }}
+                  formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
                 />
                 <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
                 <Bar name="men" dataKey="pct_man" fill="#264653" radius={[4, 4, 0, 0]} />
+                <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
