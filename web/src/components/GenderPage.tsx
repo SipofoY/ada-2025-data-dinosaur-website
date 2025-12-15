@@ -4,14 +4,14 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Starburst } from './ComicElements';
 import { Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { useData } from '@/context/DataContext';
-import gender_timeline from '@/data/df_vc.json';
-import climat_timeline from '@/data/climate.json';
-import covid_timeline from '@/data/covid.json';
-import war_timeline from '@/data/war.json';
-import trump_timeline from '@/data/trump.json';
-import humor_labels from '@/data/gender_humor_labels.json';
-import gender_sentiment from '@/data/gender_sentiment.json';
-import gender_eventgroupe from '@/data/event_groups.json';
+import gender_timeline from '@/data/gender_data/df_vc.json';
+import climat_timeline from '@/data/gender_data/climate.json';
+import covid_timeline from '@/data/gender_data/covid.json';
+import war_timeline from '@/data/gender_data/war.json';
+import trump_timeline from '@/data/gender_data/trump.json';
+import humor_labels from '@/data/gender_data/gender_humor_labels.json';
+import gender_sentiment from '@/data/gender_data/gender_sentiment.json';
+import gender_eventgroupe from '@/data/gender_data/event_groups.json';
 type SectionData = typeof gender_timeline;
 
 
