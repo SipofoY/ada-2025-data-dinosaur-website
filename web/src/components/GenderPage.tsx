@@ -98,7 +98,7 @@ export function GenderPage() {
             lineHeight: 1.2
           }}
         >
-          Gender Representation in the Newyorker Cartoon Caption Contest
+          Gender Representation
         </h1>
       </div>
 
@@ -109,7 +109,7 @@ export function GenderPage() {
           
           <ComicBox title="Gender mentions distribution overall">
             <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a women alone on a image. With this analysis social inequalities should be statistically uncovered.
+              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
               </p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
@@ -125,8 +125,8 @@ export function GenderPage() {
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
-              The results are shocking. Even in an unpolitical caption contest that probably tries to have an equal amount of genders representation shows a big gap between mentions of women and men. Moreover, when we check the captions and images individually, we can notice that there is almost never a women alone in a picture (unless it is a witch).
-            </AnalysisText>
+              Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
+              </AnalysisText>
           </ComicBox>
         </section>
          
@@ -195,9 +195,9 @@ export function GenderPage() {
           </div>
           {/*Timeline View of only Gender Distribution Over Time*/}
           {selectedView === 'timeline' && (
-            <ComicBox title="The genereal gender distribution over time" className="mb-8">
+            <ComicBox>
               <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              blabalal
+              Here, the previous analysis is looked at on a timeline. Maybe there is a variation in time? Or maybe the inequality in mentions even decreased over time?
               </p>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -210,7 +210,7 @@ export function GenderPage() {
                 </LineChart>
               </ResponsiveContainer>
               <AnalysisText>
-                blabalabl
+                This graph shows that there is no such thing happening. The inequality doesn’t seem to change. And it is even more striking to see, that also for specific captions, the word group woman, overpasses the word group man only 7 times…
               </AnalysisText>
             </ComicBox>
           )}
@@ -220,7 +220,7 @@ export function GenderPage() {
             <section>
               <ComicBox title="Eventgroup by Gender">
                 <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-                  blabalbal
+                  During the caption contest, different topics were analysed on its development over time. There is the <strong>covid-pandemic</strong>, several <strong>wars</strong>, the presidency of Donald <strong>Trump</strong> and <strong>climate change</strong>. Maybe for certain topics, the gender related word groups are mentioned more or less often? Let's see!
                 </p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={gender_eventgroupe} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
@@ -237,12 +237,12 @@ export function GenderPage() {
                   </BarChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  blabalbla
+                  The inequality in the mentions between the gender word groups remains for all topics. Visibly, one can see that captions correlated with <strong>Trump</strong> are texts that have the <strong>least amount</strong> of women word group mentioned compared to the men word groups. Whereas <strong>climate change</strong> captions have the <strong>least gender difference</strong>, even if it is still pronounced there. <i>This could hint, that certain topics are more open for a more equal discourse?</i> Unfortunately, after a <strong>chi-test</strong> one statistical evidence is shown and therefore the null hypothesis has to be accepted!
                 </AnalysisText>
               </ComicBox>
               <ComicBox title="Climat change" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                  blabalbal
+                  The public perception of the climate crisis changed a lot between 2016 and 2023. The <strong>Fridays for Future</strong> movements started with Greta Thunberg in 2018. 
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={climat_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -256,13 +256,13 @@ export function GenderPage() {
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  blblbbla
+                  The gender distribution as expected: man word groups are still bigger at almost every point of time. Also, there is no significant rise of climate topic in the caption contest, the Fridays for future didn’t influence, even if there is peak in beginning of the year 2019.
                 </AnalysisText>
               </ComicBox>
  
               <ComicBox title="Covid" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                  blabalbal
+                  Then there was the pandemic…
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={covid_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -276,13 +276,13 @@ export function GenderPage() {
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  blablabla
+                  The covid word group shows a clear phase when there was the pandemic. The small percentage before the pandemic comes from words like <i>virus, vaccine and mask</i> as part of the covid-word-group. At the peak of the pandemic in <strong>spring 2020</strong>, the word group women are bigger. This is very exceptional but also only for a <strong>short period</strong> of time. 
                 </AnalysisText>
               </ComicBox>
 
               <ComicBox title="War" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                blablabla
+                  Wars are a very patriarchal, in my opinion. Is there a difference in representation?
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={war_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -296,12 +296,12 @@ export function GenderPage() {
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  blablabla
+                  The war data is very irregular. The word groups aren’t connected to a specific war, but only on war words like <i>missile, army and invasion</i>. The irregularity certainly comes for the fact that the caption contest just doesn’t provide cartoons, where a link to war can be made. At the peaks of the combined caption percentage, there is often a big gab between the gender representation.
                 </AnalysisText>
               </ComicBox>
               <ComicBox title="Trump" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                 blablabla
+                 For words around infamous Donald Trump change over time, depending on how controversial and political, Trump is at the moment of time. Is this also visible in the gender distribution?
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={trump_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -315,7 +315,24 @@ export function GenderPage() {
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  blablabla
+                  For the gender distribution, there is no significant change over time. Also, the word groups are <strong>surprisingly equal</strong> over time . This is even more interesting, when considering, that over all the gender related differences for the word group trump is very waste.
+                </AnalysisText>
+              </ComicBox>
+              <ComicBox>
+                <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                  Here, it is also interesting to compare the previous results with the <strong>timeline of trump mentions</strong>.
+                </p>
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="trump" stroke="#2A9D8F" dot={false} strokeWidth={3}/>
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  The figure shows that Trump is mentioned frequently over time, and the frequency fluctuates by following a pattern. A massive surge in mentions is visible from 2016 to 2018 with a peak in early 2017, corresponding to <strong>Trump's presidential campaign</strong> and early presidency. Media and public attention were <strong>extremely high</strong> during this time. Then, after mid-2017, the mentions' frequency shows a downward trend. This likely reflects a normalization effect, where Trump remained relevant but no longer dominated headlines as much as during the election and early administration. Around 2019-2020, moderate peaks appear, which are possibly tied to the 2020 election and a <strong>major political event</strong>. Following his departure from office, the mentions drop, even if he still appears occasionally. Finally, Trump's mentions increase again mid-2023, where Trump <strong>announced his run for presidency</strong> again.
                 </AnalysisText>
               </ComicBox>
             </section>
@@ -325,7 +342,8 @@ export function GenderPage() {
           <section>
             <ComicBox title="Humor Lables by Gender">
             <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              blabalbal
+              Is there a difference in humour or sentiment, when it comes to gender distribution?
+              Each caption received a <strong>humour label</strong> with the help of a LLM. This is then sorted for the two gender related word groups.
             </p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={humor_labels} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
@@ -343,12 +361,12 @@ export function GenderPage() {
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
-              blabalbla
+              This analysis is very interesting. Incongruity-absurdity, self-deprecating and sarcasm are more pronounced for the woman word groups, while irony, wit-surprise and all the unknown humour labels are more pronounced for man word groups. So there, is a difference in humour types depending on the gender related captions.
             </AnalysisText>
           </ComicBox>
           <ComicBox title="Sentiment by Gender">
             <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              blabalbal
+              Besides the humour labels, also the sentiment of the caption can change. So the type of humour also depends on the positivity, neutrality or negativity of its sentiment.
             </p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={gender_sentiment} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
@@ -366,7 +384,7 @@ export function GenderPage() {
               </BarChart>
             </ResponsiveContainer>
             <AnalysisText>
-              blabalbla
+              The woman captions are more neutral than the man captions, while the man captions, are more pronounced by negative and even more by positive sentiments. This shows that captions containing man word groups are <strong>more controversial</strong>.
             </AnalysisText>
           </ComicBox>
         </section>
