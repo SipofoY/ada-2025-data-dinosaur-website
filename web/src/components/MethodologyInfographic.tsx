@@ -5,36 +5,14 @@ import { ArrowRight, Database, Cpu, TrendingUp, Users, Zap } from 'lucide-react'
 export function MethodologyInfographic() {
   const pipelines = [
     {
-      title: 'TF-IDF Vectorization',
-      color: '#457B9D',
-      icon: Database,
+      title: 'Gender Detection',
+      color: '#8D5B4C',
+      icon: Users,
       steps: [
-        { text: 'Raw Captions', icon: '📝' },
-        { text: 'Text Cleaning', icon: '🧹' },
-        { text: 'Tokenization', icon: '✂️' },
-        { text: 'TF-IDF Matrix', icon: '📊' }
-      ]
-    },
-    {
-      title: 'K-means Clustering',
-      color: '#F4A261',
-      icon: Cpu,
-      steps: [
-        { text: 'TF-IDF Vectors', icon: '🔢' },
-        { text: 'K-means (k=5)', icon: '🎯' },
-        { text: 'Cluster Assignment', icon: '🏷️' },
-        { text: '5 Humor Types', icon: '🎭' }
-      ]
-    },
-    {
-      title: 'Google Trends API',
-      color: '#2A9D8F',
-      icon: TrendingUp,
-      steps: [
-        { text: 'Event Keywords', icon: '🔑' },
-        { text: 'API Query', icon: '🌐' },
-        { text: 'Interest Data', icon: '📈' },
-        { text: 'Correlation', icon: '🔗' }
+        { text: 'Author Names', icon: '👤' },
+        { text: 'Name Database', icon: '📚' },
+        { text: 'LLM Confirm', icon: '✓' },
+        { text: 'Assignment', icon: '👥' }
       ]
     },
     {
@@ -49,14 +27,36 @@ export function MethodologyInfographic() {
       ]
     },
     {
-      title: 'Gender Detection',
-      color: '#8D5B4C',
-      icon: Users,
+      title: 'Google Trends API',
+      color: '#2A9D8F',
+      icon: TrendingUp,
       steps: [
-        { text: 'Author Names', icon: '👤' },
-        { text: 'Name Database', icon: '📚' },
-        { text: 'LLM Confirm', icon: '✓' },
-        { text: 'Assignment', icon: '👥' }
+        { text: 'Event Keywords', icon: '🔑' },
+        { text: 'API Query', icon: '🌐' },
+        { text: 'Interest Data', icon: '📈' },
+        { text: 'Correlation', icon: '🔗' }
+      ]
+    },
+    {
+      title: 'K-means Clustering',
+      color: '#F4A261',
+      icon: Cpu,
+      steps: [
+        { text: 'TF-IDF Vectors', icon: '🔢' },
+        { text: 'K-means (k=5)', icon: '🎯' },
+        { text: 'Cluster Assignment', icon: '🏷️' },
+        { text: '5 Humor Types', icon: '🎭' }
+      ]
+    },
+    {
+      title: 'TF-IDF Vectorization',
+      color: '#457B9D',
+      icon: Database,
+      steps: [
+        { text: 'Raw Captions', icon: '📝' },
+        { text: 'Text Cleaning', icon: '🧹' },
+        { text: 'Tokenization', icon: '✂️' },
+        { text: 'TF-IDF Matrix', icon: '📊' }
       ]
     }
   ];
@@ -80,7 +80,7 @@ export function MethodologyInfographic() {
             style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
           >
             {/* Header */}
-            <div 
+            <div
               className="flex items-center gap-2 mb-3 p-2 border-2 border-[#1A1A1A]"
               style={{ backgroundColor: `${pipeline.color}20` }}
             >

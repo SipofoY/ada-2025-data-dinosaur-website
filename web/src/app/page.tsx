@@ -9,7 +9,6 @@ import TimelineBook from '@/components/TimelineBook';
 
 import { GenderPage } from '@/components/GenderPage';
 import { ClustersAnalysis } from '@/components/ClustersAnalysis';
-import { MethodologyBook } from '@/components/MethodologyBook';
 import { CreditsPage } from '@/components/CreditsPage';
 import { DataProvider } from '@/context/DataContext';
 
@@ -24,7 +23,6 @@ export default function HomePage() {
 
     <GenderPage key="gender" />,
     <ClustersAnalysis key="clusters-analysis" />,
-    <MethodologyBook key="methodology" />,
     <CreditsPage key="credits" />,
   ];
 
@@ -36,7 +34,6 @@ export default function HomePage() {
 
     'Gender Analysis',
     'Clusters Deep-Dive',
-    'Methodology',
     'Credits',
   ];
 
