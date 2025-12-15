@@ -49,9 +49,9 @@ export function GenderPage() {
   const [selectedView, setSelectedView] = useState<'timeline' | 'comparison' | 'gapRate'>('timeline');
   const { selectedCluster } = useData();
   const gtimeline = gender_timeline as unknown as SectionData;
-  const {section1} = gtimeline;
-  
-  
+  const { section1 } = gtimeline;
+
+
   // Data for Box Plot
   /*const general_genderdata = general_genderdata.values.map((value, index) => ({
     name: `Data ${index + 1}`,
@@ -60,27 +60,27 @@ export function GenderPage() {
 */
   // Data for gender representation overall
   const general_genderdata = [
-  {
-    name: `women`,
-    uv: 33893,
-    color: '#457B9D',
-  },
-  {
-    name: `men`,
-    uv: 167583,
-    color: '#F4A261',
-  },
-  {
-    name: `dino`,
-    uv: 1952,
-    color: '#2A9D8F',
-  },
     {
-    name: `witch`,
-    uv: 3232,
-    color: '#E76F51',
+      name: `women`,
+      uv: 33893,
+      color: '#457B9D',
+    },
+    {
+      name: `men`,
+      uv: 167583,
+      color: '#F4A261',
+    },
+    {
+      name: `dino`,
+      uv: 1952,
+      color: '#2A9D8F',
+    },
+    {
+      name: `witch`,
+      uv: 3232,
+      color: '#E76F51',
     }
-];
+  ];
 
 
   return (
@@ -102,60 +102,59 @@ export function GenderPage() {
         </h1>
       </div>
 
-        
 
-        {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
-        <section>
-          
-          <ComicBox title="Gender mentions distribution overall">
-            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
-              </p>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-                <YAxis hide />
-                <Tooltip
-                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                  cursor={{ fill: '#f0f0f0' }}
-                />
-                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
-              </AnalysisText>
-          </ComicBox>
-        </section>
-         
+
+      {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
+      <section>
+
+        <ComicBox title="Gender mentions distribution overall">
+          <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+            This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
+          </p>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+              <YAxis hide />
+              <Tooltip
+                contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                cursor={{ fill: '#f0f0f0' }}
+              />
+              <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+              <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <AnalysisText>
+            Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
+          </AnalysisText>
+        </ComicBox>
+      </section>
+
       {/* Toggle View */}
       <div className="flex justify-center gap-4 mb-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('timeline')}
-          className={`interactive-cta transition-colors ${
-            selectedView === 'timeline' 
-              ? 'bg-[#E63946] text-[#FDFDF8]' 
-              : 'bg-white text-[#1A1A1A]'
-          }`}
-          style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
-        > 
-        
+          className="interactive-cta transition-colors"
+          style={{
+            backgroundColor: selectedView === 'timeline' ? '#E63946' : 'white',
+            color: selectedView === 'timeline' ? 'white' : '#1A1A1A',
+            boxShadow: '3px 3px 0 #1A1A1A'
+          }}
+        >
           General Timeline View
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('comparison')}
-          className={`interactive-cta transition-colors ${
-            selectedView === 'comparison' 
-              ? 'bg-[#E63946] text-[#FDFDF8]' 
-              : 'bg-white text-[#1A1A1A]'
-          }`}
-          style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
+          className="interactive-cta transition-colors"
+          style={{
+            backgroundColor: selectedView === 'comparison' ? '#E63946' : 'white',
+            color: selectedView === 'comparison' ? 'white' : '#1A1A1A',
+            boxShadow: '3px 3px 0 #1A1A1A'
+          }}
         >
           By Topic
         </motion.button>
@@ -163,12 +162,12 @@ export function GenderPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setSelectedView('gapRate')}
-          className={`interactive-cta transition-colors ${
-            selectedView === 'gapRate' 
-              ? 'bg-[#E63946] text-[#FDFDF8]' 
-              : 'bg-white text-[#1A1A1A]'
-          }`}
-          style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
+          className="interactive-cta transition-colors"
+          style={{
+            backgroundColor: selectedView === 'gapRate' ? '#E63946' : 'white',
+            color: selectedView === 'gapRate' ? 'white' : '#1A1A1A',
+            boxShadow: '3px 3px 0 #1A1A1A'
+          }}
         >
           Differences
         </motion.button>
@@ -177,7 +176,7 @@ export function GenderPage() {
       {/* Main Content Area */}
       <div className="flex-1 grid grid-cols-3 gap-6">
         {/* Chart Area - Takes 2 columns */}
-        <motion.div 
+        <motion.div
           key={selectedView}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -186,18 +185,18 @@ export function GenderPage() {
         >
           <div className="inline-block mb-4 px-4 py-2 bg-[#457B9D] border-3 border-[#1A1A1A]">
             <h3 className="comic-title text-sm text-[#FDFDF8]">
-              {selectedView === 'timeline' 
-                ? 'Gender Distribution Over Time' 
+              {selectedView === 'timeline'
+                ? 'Gender Distribution Over Time'
                 : selectedView === 'comparison'
-                ? 'Gender by Topic'
-                : 'Gender Differences'}
+                  ? 'Gender by Topic'
+                  : 'Gender Differences'}
             </h3>
           </div>
           {/*Timeline View of only Gender Distribution Over Time*/}
           {selectedView === 'timeline' && (
             <ComicBox>
               <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Here, the previous analysis is looked at on a timeline. Maybe there is a variation in time? Or maybe the inequality in mentions even decreased over time?
+                Here, the previous analysis is looked at on a timeline. Maybe there is a variation in time? Or maybe the inequality in mentions even decreased over time?
               </p>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={section1} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -205,7 +204,7 @@ export function GenderPage() {
                   <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
                   <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                  <Line type="monotone" dataKey="men" stroke="#E63946" dot={false}/>
+                  <Line type="monotone" dataKey="men" stroke="#E63946" dot={false} />
                   <Line type="monotone" dataKey="women" stroke="#2A9D8F" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
@@ -215,8 +214,8 @@ export function GenderPage() {
             </ComicBox>
           )}
 
-          {/*Timeline View with combined data*/}  
-            {selectedView === 'comparison' && (
+          {/*Timeline View with combined data*/}
+          {selectedView === 'comparison' && (
             <section>
               <ComicBox title="Eventgroup by Gender">
                 <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
@@ -242,24 +241,24 @@ export function GenderPage() {
               </ComicBox>
               <ComicBox title="Climat change" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                  The public perception of the climate crisis changed a lot between 2016 and 2023. The <strong>Fridays for Future</strong> movements started with Greta Thunberg in 2018. 
+                  The public perception of the climate crisis changed a lot between 2016 and 2023. The <strong>Fridays for Future</strong> movements started with Greta Thunberg in 2018.
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={climat_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90 }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
-                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
-                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
                   The gender distribution as expected: man word groups are still bigger at almost every point of time. Also, there is no significant rise of climate topic in the caption contest, the Fridays for future didn’t influence, even if there is peak in beginning of the year 2019.
                 </AnalysisText>
               </ComicBox>
- 
+
               <ComicBox title="Covid" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
                   Then there was the pandemic…
@@ -268,15 +267,15 @@ export function GenderPage() {
                   <LineChart data={covid_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90 }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
-                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
-                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  The covid word group shows a clear phase when there was the pandemic. The small percentage before the pandemic comes from words like <i>virus, vaccine and mask</i> as part of the covid-word-group. At the peak of the pandemic in <strong>spring 2020</strong>, the word group women are bigger. This is very exceptional but also only for a <strong>short period</strong> of time. 
+                  The covid word group shows a clear phase when there was the pandemic. The small percentage before the pandemic comes from words like <i>virus, vaccine and mask</i> as part of the covid-word-group. At the peak of the pandemic in <strong>spring 2020</strong>, the word group women are bigger. This is very exceptional but also only for a <strong>short period</strong> of time.
                 </AnalysisText>
               </ComicBox>
 
@@ -288,11 +287,11 @@ export function GenderPage() {
                   <LineChart data={war_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90 }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
-                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
-                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -301,17 +300,17 @@ export function GenderPage() {
               </ComicBox>
               <ComicBox title="Trump" className="mb-8">
                 <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                 For words around infamous Donald Trump change over time, depending on how controversial and political, Trump is at the moment of time. Is this also visible in the gender distribution?
+                  For words around infamous Donald Trump change over time, depending on how controversial and political, Trump is at the moment of time. Is this also visible in the gender distribution?
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart data={trump_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90}} />
+                    <YAxis tick={{ fontSize: 5 }} label={{ value: 'caption percentage [%]', angle: -90 }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man"/>
-                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false}  strokeWidth={3} name="woman"/>
-                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined"/>
+                    <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
+                    <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
+                    <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -328,7 +327,7 @@ export function GenderPage() {
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
-                    <Line type="monotone" dataKey="trump" stroke="#2A9D8F" dot={false} strokeWidth={3}/>
+                    <Line type="monotone" dataKey="trump" stroke="#2A9D8F" dot={false} strokeWidth={3} />
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
@@ -339,58 +338,58 @@ export function GenderPage() {
           )}
           {/*Humor Chart*/}
           {selectedView === 'gapRate' && (
-          <section>
-            <ComicBox title="Humor Lables by Gender">
-            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              Is there a difference in humour or sentiment, when it comes to gender distribution?
-              Each caption received a <strong>humour label</strong> with the help of a LLM. This is then sorted for the two gender related word groups.
-            </p>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={humor_labels} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                <XAxis dataKey="category" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-                <YAxis hide />
-                <Tooltip
-                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                  cursor={{ fill: '#f0f0f0' }}
-                  formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
-                />
-                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="men" dataKey="pct_man" fill="#E76F51" radius={[4, 4, 0, 0]} />
-                <Bar name="woman" dataKey="pct_woman" fill="#F4A261" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              This analysis is very interesting. Incongruity-absurdity, self-deprecating and sarcasm are more pronounced for the woman word groups, while irony, wit-surprise and all the unknown humour labels are more pronounced for man word groups. So there, is a difference in humour types depending on the gender related captions.
-            </AnalysisText>
-          </ComicBox>
-          <ComicBox title="Sentiment by Gender">
-            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              Besides the humour labels, also the sentiment of the caption can change. So the type of humour also depends on the positivity, neutrality or negativity of its sentiment.
-            </p>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={gender_sentiment} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                <XAxis dataKey="category" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-                <YAxis hide />
-                <Tooltip
-                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                  cursor={{ fill: '#f0f0f0' }}
-                  formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
-                />
-                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="men" dataKey="pct_man" fill="#264653" radius={[4, 4, 0, 0]} />
-                <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              The woman captions are more neutral than the man captions, while the man captions, are more pronounced by negative and even more by positive sentiments. This shows that captions containing man word groups are <strong>more controversial</strong>.
-            </AnalysisText>
-          </ComicBox>
-        </section>
+            <section>
+              <ComicBox title="Humor Lables by Gender">
+                <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+                  Is there a difference in humour or sentiment, when it comes to gender distribution?
+                  Each caption received a <strong>humour label</strong> with the help of a LLM. This is then sorted for the two gender related word groups.
+                </p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={humor_labels} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    <XAxis dataKey="category" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                    <YAxis hide />
+                    <Tooltip
+                      contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                      cursor={{ fill: '#f0f0f0' }}
+                      formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                    <Bar name="men" dataKey="pct_man" fill="#E76F51" radius={[4, 4, 0, 0]} />
+                    <Bar name="woman" dataKey="pct_woman" fill="#F4A261" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  This analysis is very interesting. Incongruity-absurdity, self-deprecating and sarcasm are more pronounced for the woman word groups, while irony, wit-surprise and all the unknown humour labels are more pronounced for man word groups. So there, is a difference in humour types depending on the gender related captions.
+                </AnalysisText>
+              </ComicBox>
+              <ComicBox title="Sentiment by Gender">
+                <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+                  Besides the humour labels, also the sentiment of the caption can change. So the type of humour also depends on the positivity, neutrality or negativity of its sentiment.
+                </p>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={gender_sentiment} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    <XAxis dataKey="category" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                    <YAxis hide />
+                    <Tooltip
+                      contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                      cursor={{ fill: '#f0f0f0' }}
+                      formatter={(value: any, name: any, item: any) => [`${value}%`, name]}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                    <Bar name="men" dataKey="pct_man" fill="#264653" radius={[4, 4, 0, 0]} />
+                    <Bar name="woman" dataKey="pct_woman" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  The woman captions are more neutral than the man captions, while the man captions, are more pronounced by negative and even more by positive sentiments. This shows that captions containing man word groups are <strong>more controversial</strong>.
+                </AnalysisText>
+              </ComicBox>
+            </section>
           )}
-        </motion.div> 
+        </motion.div>
+      </div>
     </div>
-  </div>
   );
 } 
