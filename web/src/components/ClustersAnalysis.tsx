@@ -96,6 +96,40 @@ const Heatmap = ({ data }: { data: any[] }) => {
 };
 
 
+function ExpandableExplanation({
+  short,
+  children,
+}: {
+  short: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="mt-3">
+      {/* Short explanation (always visible) */}
+      <p className="comic-text text-[12px] opacity-90 leading-snug">
+        {short}
+      </p>
+
+      {/* Toggle */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="comic-title text-[11px] mt-1 underline opacity-70 hover:opacity-100 uppercase"
+      >
+        {open ? "HIDE EXPLANATION" : "READ MORE"}
+      </button>
+
+      {/* Long explanation */}
+      {open && (
+        <div className="mt-2">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ClustersAnalysis() {
   const [distSource, setDistSource] = useState<'image_descriptions' | 'image_uncanny_descriptions' | 'questions'>('image_descriptions');
   const [sentimentSource, setSentimentSource] = useState<'image_descriptions' | 'image_uncanny_descriptions' | 'questions'>('image_descriptions');
@@ -184,33 +218,37 @@ export function ClustersAnalysis() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <AnalysisText>
-              {(() => {
-                const currentDist = section1.distributions[distSource];
-                const top = currentDist[0];
-                const second = currentDist[1];
+            <ExpandableExplanation
+              short="The distribution of humor in high-ranking captions reveals a distinct preference for Incongruity & Absurdity..."
+            >
+              <AnalysisText>
+                {(() => {
+                  const currentDist = section1.distributions[distSource];
+                  const top = currentDist[0];
+                  const second = currentDist[1];
 
-                if (distSource === 'image_descriptions') {
-                  return (
-                    <>
-                      The distribution of humor in high-ranking captions reveals a distinct preference for <strong>{top?.name}</strong>, accounting for <strong>{top?.percentage}%</strong> of the corpus. This aligns with the <em>New Yorker</em>'s stylistic tradition, where humor often emerges from the semantic gap between the visual scene and the textual anchor. The substantial presence of <strong>{second?.name}</strong> ({second?.percentage}%) further suggests that entrants frequently leverage these distinct modes to subvert the expectations established by the image.
-                    </>
-                  );
-                } else if (distSource === 'image_uncanny_descriptions') {
-                  return (
-                    <>
-                      In the 'Uncanny' descriptions—which isolate the visual oddities—we observe a skew towards <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). This is structurally inherent; the task of objectively describing visual anomalies naturally results in identifying <strong>{top?.name}</strong> as the primary mechanism of cognitive dissonance. Unlike stylized captions, the humor here is descriptive rather than constructed, leading to a more concentrated distribution.
-                    </>
-                  );
-                } else {
-                  return (
-                    <>
-                      The interrogative dataset exhibits a profile dominated by <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). Questions in this context often serve as rhetorical devices to highlight the scene's illogical premises. The shift in distribution compared to declarative captions suggests that the grammatical form substantially influences the classification of humor, pivoting from descriptive absurdity to interrogative <strong>{top?.name}</strong>.
-                    </>
-                  );
-                }
-              })()}
-            </AnalysisText>
+                  if (distSource === 'image_descriptions') {
+                    return (
+                      <>
+                        The distribution of humor in high-ranking captions reveals a distinct preference for <strong>{top?.name}</strong>, accounting for <strong>{top?.percentage}%</strong> of the corpus. This aligns with the <em>New Yorker</em>'s stylistic tradition, where humor often emerges from the semantic gap between the visual scene and the textual anchor. The substantial presence of <strong>{second?.name}</strong> ({second?.percentage}%) further suggests that entrants frequently leverage these distinct modes to subvert the expectations established by the image.
+                      </>
+                    );
+                  } else if (distSource === 'image_uncanny_descriptions') {
+                    return (
+                      <>
+                        In the 'Uncanny' descriptions—which isolate the visual oddities—we observe a skew towards <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). This is structurally inherent; the task of objectively describing visual anomalies naturally results in identifying <strong>{top?.name}</strong> as the primary mechanism of cognitive dissonance. Unlike stylized captions, the humor here is descriptive rather than constructed, leading to a more concentrated distribution.
+                      </>
+                    );
+                  } else {
+                    return (
+                      <>
+                        The interrogative dataset exhibits a profile dominated by <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). Questions in this context often serve as rhetorical devices to highlight the scene's illogical premises. The shift in distribution compared to declarative captions suggests that the grammatical form substantially influences the classification of humor, pivoting from descriptive absurdity to interrogative <strong>{top?.name}</strong>.
+                      </>
+                    );
+                  }
+                })()}
+              </AnalysisText>
+            </ExpandableExplanation>
           </ComicBox>
 
           {/* Chart 1.2: Radar Profile */}
@@ -237,9 +275,13 @@ export function ClustersAnalysis() {
                 <Bar name="Engagement" dataKey="captionsScore" fill="#264653" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-            <AnalysisText>
-              Comparing engagement metrics reveals interesting trade-offs. <strong>Wit & Surprise</strong> often garners high vote counts (Popularity), suggesting it resonates broadly with voters. Meanwhile, <strong>Incongruity & Absurdity</strong> often spikes in caption volume (Engagement), indicating that these complex visual puzzles invite more community attempts to solve them.
-            </AnalysisText>
+            <ExpandableExplanation
+              short="Comparing engagement metrics reveals interesting trade-offs between popularity (votes) and active participation (captions)..."
+            >
+              <AnalysisText>
+                Comparing engagement metrics reveals interesting trade-offs. <strong>Wit & Surprise</strong> often garners high vote counts (Popularity), suggesting it resonates broadly with voters. Meanwhile, <strong>Incongruity & Absurdity</strong> often spikes in caption volume (Engagement), indicating that these complex visual puzzles invite more community attempts to solve them.
+              </AnalysisText>
+            </ExpandableExplanation>
           </ComicBox>
         </div>
       </section>
@@ -280,9 +322,13 @@ export function ClustersAnalysis() {
               ))}
             </AreaChart>
           </ResponsiveContainer>
-          <AnalysisText>
-            The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
-          </AnalysisText>
+          <ExpandableExplanation
+            short="The temporal evolution reveals a remarkably resilient distribution of humor types over the years, with Incongruity & Absurdity remaining dominant..."
+          >
+            <AnalysisText>
+              The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
+            </AnalysisText>
+          </ExpandableExplanation>
         </ComicBox>
 
         {/* Section 2.2: Sentiment Analysis */}
@@ -373,9 +419,13 @@ export function ClustersAnalysis() {
                     </RadarChart>
                   </ResponsiveContainer>
                   <div className="mt-6 border-t border-dashed border-gray-300 pt-4">
-                    <p className="text-xs text-justify leading-relaxed opacity-80">
-                      Across all contexts, <strong>Neutrality</strong> dominates, which makes sense for factual image descriptions. However, distinct patterns emerge per category: <strong>Exaggeration</strong> and <strong>Sarcasm</strong> are uniquely prone to piercing this neutrality with sharp <strong>Negative</strong> spikes, particularly in Uncanny Descriptions. In contrast, <strong>Wit</strong> and <strong>Absurdity</strong> remain safer, anchoring themselves firmly in the neutral zone, proving that specialized humor doesn't always require negative framing.
-                    </p>
+                    <ExpandableExplanation
+                      short="Across all contexts, Neutrality dominates, but Exaggeration and Sarcasm show sharp Negative spikes..."
+                    >
+                      <p className="text-xs text-justify leading-relaxed opacity-80">
+                        Across all contexts, <strong>Neutrality</strong> dominates, which makes sense for factual image descriptions. However, distinct patterns emerge per category: <strong>Exaggeration</strong> and <strong>Sarcasm</strong> are uniquely prone to piercing this neutrality with sharp <strong>Negative</strong> spikes, particularly in Uncanny Descriptions. In contrast, <strong>Wit</strong> and <strong>Absurdity</strong> remain safer, anchoring themselves firmly in the neutral zone, proving that specialized humor doesn't always require negative framing.
+                      </p>
+                    </ExpandableExplanation>
                   </div>
                 </div>
 
@@ -415,9 +465,13 @@ export function ClustersAnalysis() {
                   </ResponsiveContainer>
 
                   <div className="mt-6 border-t border-dashed border-gray-300 pt-4">
-                    <p className="text-xs text-justify leading-relaxed opacity-80">
-                      The timeline reveals that while <strong>Neutral</strong> sentiment (orange) remains the baseline for most captions, there are visible fluctuations in <strong>Negative</strong> sentiment (red). This "Cynicism Index" acts as a barometer for societal mood—when the red area expands, it often correlates with periods of higher global stress, suggesting that our humor becomes a coping mechanism that leans into the darkness.
-                    </p>
+                    <ExpandableExplanation
+                      short="The timeline reveals that while Neutral sentiment remains the baseline, fluctuations in Negative sentiment act as a barometer..."
+                    >
+                      <p className="text-xs text-justify leading-relaxed opacity-80">
+                        The timeline reveals that while <strong>Neutral</strong> sentiment (orange) remains the baseline for most captions, there are visible fluctuations in <strong>Negative</strong> sentiment (red). This "Cynicism Index" acts as a barometer for societal mood—when the red area expands, it often correlates with periods of higher global stress, suggesting that our humor becomes a coping mechanism that leans into the darkness.
+                      </p>
+                    </ExpandableExplanation>
                   </div>
                 </div>
               </div>
