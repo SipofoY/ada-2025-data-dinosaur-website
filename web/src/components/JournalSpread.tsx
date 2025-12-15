@@ -790,7 +790,30 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
     ts: toTs(String(d.date)),
   }));
 
-
+  // Representative captions (unchanged)
+  const representativeCaptions = [
+    event.id === "covid"
+      ? "You're on mute again, Dave"
+      : event.id === "trump"
+      ? "I voted for the other timeline"
+      : event.id === "climate"
+      ? "At least we'll have beachfront property"
+      : "This is fine",
+    event.id === "covid"
+      ? "Day 437 of quarantine, or is it Tuesday?"
+      : event.id === "trump"
+      ? "Make it stop"
+      : event.id === "climate"
+      ? "The planet will be fine without us"
+      : "Remember when things were normal?",
+    event.id === "covid"
+      ? "My mask brings all the germs to the yard"
+      : event.id === "trump"
+      ? "This is why we can't have nice democracies"
+      : event.id === "climate"
+      ? "Turn up the AC, it's getting warm"
+      : "I miss boring news cycles",
+  ];
 
   return (
     <motion.div
@@ -840,10 +863,13 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
               style={{ boxShadow: "4px 4px 0 #1A1A1A" }}
             >
               <div className="text-center">
+                <div className="text-6xl mb-4">🎨</div>
                 <p className="handwritten text-xl text-[#8B4513] italic">
                   {event.cartoonTheme}
                 </p>
-
+                <p className="comic-text text-xs text-[#1A1A1A]/60 mt-2">
+                  Featured Cartoon Theme
+                </p>
               </div>
             </div>
 
@@ -1001,7 +1027,7 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                       </LineChart>
                     </ResponsiveContainer>
                     <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                      Time series of Google search interest in the United States from 2016 to 2023, showing fluctuations in public attention over time.
+                      Long-run background of public attention in Google searches.
                     </p>
                   </div>
 
@@ -1066,7 +1092,7 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                     </ResponsiveContainer>
 
                     <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                      Z-scores show unusual attention relative to the topic baseline. The shaded region is the main period of the event:{" "}
+                      z-scores show unusual attention relative to the topic baseline. The shaded region is your main period:{" "}
                       <span className="comic-title">
                         {highlight.start} → {highlight.end}
                       </span>
@@ -1205,37 +1231,8 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                       <span className="comic-title"> Pearson {corr.pearson.toFixed(3)}</span>,
                       <span className="comic-title"> Spearman {corr.spearman.toFixed(3)}</span>,
                       <span className="comic-title"> Kendall τ {corr.kendall.toFixed(3)}</span>.{" "}
-                      {(() => {
-                        const r = corr.pearson;
-                        const abs = Math.abs(r);
-
-                        const strength =
-                          abs >= 0.7 ? "strong" : abs >= 0.4 ? "moderate" : abs >= 0.2 ? "weak" : "very weak";
-
-                        if (abs < 0.1) {
-                          return (
-                            <>In z-scores, the two series show little month-to-month alignment (near-zero association).</>
-                          );
-                        }
-
-                        if (r > 0) {
-                          return (
-                            <>
-                              In this standardized view, there is a {strength} <b>positive</b> association: months with unusually high search
-                              interest tend to coincide with unusually high caption focus (and unusually low with unusually low).
-                            </>
-                          );
-                        }
-
-                        return (
-                          <>
-                            In this standardized view, there is a {strength} <b>negative</b> association: months with unusually high search
-                            interest tend to coincide with unusually low caption focus (and vice versa).
-                          </>
-                        );
-                      })()}
+                      In this standardized view (z-scores), aligned peaks mean *unusually high* search attention coincides with *unusually high* caption focus.
                     </p>
-
 
                   </div>
 
@@ -1639,7 +1636,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                         <>
                           {/* RAW */}
                           <div className="mb-4">
-
+                            <div className="comic-text text-[10px] opacity-80 mb-1">
+                              <b>Raw trends</b> — X: month, Y: Google Trends interest (0–100)
+                            </div>
 
                             <ResponsiveContainer width="100%" height={170}>
                               <LineChart
@@ -1717,14 +1716,16 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                             </ResponsiveContainer>
 
                             <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                            Raw search interest within the event window.
-                            The shaded region marks the event period; peaks inside it indicate increases in public attention during the event compared to surrounding months.
+                              This panel zooms into the event period only. Lines that spike inside the shaded window
+                              indicate which theme saw the strongest surge of public attention during the event.
                             </p>
                           </div>
 
                           {/* NORMALIZED */}
                           <div>
-
+                            <div className="comic-text text-[10px] opacity-80 mb-1">
+                              <b>Normalized trends</b> — X: month, Y: z-score (deviation from each series’ own baseline)
+                            </div>
 
                             <ResponsiveContainer width="100%" height={170}>
                               <LineChart
@@ -1802,8 +1803,8 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                             </ResponsiveContainer>
 
                             <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                              Normalized (z-score) search interest within the event window.
-                              Values show deviations from each series’ own baseline (z {" > "} 0 = higher-than-usual, z {" < "} 0 = lower-than-usual), making different queries/themes comparable and highlighting unusually strong spikes during the shaded event period.
+                              Normalization makes queries comparable: z &gt; 0 means “higher than usual for this query”.
+                              This helps identify the most <i>unusual</i> spike, even if raw interest levels differ.
                             </p>
                           </div>
                         </>
@@ -1947,8 +1948,7 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                           </ResponsiveContainer>
 
                           <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                            Monthly evolution of dominant semantic caption groups within the event window.
-                            Stacked areas show how the relative volume of different semantic themes changes over time, highlighting which topics dominate caption content during and around the event.
+                            How semantic caption groups shift over the event window.
                           </p>
                           <p className="comic-text text-[9px] mt-1 opacity-60">
                             Window: {mg?.window_start} → {mg?.window_end}
