@@ -399,7 +399,7 @@ export function GenderPage() {
                   <LineChart data={trends_focusgroup} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'interest (0-100)', angle: -90, position: 'insideLeft' }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
                     <Line type="monotone" dataKey="women" stroke="#E76F51" dot={false} strokeWidth={3} />
                     <Line type="monotone" dataKey="men" stroke="#F4A261" dot={false} strokeWidth={3} />
@@ -415,7 +415,7 @@ export function GenderPage() {
                   <LineChart data={trends_zscore} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                     <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'mentions', angle: -90, position: 'insideLeft' }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'z-score', angle: -90, position: 'insideLeft' }} />
                     <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
                     <Line type="monotone" dataKey="women" stroke="#264653" dot={false} strokeWidth={3} />
                     <Line type="monotone" dataKey="men" stroke="#2A9D8F" dot={false} strokeWidth={3} />
