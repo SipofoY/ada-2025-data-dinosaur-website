@@ -43,6 +43,21 @@ export function CreditsPage() {
               <h2 className="comic-title text-sm text-[#FDFDF8]">Methodology & Analysis</h2>
             </div>
 
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Database className="text-[#E63946]" size={20} />
+                <h3 className="comic-title text-[#457B9D]">
+                  Event-Centered Temporal Analysis
+                </h3>
+              </div>
+              <p className="comic-text text-sm leading-relaxed mb-4">
+                We designed an interactive, event-centered analysis framework that aligns caption language with public attention over time.
+                For each major real-world event, we defined explicit event windows and compared caption frequencies with Google Trends
+                using raw values, z-score normalization, and lagged correlations. This approach enables a direct interpretation of whether
+                humor reacts to, anticipates, or evolves independently from public interest, and supports event-specific synthesis of findings.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -66,7 +81,10 @@ export function CreditsPage() {
                   We performed a deep-dive into image descriptions and entities to understand what makes a cartoon funny.
                   We applied a <strong>Bechdel-like test</strong>, discovering a 3.5:1 ratio of men-to-women mentions
                   and analyzing how gendered terms correlate with user votes. Finally, we visualized the evolution of
-                  humor types across weeks to detect seasonal or event-driven patterns in comedy.
+                  humor types across weeks to detect seasonal or event-driven patterns in comedy.These analyses are presented 
+                  through an interactive journal-style interface that combines synchronized plots,
+                  event highlighting, and inline explanations to guide interpretation across temporal and semantic scales.
+
                 </p>
               </div>
             </div>

@@ -39,6 +39,134 @@ function pickSeriesKeys(rows: any[], dateKey: string) {
   return Object.keys(rows[0]).filter((k) => k !== dateKey && k !== "event" && k !== "ts");
 }
 
+function eventSynthesis({
+  eventId,
+  highlight,
+  corr,
+  plots,
+}: {
+  eventId: EventId;
+  highlight: { start: string; end: string };
+  corr: { months: number; pearson: number; spearman: number; kendall: number };
+  plots: any;
+}) {
+  // --- Top word (Fig 1) ---
+  const top = maxBy(plots.topwords ?? [], (d: any) => Number(d.count));
+  const topWord = top?.word ? `"${top.word}"` : "—";
+
+  // --- Best lag (Figs 6–8) ---
+  const bestLag = Number(
+    plots.lag_report?.find((r: any) => r.metric === "best_lag_months")?.value
+  );
+  const bestCorr = Number(
+    plots.lag_report?.find((r: any) => r.metric === "best_lag_corr")?.value
+  );
+  const pear0 = Number(
+    plots.lag_report?.find((r: any) => r.metric === "pearson_0lag")?.value
+  );
+
+  const hasBest = Number.isFinite(bestLag) && Number.isFinite(bestCorr);
+  const lagPhrase =
+    !hasBest
+      ? "Timing effects are modest in the lag sweep."
+      : bestLag < 0
+      ? `Best alignment appears when captions are shifted earlier (lag ${bestLag} months, r=${bestCorr.toFixed(
+          2
+        )}).`
+      : bestLag > 0
+      ? `Best alignment appears when captions are shifted later (lag +${bestLag} months, r=${bestCorr.toFixed(
+          2
+        )}).`
+      : `Strongest alignment is synchronous (lag 0, r=${bestCorr.toFixed(2)}).`;
+
+  const compare0 =
+    Number.isFinite(pear0) && hasBest
+      ? ` (At lag 0, r=${pear0.toFixed(2)}.)`
+      : "";
+
+  // --- Dominant semantic groups (Fig 10) ---
+  const mg = plots.monthly_groups;
+  const ts = mg?.timeseries ?? [];
+  let groupA = "—";
+  let groupB = "—";
+
+  if (ts.length) {
+    const keys = Object.keys(ts[0]).filter((k) => k.startsWith("group_"));
+    const totals = keys
+      .map((key) => ({
+        key,
+        total: ts.reduce((acc: number, row: any) => acc + (Number(row[key]) || 0), 0),
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 2);
+
+    const keyToTitle = (key: string) => {
+      const idx = /^group_(\d+)$/.exec(key)?.[1];
+      const id = idx ? Number(idx) : -1;
+      const words: string[] =
+        mg?.groups?.find((g: any) => Number(g.id) === id)?.words ?? [];
+      const cleaned = words
+        .map((w) => String(w).replaceAll("_", " "))
+        .filter((w) => w.length >= 4);
+      if (!cleaned.length) return `Group ${id + 1}`;
+      const a = cleaned[0] ?? "Group";
+      const b = cleaned[1] ?? "";
+      return b ? `${a} / ${b}` : a;
+    };
+
+    groupA = totals[0] ? keyToTitle(totals[0].key) : "—";
+    groupB = totals[1] ? keyToTitle(totals[1].key) : "—";
+  }
+
+  // --- Correlation statement (Figs 4–5) ---
+  const r = corr.pearson;
+  const abs = Math.abs(r);
+  const strength =
+    abs >= 0.7 ? "strong" : abs >= 0.4 ? "moderate" : abs >= 0.2 ? "weak" : "very weak";
+  const sign =
+    r > 0 ? "positive" : r < 0 ? "negative" : "near-zero";
+
+  // --- Event-specific one-liner meaning (keep it conservative) ---
+  const meaningByEvent: Record<EventId, string> = {
+    covid:
+      "Overall, humor and public attention move together more than in the other events, suggesting captions track (or amplify) public salience during the pandemic period.",
+    war:
+      "Overall coupling is limited, suggesting caption focus does not consistently track search attention for this topic across months.",
+    trump:
+      "Coupling exists but remains moderate, suggesting captions reflect political attention without mirroring it perfectly month-to-month.",
+    climate:
+      "Overall coupling is minimal, suggesting climate-related caption themes fluctuate relatively independently from search interest in this window.",
+  };
+
+  return (
+    <div className="bg-white p-5 rounded-lg border-3 border-[#1A1A1A]" style={{ boxShadow: "4px 4px 0 #1A1A1A" }}>
+      <div className="inline-block mb-3 px-3 py-1 bg-[#1A1A1A] border-2 border-[#1A1A1A]">
+        <h3 className="comic-title text-xs text-[#FDFDF8]">Conclusion</h3>
+      </div>
+
+      <p className="comic-text text-[11px] leading-snug opacity-90">
+        <b>Findings:</b> In the main event window (<span className="comic-title">{highlight.start} → {highlight.end}</span>),
+        caption language is anchored by frequent terms like <span className="comic-title">{topWord}</span>, while dominant semantic themes
+        cluster around <span className="comic-title">{groupA}</span> (and <span className="comic-title">{groupB}</span>).
+      </p>
+
+      <p className="comic-text text-[11px] leading-snug opacity-90 mt-2">
+        <b>Conclusion:</b> Across the overlapping window ({corr.months} months), Trends vs caption mentions show a{" "}
+        <b>{strength}</b> <b>{sign}</b> association (Pearson r={r.toFixed(2)}).
+      </p>
+
+      <p className="comic-text text-[11px] leading-snug opacity-90 mt-2">
+        <b>Timing:</b> {lagPhrase}{compare0}
+      </p>
+
+      <p className="comic-text text-[11px] leading-snug opacity-90 mt-2">
+        <b>What it means:</b> {meaningByEvent[eventId]}
+      </p>
+    </div>
+  );
+}
+
+
 function SemanticLegend(props: any) {
   const payload = props?.payload ?? [];
   if (!payload.length) return null;
@@ -1963,6 +2091,17 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
 
               </div> 
 
+              {/* --- End-of-page synthesis (per main event) --- */}
+              {event.id === "covid" || event.id === "war" || event.id === "trump" || event.id === "climate" ? (
+                <div className="mt-8">
+                  {eventSynthesis({
+                    eventId: event.id,
+                    highlight,
+                    corr,
+                    plots,
+                  })}
+                </div>
+              ) : null}
 
               {/* Keywords */}
               <div className="flex flex-wrap gap-2">
