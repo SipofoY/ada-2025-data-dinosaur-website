@@ -9,17 +9,22 @@ interface BookProps {
 
 export function ImprovedBook({ pages, titles }: BookProps) {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [previousPageIndex, setPreviousPageIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const [isFlipping, setIsFlipping] = useState(false);
+
+  const FLIP_DURATION = 900;
 
   const nextPage = () => {
     if (currentPageIndex < pages.length - 1 && !isFlipping) {
       setIsFlipping(true);
       setDirection('next');
+      setPreviousPageIndex(currentPageIndex);
+      setCurrentPageIndex(currentPageIndex + 1);
       setTimeout(() => {
-        setCurrentPageIndex(currentPageIndex + 1);
         setIsFlipping(false);
-      }, 300);
+        setPreviousPageIndex(null);
+      }, FLIP_DURATION);
     }
   };
 
@@ -27,10 +32,12 @@ export function ImprovedBook({ pages, titles }: BookProps) {
     if (currentPageIndex > 0 && !isFlipping) {
       setIsFlipping(true);
       setDirection('prev');
+      setPreviousPageIndex(currentPageIndex);
+      setCurrentPageIndex(currentPageIndex - 1);
       setTimeout(() => {
-        setCurrentPageIndex(currentPageIndex - 1);
         setIsFlipping(false);
-      }, 300);
+        setPreviousPageIndex(null);
+      }, FLIP_DURATION);
     }
   };
 
@@ -38,10 +45,12 @@ export function ImprovedBook({ pages, titles }: BookProps) {
     if (index !== currentPageIndex && index >= 0 && index < pages.length && !isFlipping) {
       setIsFlipping(true);
       setDirection(index > currentPageIndex ? 'next' : 'prev');
+      setPreviousPageIndex(currentPageIndex);
+      setCurrentPageIndex(index);
       setTimeout(() => {
-        setCurrentPageIndex(index);
         setIsFlipping(false);
-      }, 300);
+        setPreviousPageIndex(null);
+      }, FLIP_DURATION);
     }
   };
 
@@ -132,69 +141,67 @@ export function ImprovedBook({ pages, titles }: BookProps) {
               }}
             />
 
-            {/* Animated Pages with Enhanced 3D Effect */}
+            {/* Animated Pages with Enhanced 3D Effect (explicit outgoing + incoming for realistic flip) */}
             <div className="relative h-full" style={{ transformStyle: 'preserve-3d' }}>
-              <AnimatePresence mode="wait" custom={direction}>
+              {/* Outgoing page (previous) */}
+              {previousPageIndex !== null && (
                 <motion.div
-                  key={currentPageIndex}
-                  custom={direction}
-                  initial={direction === 'next' ? {
-                    rotateY: -90,
-                    opacity: 0,
-                    x: -100,
-                    scale: 0.8,
-                  } : {
-                    rotateY: 90,
-                    opacity: 0,
-                    x: 100,
-                    scale: 0.8,
-                  }}
-                  animate={{
-                    rotateY: 0,
-                    opacity: 1,
-                    x: 0,
-                    scale: 1,
-                  }}
-                  exit={direction === 'next' ? {
-                    rotateY: 90,
-                    opacity: 0,
-                    x: 100,
-                    scale: 0.8,
-                  } : {
-                    rotateY: -90,
-                    opacity: 0,
-                    x: -100,
-                    scale: 0.8,
-                  }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [0.32, 0.72, 0, 1],
-                  }}
+                  key={`prev-${previousPageIndex}`}
+                  initial={{ rotateY: 0 }}
+                  animate={direction === 'next' ? { rotateY: -180, skewY: -6, scaleX: 0.96 } : { rotateY: 180, skewY: 6, scaleX: 0.96 }}
+                  transition={{ duration: FLIP_DURATION / 1000, ease: [0.2, 0.8, 0.2, 1] }}
                   className="absolute inset-0 p-12 overflow-y-auto"
                   style={{
                     transformStyle: 'preserve-3d',
-                    transformOrigin: direction === 'next' ? 'left center' : 'right center',
+                    transformOrigin: direction === 'next' ? 'right center' : 'left center',
                     backfaceVisibility: 'hidden',
+                    zIndex: 2,
+                    willChange: 'transform',
+                    pointerEvents: 'none'
                   }}
                 >
-                  {/* Page curl shadow effect */}
-                  {isFlipping && (
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: [0, 0.3, 0] }}
-                      transition={{ duration: 0.7 }}
-                      style={{
-                        background: direction === 'next'
-                          ? 'linear-gradient(to right, transparent, rgba(0,0,0,0.2), transparent)'
-                          : 'linear-gradient(to left, transparent, rgba(0,0,0,0.2), transparent)',
-                      }}
-                    />
-                  )}
-                  
-                  {pages[currentPageIndex]}
+                  <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden' }}>
+                    {pages[previousPageIndex]}
+                  </div>
                 </motion.div>
-              </AnimatePresence>
+              )}
+
+              {/* Incoming page (current) */}
+              <motion.div
+                key={`cur-${currentPageIndex}`}
+                initial={direction === 'next' ? { rotateY: 180, x: 20 } : { rotateY: -180, x: -20 }}
+                animate={{ rotateY: 0, x: 0 }}
+                transition={{ duration: FLIP_DURATION / 1000, ease: [0.2, 0.8, 0.2, 1] }}
+                className="absolute inset-0 p-12 overflow-y-auto"
+                style={{
+                  transformStyle: 'preserve-3d',
+                  transformOrigin: direction === 'next' ? 'left center' : 'right center',
+                  backfaceVisibility: 'hidden',
+                  zIndex: 1,
+                  willChange: 'transform',
+                  pointerEvents: isFlipping ? 'none' : 'auto'
+                }}
+              >
+                <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden' }}>
+                  {pages[currentPageIndex]}
+                </div>
+              </motion.div>
+
+              {/* Subtle fold shadow that sweeps during flip */}
+              {isFlipping && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  initial={{ opacity: 0, x: direction === 'next' ? 200 : -200 }}
+                  animate={{ opacity: 0.28, x: 0 }}
+                  exit={{ opacity: 0, x: direction === 'next' ? -200 : 200 }}
+                  transition={{ duration: FLIP_DURATION / 1000 }}
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.0) 100%)',
+                    transformOrigin: 'center',
+                    zIndex: 3
+                  }}
+                />
+              )}
             </div>
 
             {/* Page Number */}
