@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import frequency_caption from '@/data/introduction/introduction_frequency_captions.json';
 import image_location from '@/data/introduction/top_50_terms_image_locations.json';
 import image_description from '@/data/introduction/top_50_terms_image_descriptions.json';
+import summary_votes from '@/data/introduction/summary_votes.json';
 
 
 interface AboutBookProps {
@@ -60,6 +61,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   };
 
   const [currentCaption, setCurrentCaption] = useState<string>('');
+  const [maxImage] = '514';
 
   React.useEffect(() => {
     const fetchCaption = async () => {
@@ -131,31 +133,6 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
     color: '#2A9D8F'
   }
 ];
-
-
-  // Data for gender representation overall
-  const general_genderdata = [
-    {
-      name: `women`,
-      uv: 33893,
-      color: '#457B9D',
-    },
-    {
-      name: `men`,
-      uv: 167583,
-      color: '#F4A261',
-    },
-    {
-      name: `dino`,
-      uv: 1952,
-      color: '#2A9D8F',
-    },
-    {
-      name: `witch`,
-      uv: 3232,
-      color: '#E76F51',
-    }
-  ];
 
 
   return (
@@ -336,74 +313,10 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               </motion.div>
             ))}
           </div>
-
-          {/* Credits */}
-          <div className="border-4 border-[#1A1A1A] p-4 bg-white" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
-            <div className="inline-block mb-3 px-3 py-1 bg-[#F4A261] border-2 border-[#1A1A1A]">
-              <h3 className="comic-title text-xs text-[#FDFDF8]">Credits</h3>
-            </div>
-
-            <div className="space-y-2 text-[10px] comic-text">
-              <p>📚 The New Yorker Contest Archive</p>
-              <p>📈 Google Trends API</p>
-              <p>🗞️ Historical Event Databases</p>
-            </div>
-
-            <div className="mt-4 pt-3 border-t-2 border-[#1A1A1A] border-dashed">
-              <p className="text-[10px] comic-text mb-3">
-                Independent research, not affiliated with The New Yorker
-              </p>
-              <div className="flex gap-2">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#E63946] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Mail size={14} />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#457B9D] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Github size={14} />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#2A9D8F] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Linkedin size={14} />
-                </motion.button>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
       <section>
-
-        <ComicBox title="Gender mentions distribution overall">
-          <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-            This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
-          </p>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-              <YAxis hide />
-              <Tooltip
-                contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                cursor={{ fill: '#f0f0f0' }}
-              />
-              <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-              <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-          <AnalysisText>
-            Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
-          </AnalysisText>
-        </ComicBox>
         <ComicBox title="Number of Captions" className="mb-8">
           <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
           Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
@@ -426,16 +339,42 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
             Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
             </p>
             <ResponsiveContainer width="100%" height={350}>
-              <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <AreaChart data={summary_votes} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
-                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                <Line type="bump" dataKey="num_captions" stroke="#264653" dot={false} strokeWidth={3} name="number of caption" />
-                <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
-                <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
-                <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
-              </LineChart>
+                <XAxis dataKey="contest_id" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Votes', angle: -90 }} />
+                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}`, name]} />
+                
+                <Area
+                  type="monotone"
+                  dataKey="total_votes"
+                  stroke="#8884d8"
+                  fill="#8884d8"
+                  fillOpacity={1}
+                  
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_not_funny"
+                  stroke="#E63946"
+                  fillOpacity={1}
+                  fill="#E63946"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_somewhat_funny"
+                  stroke="#2A9D8F"
+                  fillOpacity={1}
+                  fill="#2A9D8F"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_funny"
+                  stroke="#82ca9d"
+                  fillOpacity={1}
+                  fill="#82ca9d"
+                />
+              </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
               blub blub
@@ -505,6 +444,53 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               blub blub
             </AnalysisText>
           </ComicBox>
+
+
+          {/* Aligned Container for Everything */}
+          <div style={{ width: '440px', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+            <div className="inline-block mb-2 px-4 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
+              <h2 className="comic-title text-sm text-[#FDFDF8]">Cartoons</h2>
+            </div>
+            <p className="comic-text text-sm mb-6 text-center w-full" style={{ fontWeight: 'bold', fontStyle: 'italic' }}>#{currentId}</p>
+
+            {/* Caption Display */}
+            <div className="min-h-[3rem] mb-4 flex items-end justify-center px-4">
+              <p className="comic-text text-lg text-center font-bold leading-tight w-full">
+                {maxImage && `"${maxImage}"`}
+              </p>
+            </div>
+
+            {/* The Square - Now Displaying Images */}
+            <div
+              style={{
+                width: '100%',
+                height: '350px',
+                border: '6px solid #000000ff',
+                backgroundColor: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                overflow: 'hidden',
+                boxShadow: '4px 4px 0 #1A1A1A'
+              }}
+            >
+              <img
+                src={`${basePath}/data/images/${maxImage}.jpg`}
+                alt={`New Yorker Cartoon ${maxImage}`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  display: 'block'
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
         
       </section>
       </div>
