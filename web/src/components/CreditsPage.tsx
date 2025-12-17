@@ -57,6 +57,20 @@ export function CreditsPage() {
                 humor reacts to, anticipates, or evolves independently from public interest, and supports event-specific synthesis of findings.
               </p>
             </div>
+            
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="text-[#E63946]" size={20} />
+                <h3 className="comic-title text-[#457B9D]">
+                  Gender Representation Analysis
+                </h3>
+              </div>
+              <p className="comic-text text-sm leading-relaxed mb-4">
+                To quantify how often captions refer to men or women, we built a scalable keyword-detection pipeline over the entire corpus. 
+                For each caption, we stream the text through a spaCy-based lemmatizer in mini-batches, normalize every token to its lowercase 
+                lemma, and check for intersections with curated sets of male‑ and female‑coded terms.
+              </p>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
