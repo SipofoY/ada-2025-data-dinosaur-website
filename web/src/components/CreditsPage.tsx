@@ -1,10 +1,16 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Mail, Github, Linkedin, Heart, BookOpen, Database, Code } from 'lucide-react';
-import { Starburst } from './ComicElements';
-import { MethodologyInfographic } from './MethodologyInfographic';
+import { Mail, Github, Linkedin, Heart, BookOpen, Database, Code, Brain, ChartBar, Users } from 'lucide-react';
 
 export function CreditsPage() {
+  const teamMembers = [
+    "Thara Marie Hayat Belin",
+    "Kamegne Yann Eddy Sipofo",
+    "Silvia Camenzind",
+    "Yuno Reigner",
+    "Jannik Jordi"
+  ];
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="max-w-6xl mx-auto py-8 px-6">
@@ -14,7 +20,7 @@ export function CreditsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 
+          <h1
             className="comic-title mb-4"
             style={{
               fontSize: '3rem',
@@ -32,11 +38,61 @@ export function CreditsPage() {
           transition={{ delay: 0.2 }}
           className="mb-8"
         >
-          <MethodologyInfographic />
+          <div className="border-4 border-[#1A1A1A] bg-white p-6 mb-8" style={{ boxShadow: '5px 5px 0 #1A1A1A' }}>
+            <div className="inline-block mb-4 px-4 py-2 bg-[#2A9D8F] border-3 border-[#1A1A1A]">
+              <h2 className="comic-title text-sm text-[#FDFDF8]">Methodology & Analysis</h2>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Database className="text-[#E63946]" size={20} />
+                <h3 className="comic-title text-[#457B9D]">
+                  Event-Centered Temporal Analysis
+                </h3>
+              </div>
+              <p className="comic-text text-sm leading-relaxed mb-4">
+                We designed an interactive, event-centered analysis framework that aligns caption language with public attention over time.
+                For each major real-world event, we defined explicit event windows and compared caption frequencies with Google Trends
+                using raw values, z-score normalization, and lagged correlations. This approach enables a direct interpretation of whether
+                humor reacts to, anticipates, or evolves independently from public interest, and supports event-specific synthesis of findings.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Brain className="text-[#E63946]" size={20} />
+                  <h3 className="comic-title text-[#457B9D]">NLP & Transformations</h3>
+                </div>
+                <p className="comic-text text-sm leading-relaxed mb-4">
+                  We leveraged advanced NLP to analyze captions. Our pipeline combines <strong>RoBERTa</strong> for sentiment analysis,
+                  <strong>Llama 3</strong> for detecting complex humor patterns (e.g., Irony, Satire), and a <strong>SentenceTransformer</strong>
+                  embedding model to cluster tokens into thematic humor types. We compared word frequencies with <strong>Google Trends</strong>,
+                  analyzing lexical shifts (e.g., "Negative" vs "Pandemic" words) over time to see how real-world events influenced the contest.
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <ChartBar className="text-[#E63946]" size={20} />
+                  <h3 className="comic-title text-[#457B9D]">Visual & Statistical Analysis</h3>
+                </div>
+                <p className="comic-text text-sm leading-relaxed mb-4">
+                  We performed a deep-dive into image descriptions and entities to understand what makes a cartoon funny.
+                  We applied a <strong>Bechdel-like test</strong>, discovering a 3.5:1 ratio of men-to-women mentions
+                  and analyzing how gendered terms correlate with user votes. Finally, we visualized the evolution of
+                  humor types across weeks to detect seasonal or event-driven patterns in comedy.These analyses are presented 
+                  through an interactive journal-style interface that combines synchronized plots,
+                  event highlighting, and inline explanations to guide interpretation across temporal and semantic scales.
+
+                </p>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Credits Grid */}
-        <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Authors */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -46,25 +102,21 @@ export function CreditsPage() {
             style={{ boxShadow: '5px 5px 0 #1A1A1A' }}
           >
             <div className="inline-block mb-4 px-4 py-2 bg-[#457B9D] border-3 border-[#1A1A1A]">
-              <h2 className="comic-title text-sm text-[#FDFDF8]">Research Team</h2>
+              <h2 className="comic-title text-sm text-[#FDFDF8]">The Team</h2>
             </div>
 
-            <div className="space-y-3 comic-text text-sm">
-              <div>
-                <p className="comic-title text-[#457B9D] mb-1">Project Lead</p>
-                <p>Dr. Jane Smith</p>
-                <p className="text-xs opacity-70">Data Science & Visualization</p>
+            <div className="space-y-4 comic-text">
+              <div className="flex flex-wrap gap-2">
+                {teamMembers.map((member, index) => (
+                  <div key={index} className="flex items-center gap-2 w-full">
+                    <Users size={16} className="text-[#E63946]" />
+                    <span className="text-lg">{member}</span>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="comic-title text-[#457B9D] mb-1">Machine Learning</p>
-                <p>Alex Johnson</p>
-                <p className="text-xs opacity-70">NLP & Clustering Analysis</p>
-              </div>
-              <div>
-                <p className="comic-title text-[#457B9D] mb-1">Design & UX</p>
-                <p>Maria Garcia</p>
-                <p className="text-xs opacity-70">Interactive Visualization</p>
-              </div>
+              <p className="text-xs text-gray-500 mt-4 italic">
+                EPFL Master - Applied Data Analysis
+              </p>
             </div>
           </motion.div>
 
@@ -80,136 +132,51 @@ export function CreditsPage() {
               <h2 className="comic-title text-sm text-[#FDFDF8]">Data Sources</h2>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <BookOpen size={18} className="text-[#457B9D] mt-1 flex-shrink-0" />
-                <div className="comic-text text-sm">
-                  <p className="comic-title text-[#457B9D]">The New Yorker</p>
-                  <p className="text-xs opacity-70">Cartoon Caption Contest Archive</p>
+                <BookOpen size={24} className="text-[#457B9D] mt-1 flex-shrink-0" />
+                <div className="comic-text">
+                  <p className="comic-title text-[#457B9D] text-lg">The New Yorker</p>
+                  <p className="text-sm opacity-80 mb-2">Cartoon Caption Contest</p>
+                  <a
+                    href="https://www.newyorker.com/cartoons/contest"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#E63946] hover:underline break-all"
+                  >
+                    https://www.newyorker.com/cartoons/contest
+                  </a>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Database size={18} className="text-[#2A9D8F] mt-1 flex-shrink-0" />
-                <div className="comic-text text-sm">
-                  <p className="comic-title text-[#2A9D8F]">Google Trends</p>
-                  <p className="text-xs opacity-70">Search Interest Data API</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Code size={18} className="text-[#E63946] mt-1 flex-shrink-0" />
-                <div className="comic-text text-sm">
-                  <p className="comic-title text-[#E63946]">News Archives</p>
-                  <p className="text-xs opacity-70">Historical Context & Events</p>
+
+              <div className="flex items-start gap-3 pt-4 border-t-2 border-dashed border-gray-200">
+                <div className="comic-text text-sm opacity-70">
+                  <p>
+                    <strong>Dataset Overview:</strong> Our analysis covers contests from 2016 to 2023,
+                    including millions of votes, thousands of captions, and detailed image metadata.
+                  </p>
                 </div>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Tech Stack */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="border-4 border-[#1A1A1A] bg-white p-6 mb-8"
-          style={{ boxShadow: '5px 5px 0 #1A1A1A' }}
-        >
-          <div className="inline-block mb-4 px-4 py-2 bg-[#2A9D8F] border-3 border-[#1A1A1A]">
-            <h2 className="comic-title text-sm text-[#FDFDF8]">Built With</h2>
-          </div>
-
-          <div className="grid grid-cols-3 gap-6 comic-text text-sm">
-            <div>
-              <p className="comic-title text-xs mb-2 text-[#457B9D]">Analysis</p>
-              <ul className="space-y-1 text-xs">
-                <li>• Python 3.9+</li>
-                <li>• Pandas & NumPy</li>
-                <li>• Scikit-learn</li>
-                <li>• NLTK</li>
-              </ul>
-            </div>
-            <div>
-              <p className="comic-title text-xs mb-2 text-[#F4A261]">Visualization</p>
-              <ul className="space-y-1 text-xs">
-                <li>• React & TypeScript</li>
-                <li>• Recharts</li>
-                <li>• Motion</li>
-                <li>• Tailwind CSS</li>
-              </ul>
-            </div>
-            <div>
-              <p className="comic-title text-xs mb-2 text-[#2A9D8F]">Tools</p>
-              <ul className="space-y-1 text-xs">
-                <li>• Jupyter Notebooks</li>
-                <li>• Git & GitHub</li>
-                <li>• Figma</li>
-                <li>• VS Code</li>
-              </ul>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Special Thanks */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="border-4 border-[#1A1A1A] bg-[#FFF9E6] p-6 mb-8"
-          style={{ boxShadow: '5px 5px 0 #1A1A1A' }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <Heart size={24} className="text-[#E63946]" fill="#E63946" />
-            <h2 className="comic-title text-lg text-[#E63946]">Special Thanks</h2>
-          </div>
-          
-          <div className="comic-text text-sm leading-relaxed">
-            <p className="mb-3">
-              To <span className="comic-title text-[#457B9D]">The New Yorker</span> for maintaining 
-              an incredible archive of humor and creativity. To the thousands of contest participants 
-              who make us laugh every week.
-            </p>
-            <p>
-              To the open-source community for the amazing tools that made this project possible. 
-              And to everyone who appreciates the power of humor to help us understand our world.
-            </p>
-          </div>
-        </motion.div>
 
         {/* Contact & Social */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="text-center"
+          className="text-center mt-12 mb-8"
         >
-          <p className="comic-text text-sm mb-4">
-            Questions? Feedback? Get in touch!
-          </p>
-          <div className="flex justify-center gap-4">
-            <motion.button 
-              whileHover={{ scale: 1.15, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 bg-[#E63946] text-[#FDFDF8] rounded-full flex items-center justify-center border-4 border-[#1A1A1A]"
-              style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
-            >
-              <Mail size={24} />
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.15, rotate: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 bg-[#457B9D] text-[#FDFDF8] rounded-full flex items-center justify-center border-4 border-[#1A1A1A]"
-              style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
-            >
-              <Github size={24} />
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.15, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 bg-[#2A9D8F] text-[#FDFDF8] rounded-full flex items-center justify-center border-4 border-[#1A1A1A]"
-              style={{ boxShadow: '4px 4px 0 #1A1A1A' }}
-            >
-              <Linkedin size={24} />
-            </motion.button>
+          <div className="inline-block p-4 bg-[#FFF9E6] border-2 border-[#1A1A1A] rounded-lg transform rotate-[-1deg]">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Heart className="text-[#E63946]" fill="#E63946" size={20} />
+              <span className="comic-title text-[#1A1A1A]">Thanks for reading!</span>
+            </div>
+            <p className="handwritten text-sm text-[#8B4513]">
+              "Humor is mankind's greatest blessing." — Mark Twain
+            </p>
           </div>
         </motion.div>
 
@@ -218,11 +185,10 @@ export function CreditsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="mt-8 p-4 bg-white border-2 border-[#1A1A1A] border-dashed rounded"
+          className="mt-8 p-4 bg-white border-2 border-[#1A1A1A] border-dashed rounded text-center"
         >
-          <p className="handwritten text-xs text-[#8B4513] text-center leading-relaxed">
-            Chronicle of Humor: The New Yorker Cartoon Caption Contest Analysis (2016-2023). 
-            Interactive Data Visualization Project. © 2024
+          <p className="handwritten text-xs text-[#8B4513] leading-relaxed">
+            Data Dinosaur Team © 2025. EPFL Applied Data Analysis Project.
           </p>
         </motion.div>
       </div>
