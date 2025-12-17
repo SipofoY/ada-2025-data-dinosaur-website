@@ -110,27 +110,55 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   ];
 
   const contest_steps = [
-  {
-    title: 'Round 1: Submit',
-    text: 'Every week the readers can enter a caption of 250 characters or less for a new cartoon either on the  <a href="https://www.newyorker.com/cartoons/contest"> webpage </a> or on Instagram (@newyorkermag) using the hashtag #MyNewYorkerCaption.',
-    color: '#E63946'
-  },
-  {
-    title: 'Round 2: Rate',
-    text: 'Decide if the captions from the previous week are unfunny, somewhat funny or funny to help narrow down the finalists.',
-    color: '#F4A261'
-  },
-  {
-    title: 'Round 3: Vote',
-    text: 'The three finalists are selected from each Contest by a member or members of the editorial staff of The New Yorker. Select the winning caption by voting on three finalists from the week prior. ',
-    color: '#457B9D'
-  },
-  {
-    title: 'Round 3: Winner',
-    text: 'The winner is shown the week after. The winner of each Contest will be the person whose caption received the greatest number of valid votes (“Votes”) from the public and who satisfies all of the rules (“Qualified Winner”). <a href="https://www.newyorker.com/about/caption-contest-rules"> [rules] </a>',
-    color: '#2A9D8F'
-  }
-];
+    {
+      title: 'Round 1: Submit',
+      text: (
+        <>
+          Every week the readers can enter a caption of 250 characters or less for a new cartoon either on the{' '}
+          <a
+            href="https://www.newyorker.com/cartoons/contest"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold hover:opacity-70"
+            style={{ color: 'inherit' }}
+          >
+            webpage
+          </a>{' '}
+          or on Instagram (@newyorkermag) using the hashtag #MyNewYorkerCaption.
+        </>
+      ),
+      color: '#E63946'
+    },
+    {
+      title: 'Round 2: Rate',
+      text: 'Decide if the captions from the previous week are unfunny, somewhat funny or funny to help narrow down the finalists.',
+      color: '#F4A261'
+    },
+    {
+      title: 'Round 3: Vote',
+      text: 'The three finalists are selected from each Contest by a member or members of the editorial staff of The New Yorker. Select the winning caption by voting on three finalists from the week prior. ',
+      color: '#457B9D'
+    },
+    {
+      title: 'Round 3: Winner',
+      text: (
+        <>
+          The winner is shown the week after. The winner of each Contest will be the person whose caption received the greatest number of valid votes (“Votes”) from the public and who
+          satisfies all of the rules (“Qualified Winner”).{' '}
+          <a
+            href="https://www.newyorker.com/about/caption-contest-rules"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold hover:opacity-70"
+            style={{ color: 'inherit' }}
+          >
+            [rules]
+          </a>
+        </>
+      ),
+      color: '#2A9D8F'
+    }
+  ];
 
 
   // Data for gender representation overall
@@ -167,7 +195,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
         </Starburst>
       </div>
 
-      
+
 
       {/* Two Column Layout with Separator */}
       <div className="flex flex-row gap-0 flex-1 relative">
@@ -180,8 +208,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
           <div className="border-4 border-[#1A1A1A] p-4 bg-white mb-4" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
             <div className="space-y-3 comic-text text-xs leading-relaxed">
               <p>
-                The New Yorker Cartoon-caption contest started in 1998 as an annual event. In 2005 it was then changed into a weekly event. 
-                 <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[source] </a> 
+                The New Yorker Cartoon-caption contest started in 1998 as an annual event. In 2005 it was then changed into a weekly event.
+                <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[source] </a>
               </p>
               <p>
                 Participants are invited to submit their own humorous captions for a selected cartoon published in The New Yorker magazine.
@@ -189,37 +217,37 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               <p>
                 Anyone aged 13 or older can enter, with one entry allowed per person, email address, or Instagram account. Employees,
                 affiliates, or family members connected to the contest’s organizers are not eligible to participate.
-              </p>                
-              
+              </p>
+
               <div className="space-y-3 mb-4">
-                  {contest_steps.map((contest_steps, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="border-4 border-[#1A1A1A] p-3 bg-white"
-                      style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
-                    >
-                      <div className="flex items-start gap-2">
-                        <div
-                          className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
-                          style={{ backgroundColor: contest_steps.color }}
-                        />
-                        <div>
-                          <h4 className="comic-title text-xs mb-1" style={{ color: contest_steps.color }}>
-                            {contest_steps.title}
-                          </h4>
-                          <p className="comic-text text-[10px] opacity-80">
-                            {contest_steps.text}
-                          </p>
-                        </div>
+                {contest_steps.map((contest_steps, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="border-4 border-[#1A1A1A] p-3 bg-white"
+                    style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
+                  >
+                    <div className="flex items-start gap-2">
+                      <div
+                        className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
+                        style={{ backgroundColor: contest_steps.color }}
+                      />
+                      <div>
+                        <h4 className="comic-title text-xs mb-1" style={{ color: contest_steps.color }}>
+                          {contest_steps.title}
+                        </h4>
+                        <p className="comic-text text-[10px] opacity-80">
+                          {contest_steps.text}
+                        </p>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-              
-              
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+
             </div>
           </div>
 
@@ -337,93 +365,53 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
             ))}
           </div>
 
-          {/* Credits */}
-          <div className="border-4 border-[#1A1A1A] p-4 bg-white" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
-            <div className="inline-block mb-3 px-3 py-1 bg-[#F4A261] border-2 border-[#1A1A1A]">
-              <h3 className="comic-title text-xs text-[#FDFDF8]">Credits</h3>
-            </div>
 
-            <div className="space-y-2 text-[10px] comic-text">
-              <p>📚 The New Yorker Contest Archive</p>
-              <p>📈 Google Trends API</p>
-              <p>🗞️ Historical Event Databases</p>
-            </div>
-
-            <div className="mt-4 pt-3 border-t-2 border-[#1A1A1A] border-dashed">
-              <p className="text-[10px] comic-text mb-3">
-                Independent research, not affiliated with The New Yorker
-              </p>
-              <div className="flex gap-2">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#E63946] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Mail size={14} />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#457B9D] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Github size={14} />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="w-8 h-8 bg-[#2A9D8F] text-[#FDFDF8] rounded-full flex items-center justify-center border-2 border-[#1A1A1A]"
-                  style={{ boxShadow: '2px 2px 0 #1A1A1A' }}
-                >
-                  <Linkedin size={14} />
-                </motion.button>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
-      <section>
+        <section>
 
-        <ComicBox title="Gender mentions distribution overall">
-          <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-            This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
-          </p>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-              <YAxis hide />
-              <Tooltip
-                contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                cursor={{ fill: '#f0f0f0' }}
-              />
-              <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-              <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-          <AnalysisText>
-            Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
-          </AnalysisText>
-        </ComicBox>
-        <ComicBox title="Number of Captions" className="mb-8">
-          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-          Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
-          </p>
-          <ResponsiveContainer width="100%" height={350}>
-            <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-              <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-              <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
-              <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-              <Line type="bump" dataKey="num_captions" stroke="#264653" dot={false} strokeWidth={3} name="number of caption" />
-            </LineChart>
-          </ResponsiveContainer>
-          <AnalysisText>
-            blub blub
-          </AnalysisText>
+          <ComicBox title="Gender mentions distribution overall">
+            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
+              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
+                <YAxis hide />
+                <Tooltip
+                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
+                  cursor={{ fill: '#f0f0f0' }}
+                />
+                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
+                <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <AnalysisText>
+              Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
+            </AnalysisText>
+          </ComicBox>
+          <ComicBox title="Number of Captions" className="mb-8">
+            <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+            </p>
+            <ResponsiveContainer width="100%" height={350}>
+              <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
+                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                <Line type="bump" dataKey="num_captions" stroke="#264653" dot={false} strokeWidth={3} name="number of caption" />
+              </LineChart>
+            </ResponsiveContainer>
+            <AnalysisText>
+              blub blub
+            </AnalysisText>
           </ComicBox>
           <ComicBox title="Number of Votes" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <ResponsiveContainer width="100%" height={350}>
               <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -444,7 +432,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
           <ComicBox title="Places" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <div style={{ width: '100%', height: 250 }}>
               <ResponsiveContainer>
@@ -476,7 +464,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
           <ComicBox title="Image description" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <div style={{ width: '100%', height: 300 }}>
               <ResponsiveContainer>
@@ -505,8 +493,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               blub blub
             </AnalysisText>
           </ComicBox>
-        
-      </section>
+
+        </section>
       </div>
     </div>
   );
