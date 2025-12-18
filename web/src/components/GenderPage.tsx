@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
 import { Starburst } from './ComicElements';
@@ -12,6 +12,8 @@ import trump_timeline from '@/data/gender_data/trump.json';
 import humor_labels from '@/data/gender_data/gender_humor_labels.json';
 import gender_sentiment from '@/data/gender_data/gender_sentiment.json';
 import gender_eventgroupe from '@/data/gender_data/event_groups.json';
+import trends_focusgroup from '@/data/gender_data/google_trends_focus_groups_timeseries.json';
+import trends_zscore from '@/data/gender_data/google_trends_zscored_focus_groups.json';
 type SectionData = typeof gender_timeline;
 
 
@@ -43,6 +45,7 @@ const SectionHeader = ({ title, subtitle }: { title: string, subtitle: string })
     </div>
   </div>
 );
+
 
 
 export function GenderPage() {
@@ -384,6 +387,43 @@ export function GenderPage() {
                 </ResponsiveContainer>
                 <AnalysisText>
                   The woman captions are more neutral than the man captions, while the man captions, are more pronounced by negative and even more by positive sentiments. This shows that captions containing man word groups are <strong>more controversial</strong>.
+                </AnalysisText>
+
+                
+              </ComicBox>                
+              <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+                  <strong>It is also interesting to compare the gender based analysis on the Google Trends: 
+                  </strong>The following plots compare language used in our caption dataset with public attention measured by Google Trends. First, we aggregate unigram counts across multiple caption-derived CSV files (descriptions, locations, uncanny descriptions, and questions) to estimate how often each token appears in the dataset. We then align these tokens with Google Trends data (2016–2023, US) to study both overall popularity and temporal dynamics.
+                </p>
+              <ComicBox title="Google Trends Focus Groups Over Time">
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={trends_focusgroup} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'interest (0-100)', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="women" stroke="#E76F51" dot={false} strokeWidth={3} />
+                    <Line type="monotone" dataKey="men" stroke="#F4A261" dot={false} strokeWidth={3} />
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  This graph shows the Google Trends time series for selected “focus group” tokens (here: man/men and woman/women). It visualizes how public interest in these terms evolves over time and provides a direct comparison of their relative attention across months.
+                </AnalysisText>
+              </ComicBox>
+              <ComicBox title="Google Trends Focus Groups Z-Score Over Time">
+
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={trends_zscore} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} label={{ value: 'z-score', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+                    <Line type="monotone" dataKey="women" stroke="#264653" dot={false} strokeWidth={3} />
+                    <Line type="monotone" dataKey="men" stroke="#2A9D8F" dot={false} strokeWidth={3} />
+                  </LineChart>
+                </ResponsiveContainer>
+                <AnalysisText>
+                  This graph compares the shape of the two focus-group Trends time series after z-scoring each one independently (so we compare deviations from each term’s own baseline). This highlights whether the two terms rise and fall together over time, reported via Pearson and Kendall tau correlations.
                 </AnalysisText>
               </ComicBox>
             </section>

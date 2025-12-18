@@ -112,27 +112,80 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   ];
 
   const contest_steps = [
-  {
-    title: 'Round 1: Submit',
-    text: 'Every week the readers can enter a caption of 250 characters or less for a new cartoon either on the  <a href="https://www.newyorker.com/cartoons/contest"> webpage </a> or on Instagram (@newyorkermag) using the hashtag #MyNewYorkerCaption.',
-    color: '#E63946'
-  },
-  {
-    title: 'Round 2: Rate',
-    text: 'Decide if the captions from the previous week are unfunny, somewhat funny or funny to help narrow down the finalists.',
-    color: '#F4A261'
-  },
-  {
-    title: 'Round 3: Vote',
-    text: 'The three finalists are selected from each Contest by a member or members of the editorial staff of The New Yorker. Select the winning caption by voting on three finalists from the week prior. ',
-    color: '#457B9D'
-  },
-  {
-    title: 'Round 3: Winner',
-    text: 'The winner is shown the week after. The winner of each Contest will be the person whose caption received the greatest number of valid votes (“Votes”) from the public and who satisfies all of the rules (“Qualified Winner”). <a href="https://www.newyorker.com/about/caption-contest-rules"> [rules] </a>',
-    color: '#2A9D8F'
-  }
-];
+    {
+      title: 'Round 1: Submit',
+      text: (
+        <>
+          Every week the readers can enter a caption of 250 characters or less for a new cartoon either on the{' '}
+          <a
+            href="https://www.newyorker.com/cartoons/contest"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold hover:opacity-70"
+            style={{ color: 'inherit' }}
+          >
+            webpage
+          </a>{' '}
+          or on Instagram (@newyorkermag) using the hashtag #MyNewYorkerCaption.
+        </>
+      ),
+      color: '#E63946'
+    },
+    {
+      title: 'Round 2: Rate',
+      text: 'Decide if the captions from the previous week are unfunny, somewhat funny or funny to help narrow down the finalists.',
+      color: '#F4A261'
+    },
+    {
+      title: 'Round 3: Vote',
+      text: 'The three finalists are selected from each Contest by a member or members of the editorial staff of The New Yorker. Select the winning caption by voting on three finalists from the week prior. ',
+      color: '#457B9D'
+    },
+    {
+      title: 'Round 3: Winner',
+      text: (
+        <>
+          The winner is shown the week after. The winner of each Contest will be the person whose caption received the greatest number of valid votes (“Votes”) from the public and who
+          satisfies all of the rules (“Qualified Winner”).{' '}
+          <a
+            href="https://www.newyorker.com/about/caption-contest-rules"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold hover:opacity-70"
+            style={{ color: 'inherit' }}
+          >
+            [rules]
+          </a>
+        </>
+      ),
+      color: '#2A9D8F'
+    }
+  ];
+
+
+  // Data for gender representation overall
+  const general_genderdata = [
+    {
+      name: `women`,
+      uv: 33893,
+      color: '#457B9D',
+    },
+    {
+      name: `men`,
+      uv: 167583,
+      color: '#F4A261',
+    },
+    {
+      name: `dino`,
+      uv: 1952,
+      color: '#2A9D8F',
+    },
+    {
+      name: `witch`,
+      uv: 3232,
+      color: '#E76F51',
+    }
+  ];
 
 
   return (
@@ -144,7 +197,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
         </Starburst>
       </div>
 
-      
+
 
       {/* Two Column Layout with Separator */}
       <div className="flex flex-row gap-0 flex-1 relative">
@@ -157,8 +210,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
           <div className="border-4 border-[#1A1A1A] p-4 bg-white mb-4" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
             <div className="space-y-3 comic-text text-xs leading-relaxed">
               <p>
-                The New Yorker Cartoon-caption contest started in 1998 as an annual event. In 2005 it was then changed into a weekly event. 
-                 <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[source] </a> 
+                The New Yorker Cartoon-caption contest started in 1998 as an annual event. In 2005 it was then changed into a weekly event.
+                <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[source] </a>
               </p>
               <p>
                 Participants are invited to submit their own humorous captions for a selected cartoon published in The New Yorker magazine.
@@ -166,37 +219,37 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               <p>
                 Anyone aged 13 or older can enter, with one entry allowed per person, email address, or Instagram account. Employees,
                 affiliates, or family members connected to the contest’s organizers are not eligible to participate.
-              </p>                
-              
+              </p>
+
               <div className="space-y-3 mb-4">
-                  {contest_steps.map((contest_steps, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="border-4 border-[#1A1A1A] p-3 bg-white"
-                      style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
-                    >
-                      <div className="flex items-start gap-2">
-                        <div
-                          className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
-                          style={{ backgroundColor: contest_steps.color }}
-                        />
-                        <div>
-                          <h4 className="comic-title text-xs mb-1" style={{ color: contest_steps.color }}>
-                            {contest_steps.title}
-                          </h4>
-                          <p className="comic-text text-[10px] opacity-80">
-                            {contest_steps.text}
-                          </p>
-                        </div>
+                {contest_steps.map((contest_steps, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="border-4 border-[#1A1A1A] p-3 bg-white"
+                    style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
+                  >
+                    <div className="flex items-start gap-2">
+                      <div
+                        className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
+                        style={{ backgroundColor: contest_steps.color }}
+                      />
+                      <div>
+                        <h4 className="comic-title text-xs mb-1" style={{ color: contest_steps.color }}>
+                          {contest_steps.title}
+                        </h4>
+                        <p className="comic-text text-[10px] opacity-80">
+                          {contest_steps.text}
+                        </p>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-              
-              
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+
             </div>
           </div>
 
@@ -336,7 +389,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
           </ComicBox>
           <ComicBox title="Number of Votes" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <ResponsiveContainer width="100%" height={350}>
               <AreaChart data={summary_votes} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -383,7 +436,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
           <ComicBox title="Places" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <div style={{ width: '100%', height: 250 }}>
               <ResponsiveContainer>
@@ -415,7 +468,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
           <ComicBox title="Image description" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
             </p>
             <div style={{ width: '100%', height: 300 }}>
               <ResponsiveContainer>
