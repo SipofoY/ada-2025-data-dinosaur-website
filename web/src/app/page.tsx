@@ -4,7 +4,7 @@
 import { Book } from '@/components/Book';
 import { BookCover } from '@/components/BookCover';
 import { AboutBook } from '@/components/AboutBook';
-import { StoryPage } from '@/components/StoryPage';
+
 import TimelineBook from '@/components/TimelineBook';
 
 import { GenderPage } from '@/components/GenderPage';
@@ -17,7 +17,7 @@ export default function HomePage() {
   const pages = [
     <BookCover key="cover" />,
     <AboutBook key="about-book" />,
-    <StoryPage key="story" />,
+
     // 👇 THIS is the test timeline page
     <TimelineBook key="timeline-book" />,
 
@@ -29,7 +29,8 @@ export default function HomePage() {
   const titles = [
     'Cover',
     'The Story & Dataset',
-    'Story & Context',
+
+
     'Timeline',
 
     'Gender Analysis',
