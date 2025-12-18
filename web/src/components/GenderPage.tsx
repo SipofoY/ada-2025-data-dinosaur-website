@@ -180,7 +180,7 @@ export function GenderPage() {
             Read together, these patterns suggest that men are more often portrayed as independent individuals,
             while women are more frequently defined by their relationships to others. 
             This subtle difference in language paints a striking picture of how gendered expectations seep into even
-            the most light-hearded captions.
+            the most light-hearted captions.
           </p>
         </ComicBox>
 
@@ -191,7 +191,7 @@ export function GenderPage() {
             Additionally, the frequency of appearance of <strong>dino</strong> and <strong>witch</strong> are shown as well. 
             Indeed, when taking a broad look at the cartoons, there seems to be more dinos and witches alone than images featuring
             a woman alone, which raises questions about whose identities are treated as default or central. With this analysis, 
-            the goal here is to use the caption data to uncover subtle pattern of social inequalities.
+            the goal here is to use the caption data to uncover a subtle pattern of social inequalities.
           </p>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
@@ -212,9 +212,10 @@ export function GenderPage() {
           <AnalysisText>
             <p className="mb-4">
               As visible in the bar chart, the imbalance in mentions of men and women are shocking.
-              At a first glance, men is shown to be mentioned "only" twice as often as women, but looking 
+              At a first glance, men are shown to be mentioned "only" twice as often as women, but looking 
               deeper into the raw numbers, there is a difference of almost <strong>30.000</strong> between 
               both counts.
+
             </p>
 
             <p>
@@ -303,7 +304,7 @@ export function GenderPage() {
               </p>
               <p>
                 Over the years, each peak and valley in this plot corresponds to a caption contest, showing how 
-                often male‑coded and female‑coded terms appear in that round. The timeline lets us step back and 
+                often, male‑coded and female‑coded terms appear in that round. The timeline lets us step back and 
                 see whether the gap between mentions of men and women is shrinking, widening, or simply staying put. 
                 Instead of relying on a single snapshot, we can now watch gendered language play out across several 
                 years of contests, almost like a heartbeat of who gets talked about.
@@ -329,9 +330,9 @@ export function GenderPage() {
               <AnalysisText>
                 This graph shows that there is no variation happening. The inequality doesn't seem to change, and the moving averages for male‑coded 
                 terms sit above those for female‑coded terms almost all along the timeline, suggesting that this is not an early‑years quirk but 
-                a persistent habit of writing.. What is even more striking to see is that the number of women's mentions overpasses the men's mentions 
-                only a dozen of times… which underlines how rarely women are placed at the center of these jokes
-              </AnalysisText>
+                a persistent habit of writing. What is even more striking to see is that the number of women's mentions overpasses the men's mentions 
+                only a dozen of times… which underlines how rarely women are placed at the center of these jokes.
+            </AnalysisText>
             </ComicBox>
           )}
 
@@ -341,8 +342,8 @@ export function GenderPage() {
               <ComicBox title="Eventgroup by Gender">
                 <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
                   During the caption contest, different topics were analysed on its development over time. There are <strong>covid-pandemic</strong>, several <strong>wars</strong>, the presidency of Donald <strong>Trump</strong> and <strong>climate change</strong>. 
-                  Each subject has its own mood, so the question is: does the topic change who gets mentioned more often ? Let's see!
-                  </p>
+                  Each subject has its own mood, so the question is: does the topic change, who gets mentioned more often ? Let's see!
+                </p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={gender_eventgroupe} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
@@ -398,9 +399,10 @@ export function GenderPage() {
               {selectedEvent === 'climate' && (
                 <ComicBox title={<h3 className="comic-title text-xs font-bold" style={{ color: '#2A9D8F' }}>Climate change</h3>} className="mb-8">
                   <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                    The public perception around the climate crisishas shifted a lot between 2016 and 2023, especially since the rise of <strong>Fridays for Future</strong> and
+                    The public perception around the climate crisis has shifted a lot between 2016 and 2023, especially since the rise of <strong>Fridays for Future</strong> and
                      Greta Thunberg’s activism in 2018. It is easy to imagine that this wave of climate awareness might also show up in a playful space like the 
                      caption contest: more climate jokes, more climate metaphors, more references to the crisis itself.
+        
                   </p>
                   <ResponsiveContainer width="100%" height={350}>
                     <LineChart data={climat_timeline} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -456,7 +458,7 @@ export function GenderPage() {
               {selectedEvent === 'war' && (
                 <ComicBox title={<h3 className="comic-title text-xs font-bold" style={{ color: '#8D5B4C' }}>War</h3>} className="mb-8">
                   <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                    Wars are often portrayed as deeply patriarchal spaces. This timeline asks whether that shows up in the 
+                    Wars are deeply patriarchal spaces. This timeline asks whether that shows up in the 
                     caption contest too: when the topic leans toward war, do we see a gender gap in who gets mentioned?
                   </p>
                   <ResponsiveContainer width="100%" height={350}>
@@ -535,11 +537,11 @@ export function GenderPage() {
                       A massive surge in mentions is visible from 2016 to 2018 with a peak in early 2017, corresponding to <strong>Trump's 
                         presidential campaign</strong> and early presidency. Media and public attention were <strong>extremely high</strong> during 
                         this time. Then, after mid-2017, the mentions' frequency shows a downward trend. This likely reflects a normalization effect, 
-                        where Trump remained relevant but no longer dominated headlines as much as during the election and early administration. 
+                        where Trump remained relevant, but no longer dominated headlines as much as during the election and early administration. 
                         Around 2019-2020, moderate peaks appear, which are possibly tied to the 2020 election and a <strong>major political event</strong>. 
                         Following his departure from office, the mentions drop, even if he still appears occasionally. Finally, Trump's mentions increase 
                         again mid-2023, where Trump <strong>announced his run for presidency</strong> again.
-                    </AnalysisText>
+                  </AnalysisText>
                   </ComicBox>
                 </ComicBox>
               )}
@@ -739,7 +741,7 @@ export function GenderPage() {
                   </LineChart>
                 </ResponsiveContainer>
                 <AnalysisText>
-                  This graph shows the Google Trends time series for selected “focus group” tokens (here: mmen and women). 
+                  This graph shows the Google Trends time series for selected “focus group” tokens (here: men and women). 
                   It visualizes how public interest in these terms evolves over time and provides a direct comparison of their relative 
                   attention across months.
                 </AnalysisText>
@@ -778,7 +780,7 @@ export function GenderPage() {
           <AnalysisText>
             <p className="mb-4">
               Across the caption corpus, the gender picture is one of quiet but persistent imbalance. 
-              <strong>Male‑coded word groups are mentioned far more often than female‑coded ones </strong>, and this gap 
+              <strong> Male‑coded word groups are mentioned far more often than female‑coded ones </strong>, and this gap 
               barely shrinks when the data are unfolded over time or split by topic (covid, war, Trump, climate). 
               Occasional moments where women “win” a contest or a topic looks more balanced are rare and short‑lived 
               compared with the long baseline where men dominate the foreground.
