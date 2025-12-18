@@ -223,7 +223,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
 
           </div>
-
+          <ComicBox title="Cartoons" className="mb-4">
           <div
             className="mb-4"
             style={{
@@ -237,12 +237,12 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               justifyContent: 'center'
             }}
           >
+          
+
+
             {/* Aligned Container for Everything */}
             <div style={{ width: '440px', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-              <div className="inline-block mb-2 px-4 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
-                <h2 className="comic-title text-sm text-[#FDFDF8]">Cartoons</h2>
-              </div>
               <p className="comic-text text-sm mb-6 text-center w-full" style={{ fontWeight: 'bold', fontStyle: 'italic' }}>#{currentId}</p>
 
               {/* Caption Display */}
@@ -298,7 +298,9 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 </button>
               </div>
             </div>
+          
           </div>
+          </ComicBox>
         </div>
 
         <ComicBox title="The dataset" className="mb-8">
@@ -506,7 +508,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                   }}
                 >
                   <img
-                    src={`/data/images/sample${i}.jpg`}
+                    src={`${basePath}/data/images/${i}.jpg`}
                     alt={`Cartoon ${i}`}
                     style={{
                       width: '100%',
