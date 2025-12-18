@@ -224,96 +224,96 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
           </div>
           <ComicBox title="Cartoons" className="mb-4">
-          <div
-            className="mb-4"
-            style={{
-              backgroundColor: 'transparent',
-              paddingTop: '2rem',
-              paddingBottom: '3rem',
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-          
+            <div
+              className="mb-4"
+              style={{
+                backgroundColor: 'transparent',
+                paddingTop: '2rem',
+                paddingBottom: '3rem',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
 
 
-            {/* Aligned Container for Everything */}
-            <div style={{ width: '440px', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-              <p className="comic-text text-sm mb-6 text-center w-full" style={{ fontWeight: 'bold', fontStyle: 'italic' }}>#{currentId}</p>
+              {/* Aligned Container for Everything */}
+              <div style={{ width: '440px', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-              {/* Caption Display */}
-              <div className="min-h-[3rem] mb-4 flex items-end justify-center px-4">
-                <p className="comic-text text-lg text-center font-bold leading-tight w-full">
-                  {currentCaption && `"${currentCaption}"`}
-                </p>
-              </div>
+                <p className="comic-text text-sm mb-6 text-center w-full" style={{ fontWeight: 'bold', fontStyle: 'italic' }}>#{currentId}</p>
 
-              {/* The Square - Now Displaying Images */}
-              <div
-                style={{
-                  width: '100%',
-                  height: '350px',
-                  border: '6px solid #000000ff',
-                  backgroundColor: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '4px 4px 0 #1A1A1A'
-                }}
-              >
-                <img
-                  src={`${basePath}/data/images/${currentId}.jpg`}
-                  alt={`New Yorker Cartoon ${currentId}`}
+                {/* Caption Display */}
+                <div className="min-h-[3rem] mb-4 flex items-end justify-center px-4">
+                  <p className="comic-text text-lg text-center font-bold leading-tight w-full">
+                    {currentCaption && `"${currentCaption}"`}
+                  </p>
+                </div>
+
+                {/* The Square - Now Displaying Images */}
+                <div
                   style={{
-                    width: '50%',
-                    height: '50%',
-                    objectFit: 'contain',
-                    display: 'block'
+                    width: '100%',
+                    height: '350px',
+                    border: '6px solid #000000ff',
+                    backgroundColor: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    boxShadow: '4px 4px 0 #1A1A1A'
                   }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
+                >
+                  <img
+                    src={`${basePath}/data/images/${currentId}.jpg`}
+                    alt={`New Yorker Cartoon ${currentId}`}
+                    style={{
+                      width: '50%',
+                      height: '50%',
+                      objectFit: 'contain',
+                      display: 'block'
+                    }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+
+                {/* Navigation Buttons */}
+                <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                  <button
+                    onClick={handlePrevImage}
+                    className="interactive-cta bg-white text-[#1A1A1A] hover:opacity-100 transition-opacity"
+                  >
+                    ← Previous
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="interactive-cta bg-[#F4A261] text-white"
+                  >
+                    Next →
+                  </button>
+                </div>
               </div>
 
-              {/* Navigation Buttons */}
-              <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                <button
-                  onClick={handlePrevImage}
-                  className="interactive-cta bg-white text-[#1A1A1A] hover:opacity-100 transition-opacity"
-                >
-                  ← Previous
-                </button>
-                <button
-                  onClick={handleNextImage}
-                  className="interactive-cta bg-[#F4A261] text-white"
-                >
-                  Next →
-                </button>
-              </div>
             </div>
-          
-          </div>
           </ComicBox>
         </div>
 
         <ComicBox title="The dataset" className="mb-8">
-        <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-          For each cartoon the data includes an unique contest ID, the image, a description of the image, the image location, an "uncanny" description highlighting why the scene is funny or disturbingly quirky. The dataset also contains engagement stats like the total number of captions submitted and votes received.
-          This data is labeled from 2016-2021 and includes 240 contests. 
-        </p>
-        <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-          For every submitted caption, the dataset includes the unique contest ID, the caption's rank, total votes received, and a breakdown of funny, somewhat funny, and not funny votes. 
-          The caption data is availabe from 2016-2023 and includes 384 contests.        
-        </p>    
+          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+            For each cartoon the data includes an unique contest ID, the image, a description of the image, the image location, an "uncanny" description highlighting why the scene is funny or disturbingly quirky. The dataset also contains engagement stats like the total number of captions submitted and votes received.
+            This data is labeled from 2016-2021 and includes 240 contests.
+          </p>
+          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+            For every submitted caption, the dataset includes the unique contest ID, the caption's rank, total votes received, and a breakdown of funny, somewhat funny, and not funny votes.
+            The caption data is availabe from 2016-2023 and includes 384 contests.
+          </p>
           {findings.map((finding, index) => (
-            <div className="flex items-start gap-2">
+            <div key={index} className="flex items-start gap-2">
               <div
                 className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
                 style={{ backgroundColor: finding.color }}
@@ -327,32 +327,32 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 </p>
               </div>
             </div>
-          ))}   
+          ))}
 
         </ComicBox>
 
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
-      <section>
-        <ComicBox title="Number of Captions" className="mb-8">
-          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-          Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
-          </p>
-          <ResponsiveContainer width="100%" height={350}>
-            <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-              <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-              <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
-              <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-              <Line type="bump" dataKey="num_captions" stroke="#2A9D8F" dot={false} strokeWidth={3} name="number of caption" />
-            </LineChart>
-          </ResponsiveContainer>
+        <section>
+          <ComicBox title="Number of Captions" className="mb-8">
+            <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+            </p>
+            <ResponsiveContainer width="100%" height={350}>
+              <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
+                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+                <Line type="bump" dataKey="num_captions" stroke="#2A9D8F" dot={false} strokeWidth={3} name="number of caption" />
+              </LineChart>
+            </ResponsiveContainer>
 
           </ComicBox>
           <ComicBox title="Number of Votes" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              The New Yorker Cartoon Caption Contest uses an algorithm developed by UW-Madison professor Robert Nowak to rank thousands of submitted captions based on public votes. 
+              The New Yorker Cartoon Caption Contest uses an algorithm developed by UW-Madison professor Robert Nowak to rank thousands of submitted captions based on public votes.
               Voters rate each caption they see as "Funny," "Somewhat funny," or "Unfunny," and the system adaptively shows more promising captions (those with early positive ratings) to additional voters while deprioritizing weaker ones, similar to search engine ranking.
-              The algorithm collects raw ratings without analyzing caption text, relying solely on vote volume and quality for objectivity. 
+              The algorithm collects raw ratings without analyzing caption text, relying solely on vote volume and quality for objectivity.
               Captions often receive more "Unfunny" votes than "Funny" ones because submissions vastly outnumber truly humorous ones, and the system exposes even low performers to many voters for accurate sorting.
               <a href="https://www.wpr.org/science-and-technology/how-uw-madison-professors-algorithm-helps-find-new-yorkers-cartoon-caption">[2] </a>
 
@@ -363,14 +363,14 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                 <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Votes', angle: -90 }} />
                 <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}`, name]} />
-                
+
                 <Area
                   type="monotone"
                   dataKey="total_votes"
                   stroke="#8884d8"
                   fill="#8884d8"
                   fillOpacity={1}
-                  
+
                 />
                 <Area
                   type="monotone"
@@ -396,7 +396,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
-              The most votes where submitted in 2210972, min 16894. 
+              The most votes where submitted in 2210972, min 16894.
             </AnalysisText>
           </ComicBox>
 
@@ -459,10 +459,10 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
             </div>
           </ComicBox>
 
-        <div className="inline-block mb-2 px-3 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
-          <h2 className="comic-title text-xs text-[#FDFDF8]">Cartoons with most captions</h2> {/* text-xs */}
-        </div> 
-        {/* Parent Container - Full width for 3 boxes */}
+          <div className="inline-block mb-2 px-3 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
+            <h2 className="comic-title text-xs text-[#FDFDF8]">Cartoons with most captions</h2> {/* text-xs */}
+          </div>
+          {/* Parent Container - Full width for 3 boxes */}
           <div
             style={{
               display: 'flex',
@@ -475,7 +475,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               flexWrap: 'wrap', // responsive fallback
             }}
           >
-          
+
             {/* Single Box - Reduced size */}
             {[716, 744, 740].map((i) => (
               <div
@@ -517,16 +517,16 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                       display: 'block',
                     }}
                     onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
                   />
                 </div>
               </div>
             ))}
           </div>
 
-        
-      </section>
+
+        </section>
       </div>
     </div>
   );
