@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import frequency_caption from '@/data/introduction/introduction_frequency_captions.json';
 import image_location from '@/data/introduction/top_50_terms_image_locations.json';
 import image_description from '@/data/introduction/top_50_terms_image_descriptions.json';
+import summary_votes from '@/data/introduction/summary_votes.json';
 
 
 interface AboutBookProps {
@@ -60,6 +61,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   };
 
   const [currentCaption, setCurrentCaption] = useState<string>('');
+  const [maxImage] = '514';
 
   React.useEffect(() => {
     const fetchCaption = async () => {
@@ -88,23 +90,23 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
   const findings = [
     {
-      title: 'Pandemic Dominance',
-      text: '26.7% of captions from 2020-2021',
+      title: 'Labeled images',
+      text: '240 from 2016-2021',
       color: '#E63946'
     },
     {
-      title: 'Tech Anxiety Surge',
-      text: '340% growth from 2016 to 2023',
+      title: 'Total Number of Captions',
+      text: '2\'263\'048 captions submitted between 2016-2023',
       color: '#F4A261'
     },
     {
-      title: 'Political Cyclicity',
-      text: '85% correlation with Google Trends',
+      title: 'Total Number of Votes',
+      text: '287\'757\'060 votes between 2016-2023',
       color: '#457B9D'
     },
     {
-      title: 'Climate Persistence',
-      text: 'Steady growth, increasingly urgent',
+      title: 'Average Number of Votes ',
+      text: '749\'367 per Contest',
       color: '#2A9D8F'
     }
   ];
@@ -161,40 +163,9 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
   ];
 
 
-  // Data for gender representation overall
-  const general_genderdata = [
-    {
-      name: `women`,
-      uv: 33893,
-      color: '#457B9D',
-    },
-    {
-      name: `men`,
-      uv: 167583,
-      color: '#F4A261',
-    },
-    {
-      name: `dino`,
-      uv: 1952,
-      color: '#2A9D8F',
-    },
-    {
-      name: `witch`,
-      uv: 3232,
-      color: '#E76F51',
-    }
-  ];
-
-
   return (
     <div className="h-full flex flex-col">
       {/* Page Title */}
-      <div className="text-center mb-6">
-        <Starburst color="#2A9D8F" size={120}>
-          About
-        </Starburst>
-      </div>
-
 
 
       {/* Two Column Layout with Separator */}
@@ -202,14 +173,14 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
         {/* Left Column - Story & Cartoons */}
         <div className="flex-1 pr-8">
           <div className="inline-block mb-4 px-4 py-2 bg-[#457B9D] border-3 border-[#1A1A1A]">
-            <h2 className="comic-title text-sm text-[#FDFDF8]">The Story</h2>
+            <h2 className="comic-title text-sm text-[#FDFDF8]">Introduction</h2>
           </div>
 
           <div className="border-4 border-[#1A1A1A] p-4 bg-white mb-4" style={{ boxShadow: '4px 4px 0 #1A1A1A' }}>
             <div className="space-y-3 comic-text text-xs leading-relaxed">
               <p>
                 The New Yorker Cartoon-caption contest started in 1998 as an annual event. In 2005 it was then changed into a weekly event.
-                <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[source] </a>
+                <a href="https://www.newyorker.com/magazine/2005/05/02/your-caption-here">[1] </a>
               </p>
               <p>
                 Participants are invited to submit their own humorous captions for a selected cartoon published in The New Yorker magazine.
@@ -249,6 +220,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
 
             </div>
+
+
           </div>
 
           <div
@@ -328,111 +301,106 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
           </div>
         </div>
 
-        {/* Central Separator - Robust Implementation */}
-        <div className="w-[1px] border-r-2 border-dashed border-[#1A1A1A] h-auto my-12 opacity-30 mx-6 self-stretch"></div>
+        <ComicBox title="The dataset" className="mb-8">
+        <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+          For each cartoon the data includes an unique contest ID, the image, a description of the image, the image location, an "uncanny" description highlighting why the scene is funny or disturbingly quirky. The dataset also contains engagement stats like the total number of captions submitted and votes received.
+          This data is labeled from 2016-2021 and includes 240 contests. 
+        </p>
+        <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+          For every submitted caption, the dataset includes the unique contest ID, the caption's rank, total votes received, and a breakdown of funny, somewhat funny, and not funny votes. 
+          The caption data is availabe from 2016-2023 and includes 384 contests.        
+        </p>    
+          {findings.map((finding, index) => (
+            <div className="flex items-start gap-2">
+              <div
+                className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
+                style={{ backgroundColor: finding.color }}
+              />
+              <div>
+                <h4 className="comic-title text-xs mb-1" style={{ color: finding.color }}>
+                  {finding.title}
+                </h4>
+                <p className="comic-text text-[10px] opacity-80">
+                  {finding.text}
+                </p>
+              </div>
+            </div>
+          ))}   
 
-        {/* Right Column - Key Findings & Credits */}
-        <div className="flex-1 pl-8">
-          <div className="inline-block mb-4 px-4 py-2 bg-[#E63946] border-3 border-[#1A1A1A]">
-            <h2 className="comic-title text-sm text-[#FDFDF8]">Key Findings</h2>
-          </div>
-
-          <div className="space-y-3 mb-4">
-            {findings.map((finding, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="border-4 border-[#1A1A1A] p-3 bg-white"
-                style={{ boxShadow: '3px 3px 0 #1A1A1A' }}
-              >
-                <div className="flex items-start gap-2">
-                  <div
-                    className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
-                    style={{ backgroundColor: finding.color }}
-                  />
-                  <div>
-                    <h4 className="comic-title text-xs mb-1" style={{ color: finding.color }}>
-                      {finding.title}
-                    </h4>
-                    <p className="comic-text text-[10px] opacity-80">
-                      {finding.text}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-
-        </div>
+        </ComicBox>
 
         {/* --- SECTION 1: GENERAL ANALYSIS Barplot overall --- */}
-        <section>
+      <section>
+        <ComicBox title="Number of Captions" className="mb-8">
+          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+          Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine. 
+          </p>
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+              <XAxis dataKey="date" tick={{ fontSize: 10 }} />
+              <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
+              <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
+              <Line type="bump" dataKey="num_captions" stroke="#2A9D8F" dot={false} strokeWidth={3} name="number of caption" />
+            </LineChart>
+          </ResponsiveContainer>
 
-          <ComicBox title="Gender mentions distribution overall">
-            <p className="text-xs font-mono mb-4 leading-relaxed opacity-80">
-              This chart shows the times each word group for <strong>women</strong> and <strong>men</strong> is mentioned. Additionally, the counts of the word <strong>dino</strong> and <strong>witch</strong> are shown as well. This is due to the fact, that when observing the cartoons, there are more dinos and witches alone on one image than there is a woman alone on an image. With this analysis, social inequalities should be statistically uncovered.
-            </p>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={general_genderdata} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
-                <YAxis hide />
-                <Tooltip
-                  contentStyle={{ border: '2px solid #1A1A1A', fontFamily: 'monospace' }}
-                  cursor={{ fill: '#f0f0f0' }}
-                />
-                <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '20px' }} />
-                <Bar name="mentions" dataKey="uv" fill="#2A9D8F" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              Turns out, the differences in mentions of the word groups man and woman mentions are shocking. There is more than <strong>four times</strong> more man mentioned in the captions. So, even an unpolitical caption contest shows massive difference between the genders. This empathizes once more how social inequalities are strongly enforced in the society.
-            </AnalysisText>
-          </ComicBox>
-          <ComicBox title="Number of Captions" className="mb-8">
-            <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
-            </p>
-            <ResponsiveContainer width="100%" height={350}>
-              <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
-                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                <Line type="bump" dataKey="num_captions" stroke="#264653" dot={false} strokeWidth={3} name="number of caption" />
-              </LineChart>
-            </ResponsiveContainer>
-            <AnalysisText>
-              blub blub
-            </AnalysisText>
           </ComicBox>
           <ComicBox title="Number of Votes" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+              The New Yorker Cartoon Caption Contest uses an algorithm developed by UW-Madison professor Robert Nowak to rank thousands of submitted captions based on public votes. 
+              Voters rate each caption they see as "Funny," "Somewhat funny," or "Unfunny," and the system adaptively shows more promising captions (those with early positive ratings) to additional voters while deprioritizing weaker ones, similar to search engine ranking.
+              The algorithm collects raw ratings without analyzing caption text, relying solely on vote volume and quality for objectivity. 
+              Captions often receive more "Unfunny" votes than "Funny" ones because submissions vastly outnumber truly humorous ones, and the system exposes even low performers to many voters for accurate sorting.
+              <a href="https://www.wpr.org/science-and-technology/how-uw-madison-professors-algorithm-helps-find-new-yorkers-cartoon-caption">[2] </a>
+
             </p>
             <ResponsiveContainer width="100%" height={350}>
-              <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <AreaChart data={summary_votes} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                 <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Captions', angle: -90 }} />
-                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}%`, name]} />
-                <Line type="bump" dataKey="num_captions" stroke="#264653" dot={false} strokeWidth={3} name="number of caption" />
-                <Line type="bump" dataKey="ma_pct_man" stroke="#E63946" dot={false} strokeWidth={3} name="man" />
-                <Line type="bump" dataKey="ma_pct_woman" stroke="#2A9D8F" dot={false} strokeWidth={3} name="woman" />
-                <Line type="bump" dataKey="combined_pct" stroke="#264653" dot={false} strokeWidth={3} name="combined" />
-              </LineChart>
+                <YAxis tick={{ fontSize: 5 }} label={{ value: 'Number of Votes', angle: -90 }} />
+                <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} formatter={(value: any, name: any, item: any) => [`${value}`, name]} />
+                
+                <Area
+                  type="monotone"
+                  dataKey="total_votes"
+                  stroke="#8884d8"
+                  fill="#8884d8"
+                  fillOpacity={1}
+                  
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_not_funny"
+                  stroke="#E63946"
+                  fillOpacity={1}
+                  fill="#E63946"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_somewhat_funny"
+                  stroke="#2A9D8F"
+                  fillOpacity={1}
+                  fill="#2A9D8F"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="total_funny"
+                  stroke="#82ca9d"
+                  fillOpacity={1}
+                  fill="#82ca9d"
+                />
+              </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
-              blub blub
+              The most votes where submitted in 2210972, min 16894. 
             </AnalysisText>
           </ComicBox>
 
           <ComicBox title="Places" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+              There are several rather unsurprising locations that are frequently depicted in the cartoons.
             </p>
             <div style={{ width: '100%', height: 250 }}>
               <ResponsiveContainer>
@@ -457,14 +425,12 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <AnalysisText>
-              blub blub
-            </AnalysisText>
+
           </ComicBox>
 
           <ComicBox title="Image description" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+              In most cartoons people are depicted. They do rather boring things like standing, sitting or talking which is then often contrasted with an absurd situation.
             </p>
             <div style={{ width: '100%', height: 300 }}>
               <ResponsiveContainer>
@@ -489,12 +455,77 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <AnalysisText>
-              blub blub
-            </AnalysisText>
           </ComicBox>
 
-        </section>
+        <div className="inline-block mb-2 px-3 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
+          <h2 className="comic-title text-xs text-[#FDFDF8]">Cartoons with most captions</h2> {/* text-xs */}
+        </div> 
+        {/* Parent Container - Full width for 3 boxes */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              gap: '16px', // tighter spacing
+              width: '100%',
+              maxWidth: '100vw', // full viewport width
+              padding: '0 10px', // small side padding
+              flexWrap: 'wrap', // responsive fallback
+            }}
+          >
+          
+            {/* Single Box - Reduced size */}
+            {[716, 744, 740].map((i) => (
+              <div
+                key={i}
+                style={{
+                  width: '300px',      // Reduced from 440px
+                  maxWidth: 'calc(33.33vw - 20px)', // Responsive: ~1/3 viewport minus gaps
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+
+                <p className="comic-text text-xs mb-4 text-center w-full" style={{ fontWeight: 'bold', fontStyle: 'italic' }}>
+                  #{i}
+                </p>
+
+                <div
+                  style={{
+                    width: '100%',
+                    height: '280px',     // Reduced from 350px
+                    border: '4px solid #000000ff', // Slightly thinner border
+                    backgroundColor: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    boxShadow: '3px 3px 0 #1A1A1A', // Slightly smaller shadow
+                  }}
+                >
+                  <img
+                    src={`/data/images/sample${i}.jpg`}
+                    alt={`Cartoon ${i}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+        
+      </section>
       </div>
     </div>
   );
