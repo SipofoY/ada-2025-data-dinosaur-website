@@ -271,8 +271,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                   src={`${basePath}/data/images/${currentId}.jpg`}
                   alt={`New Yorker Cartoon ${currentId}`}
                   style={{
-                    width: '100%',
-                    height: '100%',
+                    width: '50%',
+                    height: '50%',
                     objectFit: 'contain',
                     display: 'block'
                   }}
@@ -509,7 +509,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                 >
                   <img
                     src={`${basePath}/data/images/${i}.jpg`}
-                    alt={`Cartoon ${i}`}
+                    alt={`New Yorker Cartoon ${i}`}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -517,9 +517,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                       display: 'block',
                     }}
                     onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      target.style.display = 'none';
-                    }}
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
                   />
                 </div>
               </div>
