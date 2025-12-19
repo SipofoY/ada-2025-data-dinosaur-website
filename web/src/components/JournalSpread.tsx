@@ -129,13 +129,16 @@ function eventSynthesis({
   // --- Event-specific one-liner meaning (keep it conservative) ---
   const meaningByEvent: Record<EventId, string> = {
     covid:
-      "Overall, humor and public attention move together more than in the other events, suggesting captions track (or amplify) public salience during the pandemic period.",
+      "Caption focus and public attention show a consistent month-to-month association in this period, meaning the language in captions tends to rise when search interest rises (and fall when it falls). This does not prove captions cause attention (or the reverse): both can be driven by the same external news cycle. The lag result helps interpret timing: if the best lag is near 0, captions and attention move together; if the best lag is positive, captions may be more reactive; if negative, caption themes may appear earlier. The dominant semantic groups also suggest *how* the topic is framed in humor (e.g., daily-life disruptions vs health anxiety), beyond just whether the topic is present.",
+
     war:
-      "Overall coupling is limited, suggesting caption focus does not consistently track search attention for this topic across months.",
+      "Overall coupling is weak, meaning caption themes and search interest do not reliably rise and fall together across months in this window. That can happen when search spikes are driven by specific breaking-news moments, while caption humor stays more diffuse or shifts into adjacent frames (politics, everyday life, cynicism). If a best lag exists but remains small, it suggests only occasional alignment rather than a stable relationship. In that case, the semantic groups are especially informative because they show which angles dominate caption language even when overall attention-coupling is limited.",
+
     trump:
-      "Coupling exists but remains moderate, suggesting captions reflect political attention without mirroring it perfectly month-to-month.",
+      "There is some alignment between searches and caption mentions, suggesting captions reflect political attention without mirroring it perfectly month-to-month. This can indicate that humor reacts to major peaks (debates, scandals, election moments) but also follows its own meme cycles. The lag analysis can clarify whether the relationship is more synchronous (near 0) or more reactive/anticipatory (best lag away from 0). The dominant semantic groups help interpret whether the humor is framed more as institutions/elections, personalities, or everyday consequences of politics.",
+
     climate:
-      "Overall coupling is minimal, suggesting climate-related caption themes fluctuate relatively independently from search interest in this window.",
+      "Overall association is near zero, meaning climate-related caption themes fluctuate relatively independently from search interest in this window. Search attention can spike for specific external events (storms, fires, policy moments), while caption humor may remain steadier or blend into broader 'environment' framing. If the best lag does not produce a stronger correlation, it suggests timing shifts do not explain the mismatch. In this case, the semantic groups matter most: they reveal what kinds of climate language dominate captions even when the attention curves do not align strongly.",
   };
 
   return (
