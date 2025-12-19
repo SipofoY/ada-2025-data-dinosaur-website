@@ -160,7 +160,7 @@ export function ClustersAnalysis() {
       <section>
         <SectionHeader
           title="The Landscape of Humor"
-          subtitle="An comprehensive overview of the dominant humor types found in the dataset, characterized by machine learning models."
+          subtitle="A comprehensive overview of the dominant humor types found in the dataset, characterized by machine learning models."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

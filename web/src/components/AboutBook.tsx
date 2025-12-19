@@ -105,7 +105,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
       color: '#457B9D'
     },
     {
-      title: 'Average Number of Votes ',
+      title: 'Average Number of Votes',
       text: '749\'367 per Contest',
       color: '#2A9D8F'
     }
@@ -305,12 +305,12 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
         <ComicBox title="The dataset" className="mb-8">
           <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-            For each cartoon the data includes an unique contest ID, the image, a description of the image, the image location, an "uncanny" description highlighting why the scene is funny or disturbingly quirky. The dataset also contains engagement stats like the total number of captions submitted and votes received.
+            For each cartoon, the data includes a unique contest ID, the image, a description of the image, the image location, and an "uncanny" description highlighting why the scene is funny or disturbingly quirky. The dataset also contains engagement stats like the total number of captions submitted and votes received.
             This data is labeled from 2016-2021 and includes 240 contests.
           </p>
           <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
             For every submitted caption, the dataset includes the unique contest ID, the caption's rank, total votes received, and a breakdown of funny, somewhat funny, and not funny votes.
-            The caption data is availabe from 2016-2023 and includes 384 contests.
+            The caption data is available from 2016-2023 and includes 384 contests.
           </p>
           {findings.map((finding, index) => (
             <div key={index} className="flex items-start gap-2">
@@ -335,7 +335,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
         <section>
           <ComicBox title="Number of Captions" className="mb-8">
             <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-              Over time there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the increasing reach of the New Yorker Magazine.
+              Over time, there is a steady increase in the number of captions submitted. This is probably due to the increasing popularity of the contest and the growing reach of The New Yorker Magazine.
             </p>
             <ResponsiveContainer width="100%" height={350}>
               <LineChart data={frequency_caption} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -396,7 +396,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
-              The most votes where submitted in 2210972, min 16894.
+              The maximum number of votes submitted for a cartoon is <strong>2,210,972</strong>. The minimum number is <strong>16,894</strong>.
             </AnalysisText>
           </ComicBox>
 

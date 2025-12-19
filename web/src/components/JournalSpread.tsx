@@ -1012,32 +1012,6 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                   </h3>
                 </div>
 
-                {/* Data provenance note (fig 9 + 10) */}
-                <div className="bg-[#FDFDF8] p-4 rounded-lg border-2 border-[#1A1A1A]">
-                  <h4 className="comic-title text-xs mb-2">About the data used in Figures 9–10</h4>
-                  <p className="comic-text text-[10px] opacity-85 leading-snug">
-                    Figures <b>9</b> (event slice Google Trends) and <b>10</b> (monthly semantic groups) are derived from:
-                    <br />
-                    <b>Our captions (token counts):</b>{" "}
-                    <span className="font-mono">
-                      data/GoogleTrends/frequent_words/image_descriptions__unigrams_nltk.csv,{" "}
-                      image_locations__unigrams_nltk.csv,{" "}
-                      image_uncanny_descriptions__unigrams_nltk.csv,{" "}
-                      questions__unigrams_nltk.csv
-                    </span>
-                    <br />
-                    <b>Google Trends (all tokens, wide + means):</b>{" "}
-                    <span className="font-mono">
-                      data/GoogleTrends/google_trends_ALL_tokens_2016_03_to_2023_09_US.csv,{" "}
-                      data/GoogleTrends/google_trends_means_2016_03_to_2023_09_US.csv
-                    </span>
-                    <br />
-                    (By contrast, the other figures use the per-event Trends files like{" "}
-                    <span className="font-mono">google_trends_us_2016_2023_*.csv</span> and caption datasets loaded via{" "}
-                    <span className="font-mono">get_image_data / get_caption_dataset</span>.)
-                  </p>
-                </div>
-
 
                 <div className="grid md:grid-cols-2 gap-5">
                   {/* 1) Topwords */}
@@ -1085,10 +1059,15 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                     {(() => {
                       const top = maxBy(plots.topwords ?? [], (d: any) => Number(d.count));
                       return (
-                        <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
-                          The most frequent words summarize the dominant caption language. The top word here is{" "}
-                          <span className="comic-title">"{top?.word ?? "—"}"</span>.
-                        </p>
+                        <>
+                          <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
+                            The most frequent words summarize the dominant caption language. The top word here is{" "}
+                            <span className="comic-title">"{top?.word ?? "—"}"</span>.
+                          </p>
+                          <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                            <b>Data source:</b> Word frequencies extracted from cartoon captions related to this event, analyzing the most commonly used terms in image descriptions, locations, uncanny descriptions, and caption questions.
+                          </p>
+                        </>
                       );
                     })()}
                   </div>
@@ -1133,6 +1112,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                     </ResponsiveContainer>
                     <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
                       Time series of Google search interest in the United States from 2016 to 2023, showing fluctuations in public attention over time.
+                    </p>
+                    <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                      <b>Data source:</b> Monthly Google search interest data for US queries related to this event (scale 0–100), covering the period from 2016 to 2023.
                     </p>
                   </div>
 
@@ -1203,6 +1185,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                       </span>
                       .
                     </p>
+                    <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                      <b>Data source:</b> Normalized Google search interest data, standardized to show statistical deviations from the long-term baseline, making it easier to identify unusual spikes in public attention.
+                    </p>
                   </div>
 
                   {/* 4) Trends vs captions (raw union) */}
@@ -1268,6 +1253,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                       <span className="comic-title"> Spearman {corr.spearman.toFixed(3)}</span>,
                       <span className="comic-title"> Kendall τ {corr.kendall.toFixed(3)}</span>.{" "}
                       {corrSentence(corr.pearson)}
+                    </p>
+                    <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                      <b>Data sources:</b> Monthly Google search interest for event-related queries, paired with the frequency of event mentions in New Yorker cartoon captions, aligned by month for direct comparison.
                     </p>
 
                   </div>
@@ -1366,6 +1354,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                         );
                       })()}
                     </p>
+                    <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                      <b>Data sources:</b> Standardized (z-scored) Google search interest and caption mention frequencies, both normalized to show statistical deviations from their respective baselines for comparable analysis.
+                    </p>
 
 
                   </div>
@@ -1462,6 +1453,10 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
 
                             {/* 🔵 General explanation */}
                             {lagExplanation}
+                            
+                            <p className="comic-text text-[9px] mt-3 opacity-60 leading-snug">
+                              <b>Data source:</b> Lag correlation analysis computed by time-shifting standardized caption mentions against standardized Google search trends across lags from -12 to +12 months, measuring temporal alignment patterns.
+                            </p>
                           </ExpandableExplanation>
 
 
@@ -1604,6 +1599,10 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                             }
                           >
                             {heatmapExplanation}
+                            
+                            <p className="comic-text text-[9px] mt-3 opacity-60 leading-snug">
+                              <b>Data source:</b> Pearson correlation coefficients computed between standardized Google Trends and caption mentions at each monthly lag offset, visualized to reveal timing relationships.
+                            </p>
                           </ExpandableExplanation>
 
                         </>
@@ -1728,6 +1727,10 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                             </p>
 
                             {lagReportExplanation}
+                            
+                            <p className="comic-text text-[9px] mt-3 opacity-60 leading-snug">
+                              <b>Data source:</b> Summary statistics from lag correlation analysis, including Pearson, Spearman, and Kendall correlation coefficients at zero lag (synchronous) and at the optimal time offset.
+                            </p>
                           </ExpandableExplanation>
                         </>
                       );
@@ -1850,6 +1853,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                             <p className="comic-text text-[10px] mt-2 opacity-80 leading-snug">
                             Raw search interest within the event window.
                             The shaded region marks the event period; peaks inside it indicate increases in public attention during the event compared to surrounding months.
+                            </p>
+                            <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                              <b>Data source:</b> Multiple query-specific Google search interest series collected during and around the event period, providing detailed temporal perspectives on different aspects of public attention.
                             </p>
                           </div>
 
@@ -2083,6 +2089,9 @@ export function JournalSpread({ event, onClose }: JournalSpreadProps) {
                           </p>
                           <p className="comic-text text-[9px] mt-1 opacity-60">
                             Window: {mg?.window_start} → {mg?.window_end}
+                          </p>
+                          <p className="comic-text text-[9px] mt-2 opacity-60 leading-snug">
+                            <b>Data sources:</b> Word frequencies from cartoon image descriptions, location captions, uncanny descriptions, and caption questions, combined with aggregated Google search trends across all event-related tokens. Semantic groups identified through clustering analysis of co-occurring caption words aligned with search attention patterns.
                           </p>
                         </>
                       );

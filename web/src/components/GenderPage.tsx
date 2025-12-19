@@ -484,7 +484,7 @@ export function GenderPage() {
               {selectedEvent === 'trump' && (
                 <ComicBox title={<h3 className="comic-title text-xs font-bold" style={{ color: '#457B9D' }}>Trump</h3>} className="mb-8">
                   <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
-                    Donal Trump's notoriety in the news rises and falls depending on how controversial and political he is at a given moment. 
+                    Donald Trump's notoriety in the news rises and falls depending on how controversial and political he is at a given moment. 
                     This timeline tracks how often Trump-related words appear in captions over time, and whether that correlates with changes 
                     in the gender distribution.
                   </p>
