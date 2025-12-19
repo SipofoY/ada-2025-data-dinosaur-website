@@ -90,23 +90,19 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
   const findings = [
     {
-      title: 'Labeled images',
-      text: '240 from 2016-2021',
+      text: '240 labeled images from 2016 to 2021',
       color: '#E63946'
     },
     {
-      title: 'Total Number of Captions',
-      text: '2\'263\'048 captions submitted between 2016-2023',
+      text: '2\'263\'048 captions in total submitted between 2016 and 2023',
       color: '#F4A261'
     },
     {
-      title: 'Total Number of Votes',
-      text: '287\'757\'060 votes between 2016-2023',
+      text: '287\'757\'060 votes in total between 2016 and 2023',
       color: '#457B9D'
     },
     {
-      title: 'Average Number of Votes',
-      text: '749\'367 per Contest',
+      text: '749\'367 votes on average per contest',
       color: '#2A9D8F'
     }
   ];
@@ -271,8 +267,8 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
                     src={`${basePath}/data/images/${currentId}.jpg`}
                     alt={`New Yorker Cartoon ${currentId}`}
                     style={{
-                      width: '50%',
-                      height: '50%',
+                      width: '100%',
+                      height: '100%',
                       objectFit: 'contain',
                       display: 'block'
                     }}
@@ -312,22 +308,95 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
             For every submitted caption, the dataset includes the unique contest ID, the caption's rank, total votes received, and a breakdown of funny, somewhat funny, and not funny votes.
             The caption data is available from 2016-2023 and includes 384 contests.
           </p>
-          {findings.map((finding, index) => (
-            <div key={index} className="flex items-start gap-2">
-              <div
-                className="w-2 h-2 border-2 border-[#1A1A1A] rounded-full flex-shrink-0 mt-1"
-                style={{ backgroundColor: finding.color }}
-              />
-              <div>
-                <h4 className="comic-title text-xs mb-1" style={{ color: finding.color }}>
-                  {finding.title}
-                </h4>
-                <p className="comic-text text-[10px] opacity-80">
-                  {finding.text}
-                </p>
-              </div>
-            </div>
-          ))}
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem' }}>
+            {findings.map((finding, index) => {
+              // Extract main number from text
+              const numberMatch = finding.text.match(/^([0-9,']+)/);
+              const mainNumber = numberMatch ? numberMatch[1] : finding.text;
+              const remainingText = finding.text.replace(mainNumber, '').trim();
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9, rotateZ: -2 }}
+                  animate={{ opacity: 1, scale: 1, rotateZ: index % 2 === 0 ? 1 : -1 }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    rotateZ: 0,
+                    boxShadow: `12px 12px 0 #1A1A1A, 
+                                8px 8px 0 ${finding.color}, 
+                                0 0 30px ${finding.color}80,
+                                inset 0 0 0 3px ${finding.color}60`
+                  }}
+                  transition={{ delay: index * 0.1, type: 'spring', stiffness: 300 }}
+                  className="border-4 border-[#1A1A1A] bg-white relative overflow-hidden cursor-pointer"
+                  style={{ 
+                    boxShadow: `8px 8px 0 #1A1A1A, 
+                                6px 6px 0 ${finding.color}, 
+                                0 0 20px ${finding.color}40,
+                                inset 0 0 0 3px ${finding.color}40`,
+                    borderRadius: '4px',
+                    minHeight: '180px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '1rem'
+                  }}
+                >
+                  {/* Corner decorations */}
+                  <div 
+                    className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4"
+                    style={{ borderColor: finding.color }}
+                  />
+                  <div 
+                    className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4"
+                    style={{ borderColor: finding.color }}
+                  />
+                  <div 
+                    className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4"
+                    style={{ borderColor: finding.color }}
+                  />
+                  <div 
+                    className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4"
+                    style={{ borderColor: finding.color }}
+                  />
+                  
+                  <div 
+                    className="absolute inset-0 opacity-5"
+                    style={{ backgroundColor: finding.color }}
+                  />
+                  
+                  <div className="relative z-10 text-center">
+                    {finding.title && (
+                      <h4 className="comic-title text-xs mb-3 uppercase tracking-wide opacity-70">
+                        {finding.title}
+                      </h4>
+                    )}
+                    
+                    <div
+                      className="comic-title mb-2"
+                      style={{
+                        fontSize: '3.5rem',
+                        fontWeight: 'bold',
+                        color: finding.color,
+                        textShadow: `4px 4px 0px rgba(0,0,0,0.15)`,
+                        lineHeight: 1.1
+                      }}
+                    >
+                      {mainNumber}
+                    </div>
+                    
+                    {remainingText && (
+                      <p className="comic-text text-[10px] opacity-70">
+                        {remainingText}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
         </ComicBox>
 
