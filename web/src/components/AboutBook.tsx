@@ -11,6 +11,7 @@ import frequency_caption from '@/data/introduction/introduction_frequency_captio
 import image_location from '@/data/introduction/top_50_terms_image_locations.json';
 import image_description from '@/data/introduction/top_50_terms_image_descriptions.json';
 import summary_votes from '@/data/introduction/summary_votes.json';
+import { title } from 'process';
 
 
 interface AboutBookProps {
@@ -90,18 +91,22 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
 
   const findings = [
     {
+      title: '',
       text: '240 labeled images from 2016 to 2021',
       color: '#E63946'
     },
     {
+      title: '',
       text: '2\'263\'048 captions in total submitted between 2016 and 2023',
       color: '#F4A261'
     },
     {
+      title: '',
       text: '287\'757\'060 votes in total between 2016 and 2023',
       color: '#457B9D'
     },
     {
+      title: '',
       text: '749\'367 votes on average per contest',
       color: '#2A9D8F'
     }
