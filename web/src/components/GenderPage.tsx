@@ -387,7 +387,7 @@ export function GenderPage() {
                     <span className={selectedEvent ? 'font-semibold' : ''}>Women</span>
                   </div>
                 </div>
-                <p className="text-xs font-mono mt-2 mb-4 opacity-80">Click any bar to view its detailed timeline below!</p>
+                <p className="text-xs font-mono mt-2 mb-4 opacity-80">👆<i>Click any bar to view its detailed timeline below!</i></p>
                 <AnalysisText>
                   The inequality in the mentions between the gender word groups remains for all topics: male‑coded words consistently 
                   appear more than female‑coded ones.                  
