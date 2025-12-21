@@ -57,39 +57,36 @@ export function BookCover({ onTurn }: BookCoverProps) {
         </h1>
       </motion.div>
 
-      {/* Tagline */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="comic-text text-center text-base text-[#8B4513] max-w-2xl"
-      >
-        A Data Visualization Journey Through The New Yorker Caption Contest
-      </motion.p>
-
-      {/* Year Box */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="bg-[#E63946] px-8 py-2 border-4 border-[#1A1A1A] transform -rotate-2"
-        style={{ boxShadow: '6px 6px 0 #1A1A1A' }}
-      >
-        <span className="comic-title text-[#FDFDF8] text-3xl font-bold">2016-2023</span>
-      </motion.div>
-
       {/* Quick Summary Box */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="bg-[#FFF9E6] border-4 border-[#1A1A1A] px-8 py-4 transform rotate-1 max-w-2xl text-center"
+        className="bg-[#FFF9E6] border-4 border-[#1A1A1A] px-8 py-4 pt-12 transform rotate-1 max-w-2xl text-center"
         style={{ boxShadow: '5px 5px 0 #1A1A1A' }}
       >
-        <p className="comic-title text-sm text-[#8B4513] font-bold mb-2 uppercase">Tracking what the world laughs about — and when it stops</p>
-        <p className="comic-title text-base text-[#1A1A1A] font-bold uppercase tracking-tight">
-          7 YEARS • 12,000 CAPTIONS • 581 WINNERS — UNCOVERING HOW HUMOR EVOLVES WITH SOCIETY
+        <p className="comic-text text-center text-base text-[#8B4513] max-w-2xl">
+        Exploring Trends and Insights in The New Yorker Caption Contest Through Data Visualization
         </p>
+        <span className="comic-title text-[#FDFDF8] text-3xl font-bold">
+          By Thara Marie Hayat Belin, Kamegne Yann Eddy Sipofo, Silvia Camenzind, Yuno Reigner and Jannik Jordi</span>
+        <p className="comic-text text-center text-base text-[#8B4513] max-w-2xl">
+          Jokes often reveal what people care about, fear, or protest against, making humor a mirror of society. We examine how humor changes in reaction to social, political, and international events by analyzing The New Yorker Cartoon Caption Contest dataset (2016–2023).
+          Our objective is to create an interactive humor timeline that highlights thematic shifts in jokes, public engagement, and humor types.
+          We investigate the relationship between humor trends and significant social events like the US elections, gender inequality and international crises like COVID-19 and climate change. 
+          </p>
+          <p className="comic-text text-center text-base text-[#8B4513] max-w-2xl">
+            After giving a general overview of the dataset, we focus on the following research questions:
+          </p>
+           <ul className="comic-text text-center text-base text-[#8B4513] max-w-2xl">
+              <li>    To what extent do humor trends in The New Yorker Cartoon Caption Contest reflect major societal and global events? </li>
+              <li>   Do peaks in caption activity or changes in audience ratings align temporally with political, social, or international crises?</li>
+              <li>    How do humor themes and styles evolve over time, and which topics dominate different periods (e.g., politics, social movements, everyday life)?</li>
+              <li>   Are shifts in humor topics correlated with public interest as measured by Google search trends for key terms such as “Trump” or “COVID-19”?</li>
+              <li>    Are there systematic differences in humor between men and women, indicating gender heterogeneity in humor expression or reception? And how is the gender inequality represented in the captions?</li>
+              <li>    Can Large Language Models reliably classify captions into distinct humor types, and how do these humor categories evolve across time and major world events?</li>
+          </ul> 
+
       </motion.div>
 
       {/* Big CTA Button */}
