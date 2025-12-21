@@ -470,7 +470,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
-              The maximum number of votes submitted for a cartoon is <strong>2,210,972</strong>. The minimum number is <strong>16,894</strong>.
+              The maximum number of votes submitted for a cartoon is <strong>2,210,972</strong> on the January 14, 2019. The minimum number is <strong>16,894</strong> on March 27, 2016.
             </AnalysisText>
           </ComicBox>
 
@@ -536,6 +536,9 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
           <div className="inline-block mb-2 px-3 py-2 bg-[#F4A261] border-3 border-[#1A1A1A]">
             <h2 className="comic-title text-xs text-[#FDFDF8]">Cartoons with most captions</h2> {/* text-xs */}
           </div>
+          <p className="text-xs font-mono mb-6 leading-relaxed opacity-80 border-b border-gray-200 pb-4">
+            The following cartoons received the highest number of caption submissions.
+          </p>
           {/* Parent Container - Full width for 3 boxes */}
           <div
             style={{

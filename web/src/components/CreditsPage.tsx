@@ -171,6 +171,16 @@ export function CreditsPage() {
                   </p>
                 </div>
               </div>
+
+              <div className="flex items-start gap-3 pt-4 border-t-2 border-dashed border-gray-200">
+                <div className="comic-text text-sm opacity-70">
+                  <p>
+                    <strong>Webpage Layout:</strong> The webpage layout was prototyped using Figma Make’s AI website generator (Figma, Inc.)
+                  </p>
+                </div>
+              </div>
+
+              
             </div>
           </motion.div>
         </div>
