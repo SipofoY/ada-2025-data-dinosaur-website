@@ -470,7 +470,7 @@ export function AboutBook({ onNext, onPrev }: AboutBookProps) {
               </AreaChart>
             </ResponsiveContainer>
             <AnalysisText>
-              The maximum number of votes submitted for a cartoon is <strong>2,210,972</strong> on the January 14, 2019. The minimum number is <strong>16,894</strong> on March 27, 2016.
+              The maximum number of votes submitted for a cartoon is <strong>2,210,972</strong> on January 14, 2019. The minimum number is <strong>16,894</strong> on March 27, 2016.
             </AnalysisText>
           </ComicBox>
 
