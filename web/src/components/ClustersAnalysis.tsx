@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
@@ -10,6 +10,9 @@ import {
 import { Starburst } from './ComicElements';
 import { ChevronDown, ChevronUp, TrendingUp, Info, Calendar, Zap, Search } from 'lucide-react';
 import fullData from '@/data/clusters_data_full.json';
+import rawContests from '@/data/contests_with_humor.json';
+import timelineDataProcessed from '@/data/timeline_data_processed.json';
+import sentimentTimelineProcessed from '@/data/sentiment_timeline_processed.json';
 
 
 
@@ -130,12 +133,224 @@ function ExpandableExplanation({
   );
 }
 
+// Map raw labels to display names and colors
+const LABEL_MAPPING: Record<string, { name: string, color: string, description: string, icon: string }> = {
+  'incongruity-absurdity': {
+    name: "Incongruity & Absurdity",
+    color: "#2A9D8F",
+    description: "Things that don't match or are illogical.",
+    icon: "🌀"
+  },
+  'wit-surprise': {
+    name: "Wit & Surprise",
+    color: "#457B9D",
+    description: "Clever humor or unexpected twists.",
+    icon: "✨"
+  },
+  'irony': {
+    name: "Irony",
+    color: "#E9C46A",
+    description: "The expression of one's meaning by using language that normally signifies the opposite.",
+    icon: "😏"
+  },
+  'sarcasm': {
+    name: "Sarcasm",
+    color: "#F4A261",
+    description: "The use of irony to mock or convey contempt.",
+    icon: "😒"
+  },
+  'exaggeration': {
+    name: "Exaggeration",
+    color: "#E76F51",
+    description: "Representing something as better or worse than it really is.",
+    icon: "😲"
+  },
+  'unknown': {
+    name: "Unknown",
+    color: "#A0A0A0",
+    description: "Label could not be confidently determined.",
+    icon: "❓"
+  }
+};
+
 export function ClustersAnalysis() {
   const [distSource, setDistSource] = useState<'image_descriptions' | 'image_uncanny_descriptions' | 'questions'>('image_descriptions');
   const [sentimentSource, setSentimentSource] = useState<'image_descriptions' | 'image_uncanny_descriptions' | 'questions'>('image_descriptions');
 
   const data = fullData as unknown as SectionData;
   const { section1, section2, section3 } = data;
+
+  // Dynamically calculate distributions from rawContests
+  const pieData = useMemo(() => {
+    const counts = {
+      image_descriptions: {} as Record<string, number>,
+      image_uncanny_descriptions: {} as Record<string, number>,
+      questions: {} as Record<string, number>
+    };
+
+    // 1. Process Raw Data
+    rawContests.forEach((contest: any) => {
+      const labels = contest.metadata?.llm_humor_labels;
+      if (!labels) return;
+
+      (['image_descriptions', 'image_uncanny_descriptions', 'questions'] as const).forEach(key => {
+        const list = labels[key];
+        if (Array.isArray(list)) {
+          list.forEach((rawLabel: string) => {
+            const label = rawLabel.toLowerCase().trim();
+            counts[key][label] = (counts[key][label] || 0) + 1;
+          });
+        }
+      });
+    });
+
+    // 2. Format for Recharts
+    const formatForChart = (sourceKey: keyof typeof counts) => {
+      const sourceCounts = counts[sourceKey];
+      const total = Object.values(sourceCounts).reduce((a, b) => a + b, 0);
+
+      return Object.entries(sourceCounts)
+        .map(([rawLabel, count]) => {
+          const mapping = LABEL_MAPPING[rawLabel] || {
+            name: rawLabel,
+            color: "#999999",
+            description: "",
+            icon: ""
+          };
+          return {
+            name: mapping.name,
+            value: count,
+            percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+            color: mapping.color,
+            description: mapping.description,
+            icon: mapping.icon
+          };
+        })
+        .sort((a, b) => b.value - a.value);
+    };
+
+    return {
+      image_descriptions: formatForChart('image_descriptions'),
+      image_uncanny_descriptions: formatForChart('image_uncanny_descriptions'),
+      questions: formatForChart('questions'),
+    };
+  }, []);
+
+  // Calculate Engagement vs Popularity (Bar Chart)
+  const engagementData = useMemo(() => {
+    const categories = ['irony', 'sarcasm', 'exaggeration', 'incongruity-absurdity', 'wit-surprise', 'unknown'];
+    const stats: Record<string, { captions: number[], votes: number[] }> = {};
+    categories.forEach(c => stats[c] = { captions: [], votes: [] });
+
+    rawContests.forEach((contest: any) => {
+      const meta = contest.metadata || {};
+      const labels = meta.llm_humor_labels || {};
+      const numCaptions = meta.num_captions || 0;
+      const numVotes = meta.num_votes || 0;
+
+      const typesInContest = new Set<string>();
+      (['image_descriptions', 'image_uncanny_descriptions', 'questions'] as const).forEach(key => {
+        const list = labels[key] || [];
+        if (Array.isArray(list)) {
+          list.forEach((t: string) => typesInContest.add(t.toLowerCase().trim()));
+        }
+      });
+
+      typesInContest.forEach(t => {
+        if (stats[t]) {
+          stats[t].captions.push(numCaptions);
+          stats[t].votes.push(numVotes);
+        }
+      });
+    });
+
+    // Compute averages and normalize
+    const rawResults = categories.map(cat => {
+      const data = stats[cat];
+      const avgCaptions = data.captions.length ? data.captions.reduce((a, b) => a + b, 0) / data.captions.length : 0;
+      const avgVotes = data.votes.length ? data.votes.reduce((a, b) => a + b, 0) / data.votes.length : 0;
+      return { id: cat, avgCaptions, avgVotes };
+    });
+
+    const maxCaptions = Math.max(...rawResults.map(r => r.avgCaptions));
+    const maxVotes = Math.max(...rawResults.map(r => r.avgVotes));
+
+    return rawResults
+      .filter(r => r.avgVotes > 0 || r.avgCaptions > 0) // Filter out empty if any
+      .map(r => {
+        const mapping = LABEL_MAPPING[r.id] || { name: r.id };
+        return {
+          subject: mapping.name,
+          votesRaw: Math.round(r.avgVotes),
+          captionsRaw: Math.round(r.avgCaptions),
+          votesScore: maxVotes > 0 ? (r.avgVotes / maxVotes) * 100 : 0,
+          captionsScore: maxCaptions > 0 ? (r.avgCaptions / maxCaptions) * 100 : 0,
+        };
+      })
+      .sort((a, b) => b.votesScore - a.votesScore); // Sort by popularity (votes)
+  }, []);
+
+  // Calculate Sentiment Analysis Data (Radar Chart) - Matches Python "Radial Analysis"
+  const sentimentData = useMemo(() => {
+    const fields = ['image_descriptions', 'image_uncanny_descriptions', 'questions'] as const;
+    const sentiments = ['positive', 'neutral', 'negative'] as const;
+    const humorTypes = ['irony', 'sarcasm', 'exaggeration', 'incongruity-absurdity', 'wit-surprise', 'unknown'];
+
+    // Initialize 3D Matrix: field -> sentiment -> humorType -> count
+    const stats: Record<string, Record<string, Record<string, number>>> = {};
+
+    fields.forEach(f => {
+      stats[f] = {};
+      sentiments.forEach(s => {
+        stats[f][s] = {};
+        humorTypes.forEach(h => stats[f][s][h] = 0);
+      });
+    });
+
+    // Aggregate Counts
+    rawContests.forEach((contest: any) => {
+      const meta = contest.metadata || {};
+      const hl = meta.llm_humor_labels || {};
+      const sl = meta.llm_sentiment || {};
+
+      fields.forEach(field => {
+        if (hl[field] && sl[field] && Array.isArray(hl[field]) && Array.isArray(sl[field])) {
+          // Zip assumes alignment
+          hl[field].forEach((hRaw: string, idx: number) => {
+            const sRaw = sl[field][idx];
+            if (!sRaw) return;
+
+            const h = hRaw.toLowerCase().trim();
+            const s = sRaw.toLowerCase().trim();
+
+            if (stats[field][s] && stats[field][s][h] !== undefined) {
+              stats[field][s][h]++;
+            }
+          });
+        }
+      });
+    });
+
+    // Normalize to Probabilities P(Humor | Sentiment)
+    const result: Record<string, any[]> = {};
+
+    fields.forEach(field => {
+      const chartData = humorTypes.map(h => {
+        const entry: any = { subject: LABEL_MAPPING[h]?.name || h };
+
+        sentiments.forEach(s => {
+          // Denominator: Total mentions of this sentiment in this field
+          const totalSentimentCount = Object.values(stats[field][s]).reduce((a, b) => a + b, 0) || 1;
+          const count = stats[field][s][h];
+          entry[s] = (count / totalSentimentCount) * 100;
+        });
+        return entry;
+      });
+      result[field] = chartData;
+    });
+
+    return result;
+  }, []);
 
   return (
     <div className="flex flex-col gap-8 pb-20">
@@ -197,7 +412,7 @@ export function ClustersAnalysis() {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={section1.distributions[distSource]}
+                    data={pieData[distSource]}
                     cx="50%"
                     cy="50%"
                     outerRadius={100}
@@ -206,7 +421,7 @@ export function ClustersAnalysis() {
                     label={false}
                     labelLine={false}
                   >
-                    {section1.distributions[distSource].map((entry: any, index: number) => (
+                    {pieData[distSource].map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} stroke="#1A1A1A" strokeWidth={2} />
                     ))}
                   </Pie>
@@ -223,26 +438,29 @@ export function ClustersAnalysis() {
             >
               <AnalysisText>
                 {(() => {
-                  const currentDist = section1.distributions[distSource];
-                  const top = currentDist[0];
-                  const second = currentDist[1];
+                  const currentDist = pieData[distSource];
+                  const unknown = currentDist.find((d: any) => d.name === 'Unknown');
+                  const unknownPct = unknown?.percentage || 0;
+
+                  // Get the top NON-unknown category for context
+                  const topClassified = currentDist.find((d: any) => d.name !== 'Unknown') || currentDist[0];
 
                   if (distSource === 'image_descriptions') {
                     return (
                       <>
-                        The distribution of humor in high-ranking captions reveals a distinct preference for <strong>{top?.name}</strong>, accounting for <strong>{top?.percentage}%</strong> of the corpus. This aligns with the <em>New Yorker</em>'s stylistic tradition, where humor often emerges from the semantic gap between the visual scene and the textual anchor. The substantial presence of <strong>{second?.name}</strong> ({second?.percentage}%) further suggests that entrants frequently leverage these distinct modes to subvert the expectations established by the image.
+                        The substantial prevalence of <strong>Unknown</strong> labels (<strong>{unknownPct}%</strong>) in Image Descriptions highlights a nuance in machine valuation: the LLM frequently struggles to categorize the latent humor in purely factual setups. Unlike punchlines, these descriptions merely set the stage. However, where the model detects a signal, it correctly aligns with the contest's nature, identifying <strong>{topClassified?.name}</strong> (<strong>{topClassified?.percentage}%</strong>) as the primary foundational element of the visual joke.
                       </>
                     );
                   } else if (distSource === 'image_uncanny_descriptions') {
                     return (
                       <>
-                        In the 'Uncanny' descriptions—which isolate the visual oddities—we observe a skew towards <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). This is structurally inherent; the task of objectively describing visual anomalies naturally results in identifying <strong>{top?.name}</strong> as the primary mechanism of cognitive dissonance. Unlike stylized captions, the humor here is descriptive rather than constructed, leading to a more concentrated distribution.
+                        In <strong>Uncanny Descriptions</strong>, the signal is far clearer. The model strongly associates these inputs with <strong>{topClassified?.name}</strong>, which aligns perfectly with classical theories of humor. By explicitly isolating the visual anomaly (the "weird" thing), these descriptions provide a structural dissonance that is mathematically easier for the LLM to classify than the broader context, leading to stronger confidence and fewer ambiguous labels.
                       </>
                     );
                   } else {
                     return (
                       <>
-                        The interrogative dataset exhibits a profile dominated by <strong>{top?.name}</strong> (<strong>{top?.percentage}%</strong>). Questions in this context often serve as rhetorical devices to highlight the scene's illogical premises. The shift in distribution compared to declarative captions suggests that the grammatical form substantially influences the classification of humor, pivoting from descriptive absurdity to interrogative <strong>{top?.name}</strong>.
+                        The <strong>Questions</strong> category often reverts to an <strong>Unknown</strong> label (<strong>{unknownPct}%</strong>), suggesting that inquisitive syntax confuses standard humor classifiers. A rhetorical question like <em>"Why is he holding that?"</em> functions to point out absurdity, but lacks the declarative structure of Sarcasm or Irony. The model effectively interprets this "seeking of information" as humorless, missing the rhetorical intent behind the inquiry.
                       </>
                     );
                   }
@@ -257,7 +475,7 @@ export function ClustersAnalysis() {
               This chart profiles each humor type based on <strong>Popularity</strong> (average votes) and <strong>Engagement</strong> (average submitted captions). We compare normalized scores to see which types drive passive appreciation versus active participation.
             </p>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={section1.radarData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+              <BarChart data={engagementData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
                 <XAxis dataKey="subject" tick={{ fontSize: 10, fontFamily: 'monospace' }} interval={0} angle={-20} textAnchor="end" />
                 <YAxis hide />
@@ -279,7 +497,19 @@ export function ClustersAnalysis() {
               short="Comparing engagement metrics reveals interesting trade-offs between popularity (votes) and active participation (captions)..."
             >
               <AnalysisText>
-                Comparing engagement metrics reveals interesting trade-offs. <strong>Wit & Surprise</strong> often garners high vote counts (Popularity), suggesting it resonates broadly with voters. Meanwhile, <strong>Incongruity & Absurdity</strong> often spikes in caption volume (Engagement), indicating that these complex visual puzzles invite more community attempts to solve them.
+                {(() => {
+                  const sortedByCaptions = [...engagementData].sort((a, b) => b.captionsRaw - a.captionsRaw);
+                  const sortedByVotes = [...engagementData].sort((a, b) => b.votesRaw - a.votesRaw);
+
+                  const mostEngaging = sortedByCaptions[0];
+                  const mostPopular = sortedByVotes[0];
+
+                  return (
+                    <>
+                      The data reveals a fascinating divergence between participation and appreciation. <strong>{mostEngaging?.subject}</strong> elicits the highest creative output ({mostEngaging?.captionsRaw.toLocaleString()} avg. captions), suggesting that visual hyperboles powerfully stimulate user creativity. However, the audience reserves its highest praise for <strong>{mostPopular?.subject}</strong> ({mostPopular?.votesRaw.toLocaleString()} avg. votes). This confirms a key community driver: while pure absurdity invites us to <em>play</em>, we ultimately reward the intellectual satisfaction of <em>structural wit</em> and layered contradictions.
+                    </>
+                  );
+                })()}
               </AnalysisText>
             </ExpandableExplanation>
           </ComicBox>
@@ -300,33 +530,45 @@ export function ClustersAnalysis() {
             This chart tracks the prevalence of each humor category from 2016 to 2023 based on the analysis of the <strong>top 30 most-voted captions</strong> for every contest. We classified these high-ranking captions using LLMs and linked each contest to its precise publication date. This longitudinal approach allows us to detect if editorial preferences or reader tastes have shifted—for instance, favoring <strong>Irony</strong> or <strong>Incongruity</strong>—over specific time periods.
           </p>
           <ResponsiveContainer width="100%" height={350}>
-            <AreaChart
-              data={section2.timelineData}
+            <LineChart
+              data={timelineDataProcessed}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-              <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-              <YAxis tick={{ fontSize: 10 }} label={{ value: 'Count', angle: -90, position: 'insideLeft' }} />
-              <Tooltip contentStyle={{ border: '2px solid #1A1A1A' }} />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 10 }}
+                tickFormatter={(str) => new Date(str).getFullYear().toString()}
+                minTickGap={30}
+              />
+              <YAxis tick={{ fontSize: 10 }} label={{ value: 'Frequency (%)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }} />
+              <Tooltip
+                contentStyle={{ border: '2px solid #1A1A1A' }}
+                labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                formatter={(val: number) => val ? `${val.toFixed(1)}%` : '0%'}
+              />
               <Legend verticalAlign="top" height={36} />
-              {section1.distributions.image_descriptions.map((type: any) => (
-                <Area
-                  key={type.name}
+
+              {/* Plot lines for each category defined in LABEL_MAPPING */}
+              {Object.entries(LABEL_MAPPING).map(([key, info]) => (
+                <Line
+                  key={key}
                   type="monotone"
-                  dataKey={type.name}
-                  stackId="1"
-                  stroke={type.color}
-                  fill={type.color}
-                  strokeWidth={1}
+                  dataKey={key}
+                  name={info.name}
+                  stroke={info.color}
+                  strokeWidth={2}
+                  dot={false}
+                  connectNulls={true}
                 />
               ))}
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
           <ExpandableExplanation
-            short="The temporal evolution reveals a remarkably resilient distribution of humor types over the years, with Incongruity & Absurdity remaining dominant..."
+            short="The smoothed signal reveals a distinct and stable stratification of humor types over the seven-year period, with Sarcasm maintaining persistent dominance..."
           >
             <AnalysisText>
-              The temporal evolution reveals a remarkably resilient distribution of humor types over the years. <strong>Incongruity & Absurdity</strong> remains the dominant category, consistently forming the backbone of the <em>New Yorker</em>'s visual style. Interestingly, while the volume of contests varies, the relative proportions of <strong>Sarcasm</strong> and <strong>Wit</strong> remain stable, suggesting an editorial preference that transcends short-term news cycles.
+              The smoothed signal reveals a distinct and stable <strong>stratification</strong> of humor types over the seven-year period. <strong>Sarcasm</strong> maintains persistent dominance, consistently accounting for 30-50% of the top-rated captions. A secondary cluster comprising <strong>Incongruity</strong>, <strong>Irony</strong>, and <strong>Wit</strong> generally oscillates between 10% and 20%, showing high temporal correlation with one another. <strong>Exaggeration</strong> remains a marginal category (&lt;10%), though it momentarily surpasses <strong>Wit & Surprise</strong> in early 2017 and mid-2020. Crucially, no regime shift is observed; the hierarchical ordering of these preferences remains structurally robust despite local volatility.
             </AnalysisText>
           </ExpandableExplanation>
         </ComicBox>
@@ -374,34 +616,7 @@ export function ClustersAnalysis() {
                   </div>
 
                   <ResponsiveContainer width="100%" height={350}>
-                    <RadarChart cx="50%" cy="50%" outerRadius="70%" data={
-                      Object.keys((data as any).sentimentAnalysis?.byClusterAndField || {}).map(key => {
-                        const clusterData = (data as any).sentimentAnalysis?.byClusterAndField?.[key];
-                        if (!clusterData) return null;
-
-                        const val = clusterData[sentimentSource];
-                        if (!val) return { subject: key, positive: 0, neutral: 0, negative: 0 };
-                        const total = val.total || 1;
-
-                        const names: Record<string, string> = {
-                          'absurd_surreal': 'Absurd',
-                          'sarcasm_irony': 'Irony',
-                          'dark_humor': 'Black Humor',
-                          'animals': 'Wit',
-                          'relationship_family': 'Life',
-                          'topical_political': 'Politics',
-                          'wordplay_puns': 'Wordplay',
-                          'workplace_office': 'Work'
-                        };
-
-                        return {
-                          subject: names[key] || key,
-                          positive: (val.positive / total) * 100,
-                          neutral: (val.neutral / total) * 100,
-                          negative: (val.negative / total) * 100
-                        };
-                      }).filter((x: any) => x !== null)
-                    }>
+                    <RadarChart cx="50%" cy="50%" outerRadius="70%" data={sentimentData[sentimentSource]}>
                       <PolarGrid stroke="#1A1A1A" strokeDasharray="3 3" />
                       <PolarAngleAxis dataKey="subject" tick={{ fill: '#1A1A1A', fontSize: 10, fontWeight: 'bold' }} />
                       <PolarRadiusAxis angle={30} domain={[0, 50]} tickCount={6} tick={{ fill: '#1A1A1A', fontSize: 10 }} />
@@ -420,11 +635,22 @@ export function ClustersAnalysis() {
                   </ResponsiveContainer>
                   <div className="mt-6 border-t border-dashed border-gray-300 pt-4">
                     <ExpandableExplanation
-                      short="Across all contexts, Neutrality dominates, but Exaggeration and Sarcasm show sharp Negative spikes..."
+                      short="The analysis reveals distinct humor-sentiment couplings across input types, with Incongruity dominating negative uncanniness..."
                     >
-                      <p className="text-xs text-justify leading-relaxed opacity-80">
-                        Across all contexts, <strong>Neutrality</strong> dominates, which makes sense for factual image descriptions. However, distinct patterns emerge per category: <strong>Exaggeration</strong> and <strong>Sarcasm</strong> are uniquely prone to piercing this neutrality with sharp <strong>Negative</strong> spikes, particularly in Uncanny Descriptions. In contrast, <strong>Wit</strong> and <strong>Absurdity</strong> remain safer, anchoring themselves firmly in the neutral zone, proving that specialized humor doesn't always require negative framing.
-                      </p>
+                      <AnalysisText>
+                        The analysis reveals distinct humor-sentiment couplings across input types:
+                        <ul className="list-disc pl-4 mt-2 space-y-2">
+                          <li>
+                            <strong>Uncanny Descriptions:</strong> This field exhibits the strongest structural signal. <strong>Incongruity & Absurdity</strong> is the dominant scaffold for both Neutral and Negative sentiments, quantitatively supporting the theory that "uncanniness" arises from cognitive dissonance rather than warm affect.
+                          </li>
+                          <li>
+                            <strong>Factual Descriptions:</strong> This field is characterized by ambiguity. While <strong>Unknown</strong> labels dominate Neutral and Negative tones, distinct <strong>Irony</strong> emerges specifically within Positive contexts, suggesting that successfully detected descriptive humor often carries a lighter tone.
+                          </li>
+                          <li>
+                            <strong>Questions:</strong> The inquisitive modality is largely opaque to sentiment analysis, with <strong>Unknown</strong> classification overwhelming the distribution across all non-positive valences.
+                          </li>
+                        </ul>
+                      </AnalysisText>
                     </ExpandableExplanation>
                   </div>
                 </div>
@@ -441,36 +667,38 @@ export function ClustersAnalysis() {
                   </p>
 
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart
-                      data={Object.entries((data as any).sentimentAnalysis?.byYear || {}).sort((a: any, b: any) => a[0].localeCompare(b[0])).map(([year, val]: any) => ({
-                        year,
-                        negative: (val.negative / val.total) * 100,
-                        neutral: (val.neutral / val.total) * 100,
-                        positive: (val.positive / val.total) * 100
-                      }))}
+                    <LineChart
+                      data={sentimentTimelineProcessed}
                       margin={{ left: 0, top: 10, right: 30 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                      <XAxis dataKey="year" tick={{ fontSize: 10 }} />
-                      <YAxis tick={{ fontSize: 10 }} unit="%" />
-                      <Tooltip
-                        formatter={(val: number) => `${val.toFixed(1)}%`}
-                        contentStyle={{ border: '2px solid #1A1A1A', fontSize: '12px' }}
+                      <XAxis
+                        dataKey="date"
+                        tick={{ fontSize: 10 }}
+                        tickFormatter={(str) => new Date(str).getFullYear().toString()}
+                        minTickGap={30}
                       />
-                      <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
-                      <Area type="monotone" dataKey="negative" stackId="1" stroke="#E63946" fill="#E63946" fillOpacity={0.8} name="% Negative" />
-                      <Area type="monotone" dataKey="neutral" stackId="1" stroke="#F4A261" fill="#F4A261" fillOpacity={0.8} name="% Neutral" />
-                      <Area type="monotone" dataKey="positive" stackId="1" stroke="#2A9D8F" fill="#2A9D8F" fillOpacity={0.8} name="% Positive" />
-                    </AreaChart>
+                      <YAxis tick={{ fontSize: 10 }} unit="%" domain={[0, 100]} />
+                      <Tooltip
+                        contentStyle={{ border: '2px solid #1A1A1A' }}
+                        labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                        formatter={(val: number) => val ? `${val.toFixed(1)}%` : '0%'}
+                      />
+                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: '12px' }} />
+
+                      <Line type="monotone" dataKey="negative" name="Negative 😠" stroke="#E63946" strokeWidth={2} dot={false} connectNulls />
+                      <Line type="monotone" dataKey="neutral" name="Neutral 😐" stroke="#F4A261" strokeWidth={2} dot={false} connectNulls />
+                      <Line type="monotone" dataKey="positive" name="Positive 😊" stroke="#2A9D8F" strokeWidth={2} dot={false} connectNulls />
+                    </LineChart>
                   </ResponsiveContainer>
 
                   <div className="mt-6 border-t border-dashed border-gray-300 pt-4">
                     <ExpandableExplanation
-                      short="The timeline reveals that while Neutral sentiment remains the baseline, fluctuations in Negative sentiment act as a barometer..."
+                      short="The longitudinal trace reveals a homeostatic stability in emotional tone, with Neutral valence remaining the dominant signal..."
                     >
-                      <p className="text-xs text-justify leading-relaxed opacity-80">
-                        The timeline reveals that while <strong>Neutral</strong> sentiment (orange) remains the baseline for most captions, there are visible fluctuations in <strong>Negative</strong> sentiment (red). This "Cynicism Index" acts as a barometer for societal mood—when the red area expands, it often correlates with periods of higher global stress, suggesting that our humor becomes a coping mechanism that leans into the darkness.
-                      </p>
+                      <AnalysisText>
+                        Contrary to the expectation of volatile reactive humor, the longitudinal trace reveals a <strong>homeostatic stability</strong> in emotional tone. The <strong>Neutral</strong> valence remains the dominant carrier signal (&gt;50%), reflecting the publication's signature dry wit. While minor oscillations occur, there is no statistically significant secular trend towards <strong>Cynicism</strong> (Negative) or <strong>Escapism</strong> (Positive), suggesting the contest's emotional baseline is structurally fixed rather than reactive to current events.
+                      </AnalysisText>
                     </ExpandableExplanation>
                   </div>
                 </div>
@@ -480,9 +708,20 @@ export function ClustersAnalysis() {
         </div>
       </section>
 
-
-
-
+      {/* Section 3: Conclusion & Synthesis */}
+      <section className="mb-12">
+        <SectionHeader
+          title="CONCLUSION"
+          subtitle=""
+        />
+        <ComicBox title="">
+          <div className="text-sm text-justify leading-relaxed opacity-90">
+            <p>
+              Based on our methodology and the findings of <a href="https://ceur-ws.org/Vol-3740/paper-183.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-500">Wu et al.</a>, Large Language Models are not yet reliably capable of classifying humor for generalized use. While fine-tuning shows promise—with Llama 3 achieving nearly 90% accuracy during development—performance decreases significantly on unseen test data due to overfitting and confusion between nuanced categories like Irony and Sarcasm. Furthermore, contrary to the hypothesis that humor evolves rapidly with world events, our longitudinal analysis reveals a structural stability in the <em>New Yorker</em>'s humor. The dominance of Sarcasm and Neutrality remains constant trends, unaffected by political shifts or global crises (e.g., COVID-19), suggesting that the publication's style is a fixed cultural institution rather than a reactive mirror of current events.
+            </p>
+          </div>
+        </ComicBox>
+      </section>
 
     </div>
   );
